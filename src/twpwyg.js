@@ -1,13 +1,6 @@
-const fs = require( 'fs' );
-
 class TWPWYG {
   constructor() {
 
-  }
-
-  static getPanel() {
-    const content = fs.readFileSync( __dirname + '/twpwyg.html', 'utf-8' );
-    return content;
   }
 
   static insertTagWithText( link, tagName ) {
