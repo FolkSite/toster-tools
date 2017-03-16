@@ -1,6 +1,6 @@
 const fs = require( 'fs' );
 
-TWPWYG = require( './twpwyg' );
+window.TWPWYG = require( './twpwyg' ).TWPWYG;
 
 window.onload = function () {
     ( function () {
@@ -11,9 +11,11 @@ window.onload = function () {
 
         for ( let i = 0; i < commentForms.length; i++ ) {
             let form = commentForms[ i ];
+            let field_wrap = form.querySelector( 'div.field_wrap' );
+
             let div = document.createElement( 'div' );
             div.innerHTML = content;
-            form.insertBefore( div, form.firstChild );
+            field_wrap.insertBefore( div, field_wrap.firstChild );
         }
 
     } )();

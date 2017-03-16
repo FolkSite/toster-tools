@@ -214,4 +214,4 @@ class TWPWYG {
   }
 };
 
-module.exports = TWPWYG;
+module.exports.TWPWYG = TWPWYG;
