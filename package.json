@@ -1,0 +1,20 @@
+{
+  "name": "toster-wysiwyg-panel",
+  "version": "1.0.0",
+  "description": "Добавляет функционал редактора формы ответа к форме комментария",
+  "main": "index.js",
+  "dependencies": {
+    "brfs": "^1.4.3"
+  },
+  "devDependencies": {
+    "brfs": "^1.4.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "browserify -t brfs src/content.js -o build/content.js",
+    "postinstall": "npm run compile",
+    "precommit": "npm run compile"
+  },
+  "author": "",
+  "license": "ISC"
+}

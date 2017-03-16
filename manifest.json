@@ -1,0 +1,29 @@
+{
+
+	"manifest_version": 2,
+	"name": "Toster wysiwyg panel",
+	"short_name": "TWP",
+	"description": "Добавляет функционал редактора формы ответа к форме комментария",
+	"version": "1.0",
+	"author": "Ярков Алексей (Yarkov Aleksei) <yarkov_aleksei@mail.ru>",
+
+	"offline_enabled": false,
+
+	"content_scripts": [ {
+		"all_frames": false,
+		"matches": [ "*://toster.ru/q/*" ],
+		"css": [ "content.css" ],
+		"js": [ "build/content.js" ],
+		"run_at": "document_end"
+	} ],
+
+	"permissions": [
+		"*://toster.ru/*"
+	],
+
+	"background": {
+		"scripts": [ "background.js" ],
+		"persistent": true
+	}
+
+}
