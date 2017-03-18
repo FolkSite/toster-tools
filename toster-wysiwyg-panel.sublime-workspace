@@ -1,0 +1,1480 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"stri",
+				"stringify( value: any, replacer?: any, space?: any ): string\tJSON"
+			],
+			[
+				"ap",
+				"app.json\t(stop.sh)"
+			],
+			[
+				"fi",
+				"fields"
+			],
+			[
+				"de",
+				"debug"
+			],
+			[
+				"cate",
+				"categories\t(index.js)"
+			],
+			[
+				"req",
+				"require_insert_helper\t(NodeRequirer.py)"
+			],
+			[
+				"depl",
+				"deploy.sh"
+			],
+			[
+				"start",
+				"start.sh\t(package.json)"
+			],
+			[
+				"mod",
+				"modalService"
+			],
+			[
+				"inde",
+				"index.html"
+			],
+			[
+				"pre",
+				"pre-commit"
+			],
+			[
+				"jsd",
+				"jsdocs/"
+			],
+			[
+				"c",
+				"config\t(config.sh)"
+			],
+			[
+				"js",
+				"jsdoc.sh\t(package.json)"
+			],
+			[
+				"app",
+				"app.js"
+			],
+			[
+				"ro",
+				"rootdir"
+			],
+			[
+				"re",
+				"request"
+			],
+			[
+				"str",
+				"stringify\t(index.js)"
+			],
+			[
+				"err",
+				"errMessages"
+			],
+			[
+				"Er",
+				"Error405\t(errors.js)"
+			],
+			[
+				"l",
+				"log/"
+			],
+			[
+				"ua",
+				"uaList"
+			],
+			[
+				"te",
+				"testFunc"
+			],
+			[
+				"as",
+				"assign( url: DOMString ): void\tLocation"
+			],
+			[
+				"set",
+				"setToken\t(index.js)"
+			],
+			[
+				"rou",
+				"routerName"
+			],
+			[
+				"Date",
+				"Date.now(): Date\tDate"
+			],
+			[
+				"se",
+				"settings"
+			],
+			[
+				"cw",
+				"cwd"
+			],
+			[
+				"switch",
+				"switch()"
+			],
+			[
+				"toL",
+				"toLowerCase(): string\tString"
+			],
+			[
+				"HO",
+				"HOME_URL\t(vars.json)"
+			],
+			[
+				"si",
+				"sitemap"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"Object",
+				"Object.keys( o: Object ): string[]\tObject"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"co",
+				"convert"
+			],
+			[
+				"sett",
+				"settingsForm"
+			],
+			[
+				"lan",
+				"langKey"
+			],
+			[
+				"has",
+				"hasOwnProperty( property: string ): boolean\tObject"
+			],
+			[
+				"ca",
+				"call\tmethod.call()"
+			],
+			[
+				"proto",
+				"prototype"
+			],
+			[
+				"resolv",
+				"resolve"
+			],
+			[
+				"k",
+				"key"
+			],
+			[
+				"console",
+				"console.log()"
+			],
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"Ob",
+				"Object.keys( o: Object ): string[]\tObject"
+			],
+			[
+				"api",
+				"apiLimiter"
+			],
+			[
+				"new",
+				"new\t(newmodule.sublime-snippet)"
+			],
+			[
+				"newmodu",
+				"newmodule\t(newmodule.sublime-snippet)"
+			],
+			[
+				"newm",
+				"newmodule\t(newmodule.sublime-snippet)"
+			],
+			[
+				"COLOR",
+				"COLOR_DEFAULT"
+			],
+			[
+				"no",
+				"normpath\t(main.py)"
+			],
+			[
+				"UR",
+				"URLS_FILE\t(constants.py)"
+			],
+			[
+				"S",
+				"SAVE_DIR\t(constants.py)"
+			],
+			[
+				"__",
+				"__DOMAIN__\t(wallpaperscraft.py)"
+			],
+			[
+				"sp",
+				"spiders"
+			],
+			[
+				"pars",
+				"parserOptions"
+			],
+			[
+				"to",
+				"totalPages"
+			],
+			[
+				"__ge",
+				"__getRealMaxPage"
+			],
+			[
+				"on",
+				"onMessageHandler"
+			],
+			[
+				"All",
+				"AllTop.status"
+			],
+			[
+				"_",
+				"__name__\t(facedetect.py)"
+			],
+			[
+				"DE",
+				"DEFAULT"
+			],
+			[
+				"def",
+				"default"
+			],
+			[
+				"log",
+				"logging"
+			],
+			[
+				"img",
+				"img_name"
+			],
+			[
+				"sav",
+				"save_file_path"
+			],
+			[
+				"lo",
+				"load_config"
+			],
+			[
+				"ver",
+				"verbose"
+			],
+			[
+				"ima",
+				"image_path"
+			],
+			[
+				"if",
+				"ifmain\tif __name__ == '__main__'"
+			],
+			[
+				"imag",
+				"imgage_path"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Build server",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Build server",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Build server",
+				""
+			]
+		],
+		[
+			[
+				[
+					"List",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"List",
+				""
+			]
+		],
+		[
+			[
+				[
+					"List of all files",
+					""
+				],
+				[
+					"Node test",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Node test",
+				""
+			]
+		],
+		[
+			[
+				[
+					"List of all files",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/gulp-dev.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/gulp-dev.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"List of all files",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/node.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Markdown Preview/Markdown.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Markdown Preview/Markdown.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Markdown Preview/Markdown.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/md2rst.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Markdown Preview/Markdown.sublime-build",
+					""
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Markdown Preview/Markdown.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/node.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/md2rst.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				],
+				[
+					"Packages/User/python3.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/node.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Bash.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/node.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
+				],
+				[
+					"Packages/User/node.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "gist",
+		"selected_items":
+		[
+			[
+				"gist",
+				"Gist: Open Gist"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"CSS",
+				"CSSPrimer: Prime CSS from HTML file"
+			],
+			[
+				"prim",
+				"CSSPrimer: Prime CSS from HTML file"
+			],
+			[
+				"cl",
+				"Clipboard Manager: Previous"
+			],
+			[
+				"gl",
+				"Glue - Launch"
+			],
+			[
+				"pan",
+				"Pandoc"
+			],
+			[
+				"Snippet: ",
+				"Snippet: #!/usr/bin/env"
+			],
+			[
+				"LiveReload: Enable/disable plugins",
+				"LiveReload: Enable/disable plug-ins"
+			],
+			[
+				"au",
+				"Autoprefix CSS"
+			],
+			[
+				"Uni",
+				"Unicode Character Insert: Show Panel"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 530.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"print(str(b'\\x00\\x00\\x00\\x0f'))",
+			"print str(b'\\x00\\x00\\x00\\x0f')",
+			"argtest.sh -h",
+			"./argtest.sh -h",
+			"node -v",
+			"view.run_command('unicode_character_insert')"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/media/user/D/projects/github/toster-wysiwyg-panel"
+	],
+	"file_history":
+	[
+		"/media/user/D/projects/bitbucket/datakeeper/datakeeper.sublime-project",
+		"/media/user/D/projects/github/gulp-less-glob/README.md",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/README.md",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/src/content.js",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/src/twpwyg.js",
+		"/home/user/.config/sublime-text-3/Packages/User/JsFormat.sublime-settings",
+		"/media/user/D/projects/bitbucket/datakeeper/server/utils/index.js",
+		"/media/user/D/projects/github/passgen/README.md",
+		"/media/user/D/projects/bitbucket/datakeeper/app.json",
+		"/media/user/D/projects/bitbucket/datakeeper/config/config.js",
+		"/media/user/D/projects/bitbucket/datakeeper/README.md",
+		"/media/user/D/projects/bitbucket/datakeeper/start.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/package.json",
+		"/media/user/D/projects/bitbucket/datakeeper/.gitignore",
+		"/media/user/D/projects/bitbucket/datakeeper/preinstall.sh",
+		"/run/user/1000/gvfs/sftp:host=91.107.106.69,port=3237,user=vpsuser/home/vpsuser/createbare.sh",
+		"/home/user/ip.txt",
+		"/media/user/D/projects/bitbucket/configs/etc/nginx/sites-available/api.data-keeper.ru.conf",
+		"/media/user/D/projects/bitbucket/datakeeper/Changelog.md",
+		"/media/user/D/projects/bitbucket/datakeeper/git-push.sh",
+		"/run/user/1000/gvfs/sftp:host=91.107.106.69,port=3237,user=vpsuser/home/vpsuser/testfile.log",
+		"/media/user/D/projects/bitbucket/datakeeper/ecosystem.config.js",
+		"/media/user/D/projects/bitbucket/configs/etc/nginx/sites-available/data-keeper.ru.conf",
+		"/home/user/test.yml",
+		"/media/user/D/projects/bitbucket/datakeeper/postinstall.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/pre-commit.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/install-hooks.sh",
+		"/etc/ansible/ansible.cfg",
+		"/etc/ansible/hosts",
+		"/etc/ansible/hosts.dpkg-new",
+		"/media/user/D/projects/bitbucket/datakeeper/src/config/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/ansible/deploy.yml",
+		"/media/user/D/projects/bitbucket/datakeeper/src/utils/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/config/config.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/deploy.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/eslint.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/git-pull.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/htpasswd.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/migrate.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/restart.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/startup.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/stop.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/updatekey.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/builddocs.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/build.sh",
+		"/home/user/.config/sublime-text-3/Packages/ShellScriptImproved/CHANGELOG.md",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp/gulp-tasks/compile_pug.js",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/package.json",
+		"/media/user/D/projects/bitbucket/datakeeper/config.sh",
+		"/media/user/D/projects/bitbucket/datakeeper/migrate/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/utils/errors.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/models/index.js",
+		"/etc/nginx/sites-available/api.data-keeper.ru.conf",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/config/config.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/models/category.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/models/keeper.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/models/notify.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/models/user.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/utils/mailer.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/webhooks/deploy.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/BaseRoutes.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/category/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/session/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/session/inc/GetSessions.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/app.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/webhooks/index.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/inc/UpdateUserSettings.js",
+		"/etc/nginx/sites-available/data-keeper.ru.conf",
+		"/var/www/jsdocs_htpasswd",
+		"/home/user/jsdocs_htpasswd",
+		"/media/user/D/projects/bitbucket/datakeeper/bin/www",
+		"/media/user/D/projects/bitbucket/webshotter/bin/www",
+		"/media/user/D/projects/bitbucket/datakeeper/.babelrc",
+		"/media/user/D/projects/bitbucket/datakeeper/TODO.md",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/AuthUser.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/ResetPassword.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/CreateUser.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/NewPassword.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/SendFeedback.js",
+		"/media/user/D/projects/bitbucket/datakeeper/server/api/v1/keeper/inc/GetItems.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/category/inc/CreateCategory.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/category/inc/DeleteCategory.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/category/inc/GetCategories.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/category/inc/GetCategory.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/category/inc/UpdateCategory.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/ConfirmEmail.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/guest/inc/LogoutUser.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/AddItem.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/CleanItems.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/DeleteItems.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/GetCategories.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/GetItem.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/GetItems.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/GetPage.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/PostItems.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/UpdateItem.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/DeleteAllNotifyes.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/DeleteNotify.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/GetNotify.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/ReadAllNotifyes.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/ReadNotify.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/inc/CheckValidSession.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/inc/DeleteUserProfile.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/inc/UpdateUserProfile.js",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/.fuse_hidden00004ee600000001",
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/session/inc/DeleteSession.js",
+		"/media/user/D/projects/bitbucket/datakeeper/server/api/v1/session/inc/GetSessions.js",
+		"/media/user/D/projects/bitbucket/datakeeper/jsdoc.json",
+		"/home/user/.config/sublime-text-3/Packages/User/Base File.sublime-settings",
+		"/media/user/D/projects/bitbucket/datakeeper/migrate/data/category.json",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/datakeeperfrontend.sublime-project",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/.gitignore",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/frontend.sh",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js/modules/App/controllers/keeper.controller.js",
+		"/home/user/Загрузки/export_csv/backup/Web-сайты.csv",
+		"/home/user/Загрузки/export_csv/backup/Wi-Fi сети.csv",
+		"/home/user/Загрузки/export_json/backup/Web-сайты.json",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js/modules/App/interceptors/httpAESCrypto.interceptor.js",
+		"/home/user/Загрузки/export_xml/backup/Web-сайты.xml",
+		"/home/user/Загрузки/export_xml/README.txt",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js/modules/App/factoryes/category.factory.js",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug/routes/keeper/templates/_keeper_toolbar.pug",
+		"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js/modules/App.API/factoryes/API.factory.js",
+		"/media/user/D/projects/bitbucket/datakeeper/.eslintrc"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"/media/user/D/projects/bitbucket/datakeeper/src",
+			"/media/user/D/projects/bitbucket/datakeeper/,*.sh",
+			"/media/user/D/projects/bitbucket/datakeeper/src",
+			"/media/user/D/projects/bitbucket/datakeeper/src/api",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/less",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeper/src",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeper/src",
+			"/media/user/D/projects/bitbucket/datakeeper/server/test",
+			"/media/user/D/projects/bitbucket/datakeeper/server",
+			"/media/user/D/projects/bitbucket/datakeeper/server/api",
+			"/media/user/D/projects/bitbucket/datakeeper/server/api/v1",
+			"/media/user/D/projects/bitbucket/datakeeper/server",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeper/server/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js/",
+			"/media/user/D/projects/bitbucket/datakeeper/server",
+			"/media/user/D/projects/bitbucket/datakeeper/migrate",
+			"/media/user/D/projects/bitbucket/datakeeper/server",
+			"/media/user/D/projects/bitbucket/datakeeper",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/js/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp/gulp-tasks/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/gulp/gulp-tasks/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/gulp/gulp-tasks",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/less",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug/routes/keeper",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src",
+			"/media/user/D/projects/bitbucket/datakeeper/server",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/less",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/build",
+			"/media/user/D/projects/bitbucket/datakeeper/server/middleware",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/js",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/gulp",
+			"/media/user/D/projects/bitbucket/datakeeperfrontend/src/pug",
+			"/media/user/D/projects/github/pygetwallpapers",
+			"/mnt/4A16265F16264BEF/projects/bitbucket.com/webshotter/server",
+			"/mnt/4A16265F16264BEF/projects/gist/symbol-characters/html",
+			"-node_modules/*.*",
+			"-node_modules",
+			"-/node_modules/*.*"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"npm",
+			"sudo",
+			"data-keeper",
+			"91.107.106.69",
+			"export class",
+			"@module ([a-zA-Z0-9]+)\\.([a-zA-Z0-9]+)",
+			"@module ([a-zA-Z0-9]+)\\.([a-zA-Z0-9]+)\\.([a-zA-Z0-9]+)",
+			"module:([a-zA-Z0-9]+)\\.([a-zA-Z0-9]+)",
+			"module:([a-zA-Z0-9]+)\\/([a-zA-Z0-9]+)",
+			"@module ([a-zA-Z0-9]+)\\.([a-zA-Z0-9]+)\\/([a-zA-Z0-9]+)",
+			"@module ([a-zA-Z0-9]+)\\/([a-zA-Z0-9]+)",
+			"constructor( message, request",
+			"request:",
+			"class E",
+			"{String} request",
+			"message, request )",
+			"checkParams",
+			"utils.checkParams",
+			"express",
+			"const router = express.Router();",
+			"express",
+			"httpAuth",
+			"getUser",
+			"path",
+			"request",
+			"fs",
+			"path",
+			"import * as RateLimit from",
+			"path",
+			"module.exports =",
+			"import * as RoutesBase from",
+			"import mongoosePaginate from from",
+			"import * as mongoosePaginate",
+			"import config mongoose",
+			"import * as mongoose from",
+			"import * as config from",
+			"require\\(\\s?([^\\s]+)\\s?\\)\\..+",
+			"utils.mailer",
+			"module.exports = ",
+			"const ([a-zA-Z0-9]+) = require\\(\\s?([^\\s]+)\\s?\\);",
+			"const ([a-zA-Z0-9]+) = require\\(\\s?(.+)\\s?\\);",
+			"const ([a-zA-Z0-9]+) = require\\(\\s*(.+)\\s*\\);",
+			"const ([a-zA-Z0-9]+) = require\\(\\s*'(.+)'\\s*\\);",
+			"const ([a-zA-Z0-9]+) = require\\(\\s?'([.+]+)'\\s?\\);",
+			"global.",
+			"exportJSON",
+			"UserSettingsSchema",
+			"Flag for displaying pop-up notifications",
+			".eq(",
+			"_log",
+			"deploy.sh",
+			"DEST_DIR",
+			"categoryes",
+			"$log.debug",
+			"metaInfo",
+			"categoryes",
+			"self.categoryes",
+			"categoryID",
+			"currentCategory",
+			"self.categoryID",
+			"categoryID",
+			"currentCategory",
+			"user_categoryes",
+			"currentCategory",
+			"keeperFactory",
+			"\"title\":",
+			"'",
+			"Notify",
+			"checkitlink",
+			"\\n",
+			"confirm_path",
+			"http",
+			"js",
+			".filter",
+			".find",
+			".find(",
+			"lipboard",
+			"Clipboard",
+			".find",
+			"findAll",
+			"2010-2017 Google",
+			"AngularJS",
+			"AngularJS v1.6.3",
+			"ISSUES",
+			"\"off\"",
+			"browserSync",
+			"bg-carbon",
+			"carbon_style",
+			"hotkeys",
+			"animate",
+			"self.url",
+			"\"ValidationError\"",
+			"GUESTURLS.reset_password",
+			"GUESTURLS.login",
+			"registration",
+			"X-Data-Keeper-",
+			"allit",
+			"&nbsp&nbsp",
+			"import \\* as ([^\\s]+) from '([^\\s\\']+)';",
+			"Routes\\.([^\\s]+)\\)",
+			"new utils.Errors",
+			"config.get('API",
+			"ObjectId",
+			"SHA512",
+			"[a-z]+ ([^\\s]+) = require\\(('|\")([^\\s]+)('|\")\\);",
+			"[a-z]+ ([a-z0-9]+) = require\\(('|\")([a-z0-9]+)('|\")\\);",
+			"echoError",
+			"Validator",
+			"exportCSV",
+			"exportJSON",
+			"function\\s*(\\([^\\)]*\\))\\s*\\{\\n",
+			"function\\s*(\\([^\\)]*\\))\\s*\\{",
+			"module.exports = function (app, config, models, utils) {",
+			"module.exports = (app, config, models, utils)",
+			"module.exports = (app, config, models, utils) => {",
+			"app.get('rootdir')",
+			"checkSecretKey",
+			"Validator",
+			"req.headers",
+			"function\\s*(\\([^\\)]*\\))\\s*\\{",
+			"x-data-keeper-",
+			"updateObj",
+			"function\\s*(\\([^\\)]*\\))\\s*\\{",
+			"authObj",
+			"errors",
+			"echoError",
+			"checkAuth",
+			"function\\s*(\\([^\\)]*\\))\\s*\\{"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"domain",
+			"123.123.123.123",
+			"class",
+			"@module $1/$2",
+			"@module $1/$2/$3",
+			"module:$1/$2",
+			"module:$1.$2",
+			"@module $1.$2.$3",
+			"@module $1.$2",
+			"constructor( message='', request",
+			"export class E",
+			"{String} [request={}]",
+			"message, request={} )",
+			"utils.checkIDParam",
+			"const router = Router();",
+			"import RateLimit from",
+			"export default",
+			"import RoutesBase from",
+			"import mongoosePaginate from",
+			"import mongoose from",
+			"import config mongoose",
+			"import config from",
+			"utils.Mailer",
+			"export default ",
+			"import * as $1 from $2;",
+			"UserSettingsObject",
+			"WWWWWWW",
+			"GIT_HOOK_DIR",
+			"categories",
+			"self.categories",
+			"self.currentCategory['_id']",
+			"categoryFactory",
+			"\"titles\":",
+			"\"",
+			"Category",
+			"domain",
+			" ",
+			"'off'",
+			"'ValidationError'",
+			"&nbsp;&nbsp;",
+			"const $1 = require('$2');",
+			"routes.$1())",
+			"import * as $1 from '$3';",
+			"import * as $1 from '$2';",
+			"$1 => {\\n",
+			"module.exports = (config, models, utils) => {",
+			"module.exports = (config, models, utils)",
+			"$1 => {",
+			"",
+			"$1 => {",
+			"${PATH}",
+			"${URL}",
+			"${TOKEN}",
+			"",
+			"div class=\"col col--$1-of-$2 col--s-$1-of-$2\"",
+			"",
+			"API",
+			";",
+			".dev",
+			"",
+			"megapassword",
+			"utils.checkAuth",
+			"ReturnFunc",
+			"utils.echoError",
+			"app.get('apiLimiter'), checkAuth, utils.setUserParams",
+			"/",
+			"_d",
+			"HOST",
+			"${DOMAINNAME}",
+			"DOMAINNAME",
+			"",
+			"\"$1\"",
+			"${CWD}/${",
+			"\\n",
+			"${csr}",
+			" && ",
+			"${crt}",
+			"${key}",
+			"ssl",
+			"print_status",
+			"function $1() {",
+			"${CRONTAB}",
+			"53416232353952",
+			"/home/vpsuser",
+			"$variable_domain_name",
+			"data-keeper",
+			"add_header 'Access-Control-Expose-Headers' $access_control_expose_headers always;",
+			"$access_control_allow_methods",
+			"$access_control_allow_origin",
+			"access_control_allow_headers",
+			"$allow_headers",
+			"'DNT,Set-Cookie,Cookie,X-Data-Keeper-Api-Key,X-Data-Keeper-Password,X-Data-Keeper-Action,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range,Origin,X-Frame-Options,X-XSS-Protection,X-Content-Type-Options'",
+			"*",
+			"X-Data-Keeper-Password,X-Data-Keeper-Action",
+			"X-Data-Keeper-Api-Key,X-Data-Keeper-Password",
+			"X-Data-Keeper-Api-Key",
+			"*",
+			"'https://data-keeper.ru'",
+			"domain",
+			"/api.data-keeper",
+			"domain",
+			"request",
+			"httpInsertHeaders",
+			"$1\\n",
+			"$1",
+			"</tr>\\n",
+			"$1:$2",
+			"/",
+			"routesPath + \"",
+			"options.resolve(rootDir, ",
+			"",
+			"options.resolve(",
+			"cwd",
+			"module.exports = (gulp, plugins, options, isProd, isDev, cwd, ...args) ",
+			"options.resolve(",
+			"='img",
+			"Settings",
+			"Auth",
+			"Reset",
+			"resetController",
+			"Confirm",
+			"Encript",
+			"data-sizes=",
+			"data-rel=",
+			"yourdomain",
+			"domain",
+			"self.excludeKeys",
+			"add_suffix"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.clipboard_manager":
+	{
+		"height": 106.0
+	},
+	"output.exec":
+	{
+		"height": 223.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 106.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 106.0
+	},
+	"output.markdown":
+	{
+		"height": 106.0
+	},
+	"output.sftp":
+	{
+		"height": 112.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 106.0
+	},
+	"pinned_build_system": "",
+	"project": "toster-wysiwyg-panel.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 269.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

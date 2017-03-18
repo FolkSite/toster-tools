@@ -1,22 +1,22 @@
 const fs = require( 'fs' );
 
-window.TWPWYG = require( './twpwyg' ).TWPWYG;
+const commentForms = document.querySelectorAll( 'form.form_comments[role$="comment_form"]' );
 
-window.onload = function () {
-    ( function () {
+if ( !!commentForms ) {
 
-        const content = fs.readFileSync( __dirname + '/twpwyg.html', 'utf-8' );
+    let script = document.createElement( 'script' );
+    script.innerHTML = fs.readFileSync( __dirname + '/twpwyg.js', 'utf-8' );
 
-        const commentForms = document.querySelectorAll( 'form.form_comments[role$="comment_form"]' );
+    document.getElementsByTagName( 'head' )[ 0 ].appendChild( script );
 
-        for ( let i = 0; i < commentForms.length; i++ ) {
-            let form = commentForms[ i ];
-            let field_wrap = form.querySelector( 'div.field_wrap' );
+    const content = fs.readFileSync( __dirname + '/twpwyg.html', 'utf-8' );
 
-            let div = document.createElement( 'div' );
-            div.innerHTML = content;
-            field_wrap.insertBefore( div, field_wrap.firstChild );
-        }
+    for ( let i = 0; i < commentForms.length; i++ ) {
+        let form = commentForms[ i ];
+        let field_wrap = form.querySelector( 'div.field_wrap' );
 
-    } )();
-};
+        let div = document.createElement( 'div' );
+        div.innerHTML = content;
+        field_wrap.insertBefore( div, field_wrap.firstChild );
+    }
+}

@@ -5,25 +5,20 @@
 	"short_name": "TWP",
 	"description": "Добавляет функционал редактора формы ответа к форме комментария",
 	"version": "1.0",
-	"author": "Ярков Алексей (Yarkov Aleksei) <yarkov_aleksei@mail.ru>",
+	"author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
 
 	"offline_enabled": false,
 
-	"content_scripts": [ {
-		"all_frames": false,
-		"matches": [ "*://toster.ru/q/*" ],
-		"css": [ "content.css" ],
-		"js": [ "build/content.js" ],
-		"run_at": "document_end"
-	} ],
-
 	"permissions": [
-		"*://toster.ru/*"
+		"https://toster.ru/*",
+		"activeTab"
 	],
 
-	"background": {
-		"scripts": [ "background.js" ],
-		"persistent": true
-	}
+	"content_scripts": [ {
+		"all_frames": false,
+		"matches": [ "https://toster.ru/q/*" ],
+		"js": [ "build/content.js" ],
+		"run_at": "document_end"
+	} ]
 
 }
