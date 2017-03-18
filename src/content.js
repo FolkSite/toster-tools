@@ -16,7 +16,7 @@ if ( !!commentForms ) {
         let field_wrap = form.querySelector( 'div.field_wrap' );
 
         let div = document.createElement( 'div' );
-        div.innerHTML = content;
+        div.appendChild( document.createTextNode( content ) );
         field_wrap.insertBefore( div, field_wrap.firstChild );
     }
 }
