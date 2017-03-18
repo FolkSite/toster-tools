@@ -14,7 +14,8 @@
     "compile": "browserify -t brfs src/content.js -o build/content.js",
     "preinstall": "npm install --global browserify",
     "postinstall": "npm run compile",
-    "prepush": "npm run compile"
+    "prepush": "npm run compile",
+    "zip": "rm -f store.zip && npm run compile && zip store build/* manifest.json"
   },
   "author": "Yarkov Aleksey <contact@data-keeper.ru>",
   "license": "MIT"

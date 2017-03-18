@@ -10,8 +10,7 @@
 	"offline_enabled": false,
 
 	"permissions": [
-		"https://toster.ru/*",
-		"activeTab"
+		"https://toster.ru/*"
 	],
 
 	"content_scripts": [ {
