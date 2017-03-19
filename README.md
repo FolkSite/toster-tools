@@ -39,19 +39,21 @@ $ npm run zip [chrome] [opera] [ff]
 
 Opera web store - (ожидание публикации)
 
-**Установка из репозитория:**
+**Установка из репозитория(на примере Opera):**
 
+Скачиваем [отсюда](https://github.com/yarkovaleksei/toster-wysiwyg-panel/releases/latest) нужный архив для своего браузера и распаковываем его:
+
+**Linux**
 ```bash
-$ git clone git@github.com:yarkovaleksei/toster-wysiwyg-panel.git TWP
-$ cd ./TWP
-$ npm install
+$ cd ~/Загрузки
+$ unzip opera.zip -d ./TWP
 ```
 
-Теперь открываем браузер (на примере Opera):
+Теперь открываем браузер:
 
 1. Жмем Ctrl+Shift+E
 2. Нажимаем кнопку как на скрине
 [![Screenshot](img/opera1.png)](img/opera1.png)
-3. Выбираем нашу папку TWP и жмем кнопку Open
+3. Выбираем нашу папку, куда распакован архив, и нажимаем кнопку "Open"
 
 Готово! Теперь можно пользоваться комментами Тостера и не нервничать :smile:
