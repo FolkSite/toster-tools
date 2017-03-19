@@ -8,16 +8,23 @@ else
     BROWSERS=("$@")
 fi
 
-mkdir -p build
+FILES=("icon" "js" "css" "manifest.json" "popup.html")
 
-$(which browserify) -t brfs src/content.js -o build/content.js
+$(which browserify) -t brfs src/content.js -o js/content.js
 
 for ((i=0; i < ${#BROWSERS[@]}; i++))
 do
     browser="${BROWSERS[$i]}"
-    [ -d "browsers/$browser" ] && rm -rf browsers/$browser
-    [ -f "browsers/$browser.zip" ] && rm -f browsers/$browser.zip
-    mkdir -p browsers/$browser
-    cp -r build browsers/$browser
-    cp manifest.json browsers/$browser
+    target=browsers/$browser
+
+    [ -d "$target" ] && rm -rf $target
+    [ -f "$target.zip" ] && rm -f $target.zip
+
+    mkdir -p $target
+
+    for ((j=0; j < ${#FILES[@]}; j++))
+    do
+        file_source="${FILES[$j]}"
+        cp -r $file_source $target
+    done
 done

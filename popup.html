@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Настройки</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <label>Toster wysiwyg panel</label>
+    </header>
+    <main>
+        <div class="flex-block">
+            <div>
+                <label>Включить реалтайм уведомления?</label>
+                <div class="element">
+                    <input id="AJAXCheckbox" class="form-control" type="checkbox"/>
+                </div>
+            </div>
+            <div>
+                <label>Интервал проверок в секундах</label>
+                <div class="element">
+                    <input id="IntervalInput" class="form-control" type="number" min="0" max="3600" value="" step="1"/>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <button type="button" id="save_options">Сохранить</button>
+        </div>
+    </footer>
+
+    <script src="js/popup.js"></script>
+</body>
+</html>
