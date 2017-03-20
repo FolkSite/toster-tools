@@ -1,11 +1,3 @@
-$( 'textarea.textarea' ).keydown( function ( e ) {
-    let textareaParent = $( this ).parents( "form" );
-    let button = $( 'button[type="submit"]', textareaParent ).get( 0 );
-    if ( ( e.ctrlKey || e.metaKey ) && ( e.keyCode == 13 || e.keyCode == 10 ) ) {
-        button.click();
-    }
-} );
-
 window.TWPWYG = {};
 
 

@@ -28,16 +28,16 @@ main {
     padding: 10px;
 }
 
-main .flex-block {
+main .container {
     overflow: hidden;
     text-align: left;
 }
 
-main .flex-block .element {
+main .container .element {
     text-align: right;
 }
 
-main .flex-block input {
+main .container input {
     border: 1px solid #CCC;
     padding: 8px 10px;
     border-radius: 0 2px 2px 0;
@@ -61,7 +61,7 @@ footer > div {
 }
 
 footer button,
-main .flex-block button {
+main .container button {
     cursor: pointer;
     padding: 8px 16px;
     border: 1px solid #CCC;

@@ -1,0 +1,7 @@
+div.twpwyg_toolbar {
+    display: block;
+}
+
+div.twpwyg_toolbar.hidden {
+    display: none;
+}

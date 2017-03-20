@@ -8,9 +8,9 @@ else
     BROWSERS=("$@")
 fi
 
-FILES=("icon" "js" "css" "manifest.json" "popup.html")
+FILES=("icon" "js" "css" "_locales" "manifest.json" "popup.html")
 
-$(which browserify) -t brfs src/content.js -o js/content.js
+$(which browserify) -t brfs src/content/content.js -o src/js/content.js
 
 for ((i=0; i < ${#BROWSERS[@]}; i++))
 do
@@ -25,6 +25,6 @@ do
     for ((j=0; j < ${#FILES[@]}; j++))
     do
         file_source="${FILES[$j]}"
-        cp -r $file_source $target
+        cp -r src/$file_source $target
     done
 done

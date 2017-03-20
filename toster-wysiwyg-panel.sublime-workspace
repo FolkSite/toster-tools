@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"pad",
+				"padding-top"
+			],
+			[
 				"in",
 				"interval"
 			],
@@ -906,29 +910,35 @@
 	},
 	"expanded_folders":
 	[
-		"/media/user/D/projects/github/toster-wysiwyg-panel"
+		"/media/user/D/projects/github/toster-wysiwyg-panel",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/browsers/opera"
 	],
 	"file_history":
 	[
+		"/media/user/D/projects/github/toster-wysiwyg-panel/.gitignore",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/manifest.json",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/browsers/opera/manifest.json",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/js/background.js",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/README.md",
+		"/media/user/D/projects/github/AllTopButton/manifest.json",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/src/content.js",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/package.json",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/js/popup.js",
+		"/media/user/D/projects/github/BrowserExtensions/Google Chrome/CheckItLink/js/background.js",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/src/twpwyg.js",
+		"/media/user/D/projects/github/AllTopButton/background.js",
+		"/media/user/D/projects/github/AllTopButton/content.js",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/css/style.css",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/popup.html",
+		"/media/user/D/projects/github/toster-wysiwyg-panel/compile.sh",
 		"/media/user/D/projects/github/toster-wysiwyg-panel/options.html",
 		"/media/user/D/projects/github/toster-wysiwyg-panel/js/options.js",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/js/background.js",
-		"/media/user/D/projects/github/BrowserExtensions/Google Chrome/CheckItLink/js/background.js",
 		"/media/user/D/projects/github/BrowserExtensions/Google Chrome/CheckItLink/manifest.json",
 		"/media/user/D/projects/github/BrowserExtensions/Google Chrome/CheckItLink/js/options.js",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/compile.sh",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/manifest.json",
 		"/media/user/D/projects/github/BrowserExtensions/Google Chrome/CheckItLink/css/style.css",
 		"/media/user/D/projects/github/BrowserExtensions/Google Chrome/CheckItLink/options.html",
-		"/media/user/D/projects/github/AllTopButton/manifest.json",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/src/twpwyg.js",
 		"/media/user/D/projects/github/toster-wysiwyg-panel/background.js",
 		"/media/user/D/projects/github/toster-wysiwyg-panel/src/twpwyg.html",
-		"/media/user/D/projects/github/AllTopButton/background.js",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/README.md",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/src/content.js",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/.gitignore",
-		"/media/user/D/projects/github/toster-wysiwyg-panel/package.json",
 		"/media/user/D/projects/github/toster-wysiwyg-panel/test.sh",
 		"/media/user/D/projects/github/toster-wysiwyg-panel/zip.sh",
 		"/media/user/D/projects/github/openvpn-loader/load.sh",
@@ -1032,12 +1042,7 @@
 		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/PostItems.js",
 		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/keeper/inc/UpdateItem.js",
 		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/DeleteAllNotifyes.js",
-		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/DeleteNotify.js",
-		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/GetNotify.js",
-		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/ReadAllNotifyes.js",
-		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/ReadNotify.js",
-		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/inc/CheckValidSession.js",
-		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/user/inc/DeleteUserProfile.js"
+		"/media/user/D/projects/bitbucket/datakeeper/src/api/v1/notify/inc/DeleteNotify.js"
 	],
 	"find":
 	{
@@ -1125,6 +1130,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"footer>",
 			"JSOptions",
 			"tracker_url",
 			"alert",
@@ -1251,8 +1257,7 @@
 			"function\\s*(\\([^\\)]*\\))\\s*\\{",
 			"module.exports = function (app, config, models, utils) {",
 			"module.exports = (app, config, models, utils)",
-			"module.exports = (app, config, models, utils) => {",
-			"app.get('rootdir')"
+			"module.exports = (app, config, models, utils) => {"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1260,6 +1265,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"footer > ",
 			"Options",
 			"feed_url",
 			"console.log",
@@ -1386,8 +1392,7 @@
 			"cwd",
 			"module.exports = (gulp, plugins, options, isProd, isDev, cwd, ...args) ",
 			"options.resolve(",
-			"='img",
-			"Settings"
+			"='img"
 		],
 		"reverse": false,
 		"show_context": true,

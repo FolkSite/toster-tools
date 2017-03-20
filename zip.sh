@@ -12,6 +12,6 @@ fi
 for ((i=0; i < ${#BROWSERS[@]}; i++))
 do
     browser="${BROWSERS[$i]}"
-    $(which npm) run compile $browser
-    (cd ./browsers/$browser && $(which zip) -r ../$browser .)
+    [ ! -d browsers/$browser ] && $(which npm) run compile $browser
+    (cd browsers/$browser && $(which zip) -r ../$browser .)
 done

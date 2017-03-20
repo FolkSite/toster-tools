@@ -1,0 +1,51 @@
+{
+    "extension_name": {
+        "message": "Toster wysiwyg panel"
+    },
+
+    "extension_description": {
+        "message": "Расширение для сайта toster.ru"
+    },
+
+    "extension_shortname": {
+        "message": "TWP"
+    },
+
+    "unread_notifications_message": {
+        "message": "Непрочитанных уведомлений: $count$",
+        "placeholders": {
+            "count": {
+                "content": "$1",
+                "example": "0"
+            }
+        }
+    },
+
+    "action_save": {
+        "message": "Сохранить"
+    },
+
+    "unread_notifications_title": {
+        "message": "Новые события на toster.ru"
+    },
+
+    "options_enable_ajax_checking": {
+        "message": "Включить AJAX проверку?"
+    },
+
+    "options_enable_notifications": {
+        "message": "Включить реалтайм уведомления?"
+    },
+
+    "options_use_toolbar": {
+        "message": "Использовать тулбар?"
+    },
+
+    "options_use_keyboard_action": {
+        "message": "Использовать Ctrl+Enter для отправки?"
+    },
+
+    "options_interval_ajax_checking": {
+        "message": "Интервал проверки в секундах"
+    }
+}

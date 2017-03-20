@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Options</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <label data-msg="extension_name"></label>
+    </header>
+    <main>
+        <div class="container">
+            <form id="ajaxform">
+                <div>
+                    <label data-msg="options_enable_ajax_checking"></label>
+                    <div class="element">
+                        <input id="AJAXCheckbox" class="form-control" type="checkbox"/>
+                    </div>
+                </div>
+                <div>
+                    <label data-msg="options_enable_notifications"></label>
+                    <div class="element">
+                        <input id="NotifyCheckbox" class="form-control" type="checkbox"/>
+                    </div>
+                </div>
+                <div>
+                    <label data-msg="options_interval_ajax_checking"></label>
+                    <div class="element">
+                        <input id="IntervalInput" class="form-control" type="number" min="0" max="3600" value="" step="1"/>
+                    </div>
+                </div>
+            </form>
+            <form id="toolbarform">
+                <div>
+                    <label data-msg="options_use_toolbar"></label>
+                    <div class="element">
+                        <input id="ToolBarCheckbox" class="form-control" type="checkbox"/>
+                    </div>
+                </div>
+            </form>
+            <form id="submitform">
+                <div>
+                    <label data-msg="options_use_keyboard_action"></label>
+                    <div class="element">
+                        <input id="KBDCheckbox" class="form-control" type="checkbox"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <button type="button" id="save_options"></button>
+        </div>
+    </footer>
+
+    <script src="js/popup.js"></script>
+</body>
+</html>

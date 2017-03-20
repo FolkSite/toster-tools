@@ -3,7 +3,12 @@
 var Options = {
     default: {
         ajax: true,
-        interval: 10
+        interval: 10,
+        show_toolbar: true,
+        use_kbd: true,
+        use_notifications: false,
+        feed_url: "https://toster.ru/my/feed",
+        tracker_url: "https://toster.ru/my/tracker"
     },
 
     get data() {
@@ -27,18 +32,42 @@ var Options = {
     }
 };
 
+function createNotify( params ) {
+    if ( !!Options.data.use_notifications ) {
+        chrome.notifications.create( 'toster.ru', {
+            type: 'basic',
+            title: chrome.i18n.getMessage( 'unread_notifications_title' ),
+            iconUrl: 'icon/notify-icon.png',
+            message: chrome.i18n.getMessage( 'unread_notifications_message', '' + params.count ),
+            requireInteraction: true
+        }, function ( id ) {
+
+        } );
+    }
+}
+
 function callbackMessage( request, sender, callback ) {
     if ( !!request && !!request.cmd ) {
-        if ( request.cmd === 'options' ) {
+        switch ( request.cmd ) {
+        case 'options':
             callback( {
-                cmd: 'options',
+                cmd: request.cmd,
                 data: Options.data
             } );
-        } else {
+            break;
+        case 'notify':
+            createNotify( request );
             callback( {
-                cmd: 'options',
-                data: {}
+                cmd: request.cmd,
+                data: Options.data
             } );
+            break;
+        default:
+            callback( {
+                cmd: request.cmd,
+                data: Options.data
+            } );
+            break;
         }
     }
 }
@@ -56,15 +85,9 @@ function synchronize() {
         chrome.browserAction.setIcon( {
             path: 'icon/icon-64-enabled.png'
         } );
-        chrome.browserAction.setTitle( {
-            title: 'TWP enabled'
-        } );
     } else {
         chrome.browserAction.setIcon( {
             path: 'icon/icon-64-disabled.png'
-        } );
-        chrome.browserAction.setTitle( {
-            title: 'TWP disabled'
         } );
     }
 
@@ -77,6 +100,16 @@ function synchronize() {
 
 chrome.extension.onMessage.addListener( ( request, sender, callback ) => {
     callbackMessage( request, sender, callback );
+} );
+
+chrome.notifications.onClosed.addListener( function ( notifId, byUser ) {
+    chrome.notifications.clear( notifId, ( wasCleared ) => {
+        if ( byUser ) {
+            chrome.tabs.create( {
+                url: Options.data.tracker_url
+            }, function ( tab ) {} );
+        }
+    } );
 } );
 
 

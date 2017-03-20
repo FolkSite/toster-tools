@@ -1,25 +1,29 @@
 {
 
 	"manifest_version": 2,
-	"name": "Toster wysiwyg panel",
-	"short_name": "TWP",
-	"description": "Добавляет функционал редактора формы ответа к форме комментария",
-	"version": "1.4",
+	"name": "__MSG_extension_name__",
+	"short_name": "__MSG_extension_shortname__",
+	"description": "__MSG_extension_description__",
+	"version": "2.0",
 	"author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
+	"homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
+	"default_locale": "ru",
+	"offline_enabled": false,
 
 	"icons": {
 		"64": "icon/icon-64-enabled.png"
 	},
 
-	"offline_enabled": false,
 
 	"permissions": [
-		"https://toster.ru/*"
+		"https://toster.ru/*",
+		"notifications"
 	],
 
 	"content_scripts": [ {
 		"all_frames": false,
 		"matches": [ "https://toster.ru/*" ],
+		"css": [ "css/content.css" ],
 		"js": [ "js/content.js" ],
 		"run_at": "document_end"
 	} ],
@@ -35,6 +39,15 @@
 		},
 		"default_title": "Toster",
 		"default_popup": "popup.html"
+	},
+
+	"commands": {
+		"_execute_browser_action": {
+			"suggested_key": {
+				"default": "Alt+T",
+				"mac": "Alt+T"
+			}
+		}
 	}
 
 }

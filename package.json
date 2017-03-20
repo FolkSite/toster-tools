@@ -1,11 +1,8 @@
 {
   "name": "toster-wysiwyg-panel",
-  "version": "1.0.4",
-  "description": "Добавляет функционал редактора формы ответа к форме комментария",
-  "main": "build/content.js",
-  "dependencies": {
-
-  },
+  "version": "2.0.0",
+  "description": "Расширение для сайта toster.ru",
+  "dependencies": {},
   "devDependencies": {
     "brfs": "^1.4.3"
   },
