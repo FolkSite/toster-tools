@@ -23,7 +23,7 @@ module.exports.createElement = createElement;
 },{}],2:[function(require,module,exports){
 const utils = require( '../js/utils' );
 
-const Device = browser || chrome;
+var browser = browser || chrome;
 
 const {
     $,
@@ -68,12 +68,12 @@ document.addEventListener( 'DOMContentLoaded', () => {
     for ( let i = 0; i < items.length; i++ ) {
         let item = items[ i ];
         let msg = item.dataset.msg;
-        item.innerHTML = Device.i18n.getMessage( msg );
+        item.innerHTML = browser.i18n.getMessage( msg );
     }
 
-    SaveButton.innerText = Device.i18n.getMessage( 'action_save' );
+    SaveButton.innerText = browser.i18n.getMessage( 'action_save' );
 
-    Device.runtime.getBackgroundPage( backgroundPageInstance => {
+    browser.runtime.getBackgroundPage( backgroundPageInstance => {
         window.Extension = backgroundPageInstance.Ext;
         restore_options();
     } );

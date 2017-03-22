@@ -1,5 +1,4 @@
-// background.js
-const Device = browser || chrome;
+var browser = browser || chrome;
 
 class Extension {
     constructor( ...args ) {
@@ -30,19 +29,19 @@ class Extension {
 
     createNotify( params ) {
         if ( !!this.Options.use_notifications ) {
-            Device.notifications.create( 'toster.ru', {
+            browser.notifications.create( 'toster.ru', {
                 type: 'basic',
-                title: Device.i18n.getMessage( 'unread_notifications_title' ),
+                title: browser.i18n.getMessage( 'unread_notifications_title' ),
                 iconUrl: 'icon/notify-icon.png',
-                message: Device.i18n.getMessage( 'unread_notifications_message', '' + params.count )
+                message: browser.i18n.getMessage( 'unread_notifications_message', '' + params.count )
             }, id => id );
         }
     }
 
     sendMessageToContentScript( params ) {
-        Device.tabs.query( {}, tabs => {
+        browser.tabs.query( {}, tabs => {
             for ( let i = 0; i < tabs.length; ++i ) {
-                Device.tabs.sendMessage( tabs[ i ].id, params, callbackMessage );
+                browser.tabs.sendMessage( tabs[ i ].id, params, callbackMessage );
             }
         } );
     }
@@ -50,11 +49,11 @@ class Extension {
     synchronize() {
         this.loadOptions();
         if ( !!this.Options.ajax ) {
-            Device.browserAction.setIcon( {
+            browser.browserAction.setIcon( {
                 path: 'icon/icon-64-enabled.png'
             } );
         } else {
-            Device.browserAction.setIcon( {
+            browser.browserAction.setIcon( {
                 path: 'icon/icon-64-disabled.png'
             } );
         }
@@ -86,14 +85,14 @@ function callbackMessage( request, sender, callback ) {
     }
 }
 
-Device.runtime.onMessage.addListener( ( request, sender, callback ) => {
+browser.runtime.onMessage.addListener( ( request, sender, callback ) => {
     callbackMessage( request, sender, callback );
 } );
 
-Device.notifications.onClosed.addListener( ( notifId, byUser ) => {
-    Device.notifications.clear( notifId, ( wasCleared ) => {
+browser.notifications.onClosed.addListener( ( notifId, byUser ) => {
+    browser.notifications.clear( notifId, ( wasCleared ) => {
         if ( byUser ) {
-            Device.tabs.create( {
+            browser.tabs.create( {
                 url: Ext.Options.tracker_url
             }, tab => tab );
         }

@@ -1,6 +1,6 @@
 const utils = require( '../js/utils' );
 
-const Device = browser || chrome;
+var browser = browser || chrome;
 
 const {
     $,
@@ -120,11 +120,11 @@ class Extension {
             if ( !!commentForms ) {
 
                 let script = document.createElement( 'script' );
-                script.src = Device.extension.getURL( 'resources/twpwyg.js' );
+                script.src = browser.extension.getURL( 'resources/twpwyg.js' );
 
                 $( 'head' ).appendChild( script );
 
-                const toolbar_url = Device.extension.getURL( 'resources/toolbar.html' );
+                const toolbar_url = browser.extension.getURL( 'resources/toolbar.html' );
 
                 fetch( toolbar_url, {
                         credentials: 'include'
@@ -147,7 +147,7 @@ class Extension {
     }
 
     sendMessageToBackgroundScript( request ) {
-        Device.runtime.sendMessage( request, {}, callbackMessage );
+        browser.runtime.sendMessage( request, {}, callbackMessage );
     }
 }
 
@@ -162,7 +162,7 @@ function callbackMessage( request, sender, callback ) {
     }
 }
 
-Device.runtime.onMessage.addListener( ( request, sender, callback ) => {
+browser.runtime.onMessage.addListener( ( request, sender, callback ) => {
     callbackMessage( request, sender, callback );
 } );
 
