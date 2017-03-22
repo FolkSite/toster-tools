@@ -2,29 +2,24 @@
 
 set -e
 
-if [ -z "$1" ]; then
-    BROWSERS=("chrome" "ff" "opera")
-else
-    BROWSERS=("$@")
-fi
+TARGET_DIR="build/source"
+SRC_DIR="src"
 
-FILES=("icon" "js" "css" "_locales" "manifest.json" "popup.html")
+FILES=("icon" "js" "css" "_locales" "resources" "manifest.json" "popup.html")
 
-$(which browserify) -t brfs src/content/content.js -o src/js/content.js
+$(which browserify) -t brfs ${SRC_DIR}/resources/content.js -o ${SRC_DIR}/js/content.js
+$(which browserify) -t brfs ${SRC_DIR}/resources/popup.js -o ${SRC_DIR}/js/popup.js
 
-for ((i=0; i < ${#BROWSERS[@]}; i++))
+[ -d "${TARGET_DIR}" ] && rm -rf ${TARGET_DIR}
+[ -f "${TARGET_DIR}.zip" ] && rm -f ${TARGET_DIR}.zip
+
+mkdir -p ${TARGET_DIR}
+
+for ((j=0; j < ${#FILES[@]}; j++))
 do
-    browser="${BROWSERS[$i]}"
-    target=browsers/$browser
-
-    [ -d "$target" ] && rm -rf $target
-    [ -f "$target.zip" ] && rm -f $target.zip
-
-    mkdir -p $target
-
-    for ((j=0; j < ${#FILES[@]}; j++))
-    do
-        file_source="${FILES[$j]}"
-        cp -r src/$file_source $target
-    done
+    file_source="${FILES[$j]}"
+    cp -r ${SRC_DIR}/$file_source ${TARGET_DIR}
 done
+
+rm -f ${TARGET_DIR}/resources/content.js
+rm -f ${TARGET_DIR}/resources/popup.js

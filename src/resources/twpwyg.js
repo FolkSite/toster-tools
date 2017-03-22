@@ -1,6 +1,5 @@
 window.TWPWYG = {};
 
-
 window.TWPWYG.getCursor = function ( input ) {
     let result = {
         start: 0,

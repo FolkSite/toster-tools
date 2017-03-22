@@ -1,0 +1,287 @@
+<div class="wysiwyg twpwyg_toolbar" data-hs_host="https://habrastorage.org" role="wysiwyg_editor">
+    <ul class="icons-bar icons-bar_horizontal">
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_bold" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'b');" tabindex="-1" title="Жирный">
+                <svg class="icon_svg icon_editor_bold" viewBox="0 0 32 32">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_bold"></use>
+                </svg>
+            </a>
+        </li>
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_italic" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'i');" tabindex="-1" title="Курсив">
+                <svg class="icon_svg icon_editor_italic" viewBox="0 0 32 32">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_italic"></use>
+                </svg>
+            </a>
+        </li>
+        <li class="icons-bar__item dropdown" role="dropdown">
+            <span class="icons-bar__item_control" data-toggle="dropdown" tabindex="-1" title="Вставить список" role="dropdown_trigger">
+                <svg class="icon_svg icon_editor_list">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_list"></use>
+                </svg>
+            </span>
+            <div class="dropdown__menu">
+                <ul class="menu menu_dropdown">
+                    <li class="menu__item">
+                        <a class="icon_link-internet menu__item-link" role="wysiwyg_list_num" href="javascript:void(0)" onclick="return window.TWPWYG.insertList(this, 'ol');">Нумерованный список</a>
+                    </li>
+                    <li class="menu__item">
+                        <a class="icon_comp menu__item-link" role="wysiwyg_list" href="javascript:void(0)" onclick="return window.TWPWYG.insertList(this, 'ul');">Ненумерованный список</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="icons-bar__item dropdown" role="dropdown">
+            <span class="icons-bar__item_control" data-toggle="dropdown" tabindex="-1" title="Вставить изображение" role="dropdown_trigger">
+                <svg class="icon_svg icon_editor_picture" viewBox="0 0 32 32">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_picture"></use>
+                </svg>
+            </span>
+            <div class="dropdown__menu">
+                <ul class="menu menu_dropdown">
+                    <li class="menu__item">
+                        <a class="icon_link-internet menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertImage(this);">Из интернета</a>
+                    </li>
+                    <li class="menu__item">
+                        <a class="icon_comp menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.uploadImage(this);">С компьютера</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_link" href="javascript:void(0)" onclick="return window.TWPWYG.insertLink(this);" tabindex="-1" title="Вставить ссылку">
+                <svg class="icon_svg icon_editor_link" viewBox="0 0 32 32">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_link"></use>
+                </svg>
+            </a>
+        </li>
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_quote" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'blockquote');" tabindex="-1" title="Вставить цитату">
+                <svg class="icon_svg icon_editor_quote" viewBox="0 0 32 32">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_quote"></use>
+                </svg>
+            </a>
+        </li>
+        <li class="icons-bar__item dropdown" role="dropdown">
+            <span class="icons-bar__item_control" data-toggle="dropdown" tabindex="-1" title="Вставить исходный код" role="dropdown_trigger">
+                <svg class="icon_svg icon_dots" viewBox="0 0 131 32">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_dots"></use>
+                </svg>
+            </span>
+            <div class="dropdown__menu">
+                <ul class="menu menu_dropdown menu_scroll">
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'code');">
+                        Code
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'javascript');">
+                        JavaScript
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'html');">
+                        HTML
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'php');">
+                        PHP
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'ruby');">
+                        Ruby
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'java');">
+                        Java
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'perl');">
+                        Perl
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'python');">
+                        Python
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'bash');">
+                        Bash
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'cs');">
+                        C#
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'cpp');">
+                        C++
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'css');">
+                        CSS
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'diff');">
+                        Diff
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'xml');">
+                        XML
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'sql');">
+                        SQL
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, '1c');">
+                        1C
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'actionscript');">
+                        ActionScript
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'apache');">
+                        Apache
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'axapta');">
+                        Axapta
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'cmake');">
+                        CMake
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'coffeescript');">
+                        CoffeeScript
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'dos');">
+                        DOS
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'delphi');">
+                        Delphi
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'django');">
+                        Django
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'erlang');">
+                        Erlang
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'erlang_repl');">
+                        Erlang REPL
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'go');">
+                        Go
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'haskell');">
+                        Haskell
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'lisp');">
+                        Lisp
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'lua');">
+                        Lua
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'mel');">
+                        MEL
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'markdown');">
+                        Markdown
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'matlab');">
+                        Matlab
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'nginx');">
+                        Nginx
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'objectivec');">
+                        Objective C
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'rust');">
+                        Rust
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'scala');">
+                        Scala
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'smalltalk');">
+                        Smalltalk
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'tex');">
+                        TeX
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'vbscript');">
+                        VBScript
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'vhdl');">
+                        VHDL
+                        </a>
+                    </li>
+                    <li class="menu__item" role="link_static">
+                        <a class="menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertSource(this, 'vala');">
+                        Vala
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

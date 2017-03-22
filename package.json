@@ -1,6 +1,6 @@
 {
   "name": "toster-wysiwyg-panel",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Расширение для сайта toster.ru",
   "dependencies": {},
   "devDependencies": {
@@ -9,9 +9,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "./compile.sh",
-    "preinstall": "chmod +x *.sh && npm install --global browserify",
-    "postinstall": "npm run compile",
-    "zip": "./zip.sh"
+    "preinstall": "chmod +x *.sh && npm install --global browserify web-ext",
+    "postinstall": "npm run compile && npm run zip && npm run ffsign",
+    "zip": "./zip.sh",
+    "ffsign": "./ffsign.sh"
   },
   "author": "Yarkov Aleksey <contact@data-keeper.ru>",
   "license": "MIT"

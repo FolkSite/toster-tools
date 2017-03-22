@@ -4,7 +4,7 @@
 	"name": "__MSG_extension_name__",
 	"short_name": "__MSG_extension_shortname__",
 	"description": "__MSG_extension_description__",
-	"version": "2.0",
+	"version": "2.0.1",
 	"author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
 	"homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
 	"default_locale": "ru",
@@ -13,7 +13,6 @@
 	"icons": {
 		"64": "icon/icon-64-enabled.png"
 	},
-
 
 	"permissions": [
 		"https://toster.ru/*",
@@ -48,6 +47,11 @@
 				"mac": "Alt+T"
 			}
 		}
-	}
+	},
+
+	"web_accessible_resources": [
+		"resources/twpwyg.js",
+		"resources/toolbar.html"
+	]
 
 }

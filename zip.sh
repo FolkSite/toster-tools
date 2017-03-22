@@ -2,16 +2,12 @@
 
 set -e
 
-if [ -z "$1" ]; then
-    BROWSERS=("chrome" "ff" "opera")
-else
-    BROWSERS=("$@")
+BUILD_DIR="build"
+SRC_DIR="${BUILD_DIR}/source"
+
+
+if [ ! -d ${SRC_DIR} ]; then
+    $(which npm) run compile
 fi
 
-
-for ((i=0; i < ${#BROWSERS[@]}; i++))
-do
-    browser="${BROWSERS[$i]}"
-    [ ! -d browsers/$browser ] && $(which npm) run compile $browser
-    (cd browsers/$browser && $(which zip) -r ../$browser .)
-done
+(cd ${SRC_DIR} && $(which zip) -r "../source" .)
