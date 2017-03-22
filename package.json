@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "./compile.sh",
     "preinstall": "chmod +x *.sh && npm install --global browserify web-ext",
-    "postinstall": "npm run compile && npm run zip && npm run ffsign",
+    "postinstall": "npm run compile && npm run zip",
     "zip": "./zip.sh",
     "ffsign": "./ffsign.sh"
   },
