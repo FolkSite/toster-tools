@@ -3,17 +3,17 @@
 [![Latest release](https://img.shields.io/github/release/yarkovaleksei/toster-wysiwyg-panel.svg)](https://github.com/yarkovaleksei/toster-wysiwyg-panel/releases/latest)  [![Build Status](https://travis-ci.org/yarkovaleksei/toster-wysiwyg-panel.svg?branch=master)](https://travis-ci.org/yarkovaleksei/toster-wysiwyg-panel)  [![Dependencies total](https://david-dm.org/yarkovaleksei/toster-wysiwyg-panel.svg)](https://david-dm.org/yarkovaleksei/toster-wysiwyg-panel.svg)  [![Chrome Web Store - version](https://img.shields.io/chrome-web-store/v/kpfolongmglpleidinnhnlefeoljdecm.svg)](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm?hl=ru&gl=RU)  [![Chrome Web Store - rating](https://img.shields.io/chrome-web-store/rating/kpfolongmglpleidinnhnlefeoljdecm.svg)](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm?hl=ru&gl=RU)
 
 - - -
-- [Описание](#Описание)
-- [Установка](#Установка)
-- [Установка из репозитория](#Установка-из-репозитория)
-    - [Установка в Opera](# Установка-в-Opera)
-    - [Установка в Google Chrome](# Установка-в-Google-Chrome)
-    - [Установка в Firefox](# Установка-в-Firefox)
-- [Разработчикам](# Разработчикам)
-    - [Подготовка к работе](#Подготовка-к-работе)
-    - [Сборка](#Сборка)
-    - [Упаковка в zip перед публикацией](#Упаковка-в-zip-перед-публикацией)
-    - [Подписывание расширения для Firefox](#Подписывание-расширения-для-Firefox)
++ [Описание](#Описание)
++ [Установка](#Установка)
++ [Установка из репозитория](#Установка-из-репозитория)
++ [Установка в Opera](#Установка-в-Opera)
++ [Установка в Google Chrome](#Установка-в-Google-Chrome)
++ [Установка в Firefox](#Установка-в-Firefox)
++ [Разработчикам](#Разработчикам)
++ [Подготовка к работе](#Подготовка-к-работе)
++ [Сборка](#Сборка)
++ [Упаковка в zip перед публикацией](#Упаковка-в-zip-перед-публикацией)
++ [Подписывание расширения для Firefox](#Подписывание-расширения-для-Firefox)
 
 - - -
 # Внимание
@@ -27,7 +27,7 @@ Opera и Firefox долго пропускают расширение для п�
 - - -
 ### Описание
 
-**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm?hl=ru&gl=RU), Opera и Firefox**
+**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm), Opera и [Firefox](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)**
 
 **Что умеет расширение?**
 
@@ -53,7 +53,7 @@ Opera и Firefox долго пропускают расширение для п�
 - - -
 ### Установка
 
-[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm?hl=ru&gl=RU)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)  ![Ожидание публикации](img/opera.png)
+[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)  ![Ожидание публикации](img/opera.png)
 
 - - -
 ### Установка из репозитория
