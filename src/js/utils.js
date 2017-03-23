@@ -7,7 +7,7 @@ function $$( selector, parent ) {
 }
 
 function createElement( str, parent ) {
-    let elem = ( parent || document ).createElement( 'div' );
+    const elem = ( parent || document ).createElement( 'div' );
     elem.innerHTML = str;
     if ( elem.childNodes.length > 0 ) {
         return elem.childNodes[ 0 ];

@@ -9,6 +9,7 @@ FILES=("icon" "js" "css" "_locales" "resources" "manifest.json" "popup.html")
 
 $(which browserify) -t brfs ${SRC_DIR}/resources/content.js -o ${SRC_DIR}/js/content.js
 $(which browserify) -t brfs ${SRC_DIR}/resources/popup.js -o ${SRC_DIR}/js/popup.js
+$(which browserify) -t brfs ${SRC_DIR}/resources/background.js -o ${SRC_DIR}/js/background.js
 
 [ -d "${TARGET_DIR}" ] && rm -rf ${TARGET_DIR}
 [ -f "${TARGET_DIR}.zip" ] && rm -f ${TARGET_DIR}.zip
@@ -21,5 +22,6 @@ do
     cp -r ${SRC_DIR}/$file_source ${TARGET_DIR}
 done
 
-rm -f ${TARGET_DIR}/resources/content.js
-rm -f ${TARGET_DIR}/resources/popup.js
+[ -f "${TARGET_DIR}/resources/content.js" ] && rm -f ${TARGET_DIR}/resources/content.js
+[ -f "${TARGET_DIR}/resources/popup.js" ] && rm -f ${TARGET_DIR}/resources/popup.js
+[ -f "${TARGET_DIR}/resources/background.js" ] && rm -f ${TARGET_DIR}/resources/background.js

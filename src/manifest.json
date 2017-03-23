@@ -1,57 +1,58 @@
 {
 
-	"manifest_version": 2,
-	"name": "__MSG_extension_name__",
-	"short_name": "__MSG_extension_shortname__",
-	"description": "__MSG_extension_description__",
-	"version": "2.0.2",
-	"author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
-	"homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
-	"default_locale": "ru",
-	"offline_enabled": false,
+  "manifest_version": 2,
+  "name": "__MSG_extension_name__",
+  "short_name": "__MSG_extension_shortname__",
+  "description": "__MSG_extension_description__",
+  "version": "3.0.0",
+  "author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
+  "homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
+  "default_locale": "ru",
+  "offline_enabled": false,
 
-	"icons": {
-		"64": "icon/icon-64-enabled.png"
-	},
+  "icons": {
+    "64": "icon/icon-64-enabled.png"
+  },
 
-	"permissions": [
+  "permissions": [
 		"https://toster.ru/*",
-		"notifications"
+		"notifications",
+    "alarms"
 	],
 
-	"content_scripts": [ {
-		"all_frames": false,
-		"matches": [ "https://toster.ru/*" ],
-		"css": [ "css/content.css" ],
-		"js": [ "js/content.js" ],
-		"run_at": "document_end"
+  "content_scripts": [ {
+    "all_frames": false,
+    "matches": [ "https://toster.ru/*" ],
+    "css": [ "css/content.css" ],
+    "js": [ "js/content.js" ],
+    "run_at": "document_end"
 	} ],
 
-	"background": {
-		"scripts": [ "js/background.js" ],
-		"persistent": true
-	},
+  "background": {
+    "scripts": [ "js/background.js" ],
+    "persistent": true
+  },
 
-	"browser_action": {
-		"default_icon": {
-			"64": "icon/icon-64-enabled.png"
-		},
-		"default_title": "Toster",
-		"default_popup": "popup.html"
-	},
+  "browser_action": {
+    "default_icon": {
+      "64": "icon/icon-64-enabled.png"
+    },
+    "default_title": "Toster",
+    "default_popup": "popup.html"
+  },
 
-	"commands": {
-		"_execute_browser_action": {
-			"suggested_key": {
-				"default": "Alt+T",
-				"mac": "Alt+T"
-			}
-		}
-	},
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Alt+T",
+        "mac": "Alt+T"
+      }
+    }
+  },
 
-	"web_accessible_resources": [
+  "web_accessible_resources": [
 		"resources/twpwyg.js",
-		"resources/toolbar.html"
+    "resources/toolbar.html"
 	]
 
 }

@@ -1,16 +1,20 @@
 {
   "name": "toster-wysiwyg-panel",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Расширение для сайта toster.ru",
   "dependencies": {},
   "devDependencies": {
-    "brfs": "^1.4.3"
+    "brfs": "^1.4.3",
+    "eslint": "^3.17.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --color src",
     "compile": "./compile.sh",
-    "preinstall": "chmod +x *.sh && npm install --global browserify web-ext",
-    "postinstall": "npm run compile && npm run zip",
+    "preinstall": "chmod +x *.sh && npm install --global browserify web-ext eslint",
+    "postinstall": "npm run lint && npm run compile",
     "zip": "./zip.sh",
     "ffsign": "./ffsign.sh"
   },

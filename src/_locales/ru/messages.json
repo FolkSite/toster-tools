@@ -21,6 +21,24 @@
         }
     },
 
+    "tracker_url": {
+        "message": "<a target='_blank' href='$url$'>$text$</a>",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "http://toster.ru"
+            },
+            "text": {
+                "content": "$2",
+                "example": "Перейти на toster.ru"
+            }
+        }
+    },
+
+    "action_go_to_website": {
+        "message": "Перейти на toster.ru"
+    },
+
     "action_save": {
         "message": "Сохранить"
     },
@@ -34,7 +52,11 @@
     },
 
     "options_enable_notifications": {
-        "message": "Включить реалтайм уведомления?"
+        "message": "Включить HTML5 уведомления?"
+    },
+
+    "options_enable_badge_icon": {
+        "message": "Включить уведомления на иконке?"
     },
 
     "options_use_toolbar": {
