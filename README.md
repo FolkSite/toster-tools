@@ -32,7 +32,7 @@ Opera и Firefox долго пропускают расширение для п�
 - - -
 ### Описание
 
-**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm), Opera и [Firefox](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)**
+**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm), [Opera](https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/) и [Firefox](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)**
 
 **Что умеет расширение?**
 
@@ -62,7 +62,7 @@ Opera и Firefox долго пропускают расширение для п�
 - - -
 ### Установка
 
-[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)  ![Ожидание публикации](img/opera.png)
+[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)  [![Opera addons](img/opera.png)](https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/)
 
 [Наверх](#toster-wysiwyg-panel)
 
