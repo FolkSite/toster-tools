@@ -74,6 +74,9 @@ class Extension {
     }
 
     checkUnread() {
+        this.updateIcon( {
+            loading: true
+        } );
         this.getNotifyPage().then( ( _body ) => {
             const body = document.createElement( 'div' );
             body.innerHTML = _body;
@@ -163,13 +166,20 @@ class Extension {
     updateIcon( params ) {
         if ( params && params.count ) {
             Device.browserAction.setBadgeBackgroundColor( {
-                color: 'red'
+                color: '#ff0000'
             } );
             Device.browserAction.setBadgeText( {
                 text: String( params.count )
             } );
             Device.browserAction.setTitle( {
                 title: Device.i18n.getMessage( 'unread_notifications_message', String( params.count ) )
+            } );
+        } else if ( params && params.loading ) {
+            Device.browserAction.setBadgeBackgroundColor( {
+                color: '#5e5656'
+            } );
+            Device.browserAction.setBadgeText( {
+                text: '...'
             } );
         } else {
             Device.browserAction.setBadgeText( {

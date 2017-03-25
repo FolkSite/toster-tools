@@ -1,27 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-function $( selector, parent ) {
-    return ( parent || document ).querySelector( selector );
-}
-
-function $$( selector, parent ) {
-    return ( parent || document ).querySelectorAll( selector );
-}
-
-function createElement( str, parent ) {
-    const elem = ( parent || document ).createElement( 'div' );
-    elem.innerHTML = str;
-    if ( elem.childNodes.length > 0 ) {
-        return elem.childNodes[ 0 ];
-    }
-    return elem;
-}
-
-
-module.exports.$ = $;
-module.exports.$$ = $$;
-module.exports.createElement = createElement;
-
-},{}],2:[function(require,module,exports){
 /* global Device, Ext, browser, chrome */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
@@ -52,7 +29,8 @@ class Extension {
             show_toolbar: true,
             use_kbd: true,
             use_notifications: false,
-            use_badge_icon: false
+            use_badge_icon: false,
+            hide_top_panel: true
         };
     }
 
@@ -122,11 +100,39 @@ class Extension {
         }
     }
 
+    updateAnswerList( jsonData ) {
+
+    }
+
+    updateCommentList( jsonData ) {
+
+    }
+
+    hideTopPanel() {
+        const topPanel = $( 'div.tmservices-panel[role="tm_panel"]' );
+        if ( this.Options.hide_top_panel ) {
+            topPanel.classList.add( 'hidden' );
+        } else {
+            topPanel.classList.remove( 'hidden' );
+        }
+    }
+
     callbackMessage( request, sender, callback ) {
         if ( request && request.cmd ) {
-            this.Options = Object.assign( {}, this.Options, request.data || {} );
-            this.showToolbar();
-            this.addKeyDownListener();
+            switch ( request.cmd ) {
+            case 'updateAnswerList':
+                // this.updateAnswerList(request.data);
+                break
+            case 'updateCommentList':
+                // this.updateCommentList(request.data);
+                break
+            case 'options':
+            default:
+                this.Options = Object.assign( {}, this.Options, request.data || {} );
+                this.showToolbar();
+                this.addKeyDownListener();
+                break
+            }
         }
     }
 
@@ -143,4 +149,27 @@ window.Ext.sendMessageToBackgroundScript( {
     cmd: 'options'
 } );
 
-},{"../js/utils":1}]},{},[2]);
+},{"../js/utils":2}],2:[function(require,module,exports){
+function $( selector, parent ) {
+    return ( parent || document ).querySelector( selector );
+}
+
+function $$( selector, parent ) {
+    return ( parent || document ).querySelectorAll( selector );
+}
+
+function createElement( str, parent ) {
+    const elem = ( parent || document ).createElement( 'div' );
+    elem.innerHTML = str;
+    if ( elem.childNodes.length > 0 ) {
+        return elem.childNodes[ 0 ];
+    }
+    return elem;
+}
+
+
+module.exports.$ = $;
+module.exports.$$ = $$;
+module.exports.createElement = createElement;
+
+},{}]},{},[1]);

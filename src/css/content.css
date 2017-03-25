@@ -1,7 +1,9 @@
-div.twpwyg_toolbar {
+div.twpwyg_toolbar,
+div.tmservices-panel {
     display: block;
 }
 
-div.twpwyg_toolbar.hidden {
+div.twpwyg_toolbar.hidden,
+div.tmservices-panel.hidden {
     display: none;
 }

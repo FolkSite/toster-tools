@@ -10,4 +10,6 @@ if [ ! -d ${SRC_DIR} ]; then
     $(which npm) run compile
 fi
 
-(cd ${SRC_DIR} && $(which zip) -r "../source" .)
+[ -f "${SRC_DIR}.zip" ] && rm -f ${SRC_DIR}.zip
+
+(cd "${SRC_DIR}" && $(which zip) -r "../source" .)

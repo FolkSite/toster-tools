@@ -28,7 +28,8 @@ class Extension {
             show_toolbar: true,
             use_kbd: true,
             use_notifications: false,
-            use_badge_icon: false
+            use_badge_icon: false,
+            hide_top_panel: true
         };
     }
 
@@ -98,11 +99,39 @@ class Extension {
         }
     }
 
+    updateAnswerList( jsonData ) {
+
+    }
+
+    updateCommentList( jsonData ) {
+
+    }
+
+    hideTopPanel() {
+        const topPanel = $( 'div.tmservices-panel[role="tm_panel"]' );
+        if ( this.Options.hide_top_panel ) {
+            topPanel.classList.add( 'hidden' );
+        } else {
+            topPanel.classList.remove( 'hidden' );
+        }
+    }
+
     callbackMessage( request, sender, callback ) {
         if ( request && request.cmd ) {
-            this.Options = Object.assign( {}, this.Options, request.data || {} );
-            this.showToolbar();
-            this.addKeyDownListener();
+            switch ( request.cmd ) {
+            case 'updateAnswerList':
+                // this.updateAnswerList(request.data);
+                break
+            case 'updateCommentList':
+                // this.updateCommentList(request.data);
+                break
+            case 'options':
+            default:
+                this.Options = Object.assign( {}, this.Options, request.data || {} );
+                this.showToolbar();
+                this.addKeyDownListener();
+                break
+            }
         }
     }
 
