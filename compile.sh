@@ -23,13 +23,18 @@ function build_browserify() {
     done
 }
 
+function build_copy() {
+    [ -d "${TARGET_DIR}" ] && rm -rf "${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
+    for ((j=0; j < ${#FILES[@]}; j++))
+    do
+        file_source="${FILES[$j]}"
+        cp -r "${SRC_DIR}/${file_source}" "${TARGET_DIR}"
+    done
+}
+
+
+
 build_babel;
 build_browserify;
-
-[ -d "${TARGET_DIR}" ] && rm -rf "${TARGET_DIR}" && mkdir -p "${TARGET_DIR}"
-
-for ((j=0; j < ${#FILES[@]}; j++))
-do
-    file_source="${FILES[$j]}"
-    cp -r ${SRC_DIR}/$file_source ${TARGET_DIR}
-done
+build_copy;
