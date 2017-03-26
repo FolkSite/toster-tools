@@ -7,32 +7,37 @@
 </head>
 <body>
     <header>
-        <label data-msg="extension_name"></label>
-        <label data-msg="tracker_url"></label>
+        <label for="" data-msg="extension_name"></label>
     </header>
+
+    <div>
+        <label for="" data-msg="feed_url"></label>
+        <label for="" data-msg="new_question_url"></label>
+    </div>
+    
     <main>
         <div class="container">
             <form id="ajaxform">
                 <div>
-                    <label data-msg="options_enable_ajax_checking"></label>
+                    <label for="AJAXCheckbox" data-msg="options_enable_ajax_checking"></label>
                     <div class="element">
                         <input id="AJAXCheckbox" class="form-control" type="checkbox"/>
                     </div>
                 </div>
                 <div>
-                    <label data-msg="options_enable_notifications"></label>
+                    <label for="NotifyCheckbox" data-msg="options_enable_notifications"></label>
                     <div class="element">
                         <input id="NotifyCheckbox" class="form-control" type="checkbox"/>
                     </div>
                 </div>
                 <div>
-                    <label data-msg="options_enable_badge_icon"></label>
+                    <label for="BadgeCheckbox" data-msg="options_enable_badge_icon"></label>
                     <div class="element">
                         <input id="BadgeCheckbox" class="form-control" type="checkbox"/>
                     </div>
                 </div>
                 <div>
-                    <label data-msg="options_interval_ajax_checking"></label>
+                    <label for="IntervalInput" data-msg="options_interval_ajax_checking"></label>
                     <div class="element">
                         <input id="IntervalInput" class="form-control" type="number" min="0" max="3600" value="" step="1"/>
                     </div>
@@ -40,7 +45,7 @@
             </form>
             <form id="toolbarform">
                 <div>
-                    <label data-msg="options_use_toolbar"></label>
+                    <label for="ToolBarCheckbox" data-msg="options_use_toolbar"></label>
                     <div class="element">
                         <input id="ToolBarCheckbox" class="form-control" type="checkbox"/>
                     </div>
@@ -48,9 +53,23 @@
             </form>
             <form id="submitform">
                 <div>
-                    <label data-msg="options_use_keyboard_action"></label>
+                    <label for="KBDCheckbox" data-msg="options_use_keyboard_action"></label>
                     <div class="element">
                         <input id="KBDCheckbox" class="form-control" type="checkbox"/>
+                    </div>
+                </div>
+            </form>
+            <form id="uiform">
+                <div>
+                    <label for="HidePanelCheckbox" data-msg="options_hide_top_panel"></label>
+                    <div class="element">
+                        <input id="HidePanelCheckbox" class="form-control" type="checkbox"/>
+                    </div>
+                </div>
+                <div>
+                    <label for="HideRightSidebarCheckbox" data-msg="options_hide_right_sidebar"></label>
+                    <div class="element">
+                        <input id="HideRightSidebarCheckbox" class="form-control" type="checkbox"/>
                     </div>
                 </div>
             </form>

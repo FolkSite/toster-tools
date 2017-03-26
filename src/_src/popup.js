@@ -1,25 +1,17 @@
 /* global Device, Extension, browser, chrome */
-const utils = require( '../js/utils' );
+import * as utils from './utils';
 
-const {
-    $,
-    $$
-} = utils;
+const Device = utils.Device;
 
-const Device = ( () => {
-    if ( typeof browser === 'undefined' ) {
-        return chrome;
-    }
-    return browser;
-} )();
-
-const AJAXCheckbox = $( '#AJAXCheckbox' );
-const BadgeCheckbox = $( '#BadgeCheckbox' );
-const NotifyCheckbox = $( '#NotifyCheckbox' );
-const IntervalInput = $( '#IntervalInput' );
-const ToolBarCheckbox = $( '#ToolBarCheckbox' );
-const KBDCheckbox = $( '#KBDCheckbox' );
-const SaveButton = $( '#save_options' );
+const AJAXCheckbox = utils.$( '#AJAXCheckbox' );
+const BadgeCheckbox = utils.$( '#BadgeCheckbox' );
+const NotifyCheckbox = utils.$( '#NotifyCheckbox' );
+const IntervalInput = utils.$( '#IntervalInput' );
+const ToolBarCheckbox = utils.$( '#ToolBarCheckbox' );
+const KBDCheckbox = utils.$( '#KBDCheckbox' );
+const HidePanelCheckbox = utils.$( '#HidePanelCheckbox' );
+const HideRightSidebarCheckbox = utils.$( '#HideRightSidebarCheckbox' );
+const SaveButton = utils.$( '#save_options' );
 
 const save_options = () => {
     const opt = {};
@@ -29,6 +21,8 @@ const save_options = () => {
     opt.interval = parseInt( IntervalInput.value, 10 );
     opt.show_toolbar = !!ToolBarCheckbox.checked;
     opt.use_kbd = !!KBDCheckbox.checked;
+    opt.hide_top_panel = !!HidePanelCheckbox.checked;
+    opt.hide_right_sidebar = !!HideRightSidebarCheckbox.checked;
     window.Extension.Options = Object.assign( {}, window.Extension.Options, opt );
     window.Extension.saveOptions();
 };
@@ -42,12 +36,14 @@ const restore_options = () => {
     IntervalInput.value = String( opt.interval );
     ToolBarCheckbox.checked = !!opt.show_toolbar;
     KBDCheckbox.checked = !!opt.use_kbd;
+    HidePanelCheckbox.checked = !!opt.hide_top_panel;
+    HideRightSidebarCheckbox.checked = !!opt.hide_right_sidebar;
 };
 
 document.addEventListener( 'DOMContentLoaded', () => {
     SaveButton.addEventListener( 'click', save_options );
 
-    const items = $$( 'label[data-msg]' );
+    const items = utils.$$( 'label[data-msg]' );
 
     for ( let i = 0; i < items.length; i++ ) {
         const item = items[ i ];
@@ -61,7 +57,10 @@ document.addEventListener( 'DOMContentLoaded', () => {
         window.Extension = backgroundPageInstance.Ext;
         restore_options();
 
-        const tracker_label = $( 'label[data-msg="tracker_url"]' );
-        tracker_label.innerHTML = Device.i18n.getMessage( 'tracker_url', [ window.Extension.Options.tracker_url, Device.i18n.getMessage( 'action_go_to_website' ) ] );
+        const feed_label = utils.$( 'label[data-msg="feed_url"]' );
+        feed_label.innerHTML = Device.i18n.getMessage( 'feed_url', [ window.Extension.Options.feed_url, Device.i18n.getMessage( 'action_go_to_website' ) ] );
+
+        const new_question_label = utils.$( 'label[data-msg="new_question_url"]' );
+        new_question_label.innerHTML = Device.i18n.getMessage( 'new_question_url', [ window.Extension.Options.new_question_url, Device.i18n.getMessage( 'action_new_question' ) ] );
     } );
 } );

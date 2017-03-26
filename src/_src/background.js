@@ -1,20 +1,36 @@
 /* global Device, Ext, browser, chrome */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
-const utils = require( '../js/utils' );
+import * as utils from './utils';
 
-const {
-    $,
-    $$,
-    createElement
-} = utils;
+const Device = utils.Device;
 
-const Device = ( () => {
-    if ( typeof browser === 'undefined' ) {
-        return chrome;
+const setUninstallUrl = () => {
+    let uninstallurl = '';
+    if ( utils.isChrome && !utils.isOpera ) {
+        uninstallurl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
+    } else if ( utils.isOpera ) {
+        uninstallurl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
+    } else if ( utils.isFirefox ) {
+        uninstallurl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
     }
-    return browser;
-} )();
+    Device.runtime.setUninstallURL( uninstallurl );
+};
+
+const installHandler = ( details ) => {
+    const currentVersion = Device.runtime.getManifest().version;
+    window.Ext.updateIcon();
+    window.Ext.synchronize();
+    switch ( details.reason ) {
+    case 'update':
+        // console.log( `Updated from ${details.previousVersion} to ${currentVersion}!` );
+        break;
+    case 'install':
+    default:
+        // console.log( 'Extension installed!' );
+        break;
+    }
+};
 
 const callbackMessage = ( request, sender, callback ) => {
     window.Ext.callbackMessage( request, sender, callback );
@@ -22,23 +38,27 @@ const callbackMessage = ( request, sender, callback ) => {
 
 class Extension {
     constructor( ...args ) {
-        this.Options = {
+        this.defaults = {
             ajax: true,
             interval: 10,
             show_toolbar: true,
             use_kbd: true,
             use_notifications: false,
-            use_badge_icon: false,
-            feed_url: "https://toster.ru/my/feed", // eslint-disable-line
-            tracker_url: "https://toster.ru/my/tracker" // eslint-disable-line
+            use_badge_icon: true,
+            hide_top_panel: true,
+            hide_right_sidebar: true,
+            feed_url: 'https://toster.ru/my/feed',
+            tracker_url: 'https://toster.ru/my/tracker',
+            new_question_url: 'https://toster.ru/question/new'
         };
+        this.Options = this.defaults;
     }
 
     loadOptions() {
         const options = localStorage.getItem( 'options' );
 
         if ( options ) {
-            this.Options = Object.assign( {}, this.Options, JSON.parse( options ) );
+            this.Options = Object.assign( {}, this.defaults, JSON.parse( options ) );
         } else {
             this.saveOptions();
         }
@@ -52,6 +72,9 @@ class Extension {
     }
 
     getNotifyPage() {
+        this.updateIcon( {
+            loading: true
+        } );
         return fetch( this.Options.tracker_url, {
                 credentials: 'include'
             } )
@@ -74,23 +97,14 @@ class Extension {
     }
 
     checkUnread() {
-        this.updateIcon( {
-            loading: true
-        } );
         this.getNotifyPage().then( ( _body ) => {
             const body = document.createElement( 'div' );
             body.innerHTML = _body;
-            const $aside = $( 'aside.layout__navbar[role="navbar"]', body );
-            const $event_list = body.querySelector( 'ul.events-list' );
-            const $old_event_list = $aside.querySelector( 'ul.events-list' );
+            const $event_list = utils.$( 'ul.events-list', body );
             let count = 0;
 
-            try {
-                $aside.removeChild( $old_event_list );
-            } catch ( e ) {}
-
             if ( $event_list ) {
-                const events_items = $$( 'li', $event_list );
+                const events_items = utils.$$( 'li', $event_list );
 
                 if ( events_items.length > 3 ) {
                     const text = $event_list.lastElementChild.textContent.replace( /[^\d]/g, '' );
@@ -115,7 +129,10 @@ class Extension {
                 } );
             }
 
-            $aside.appendChild( $event_list );
+            this.sendMessageToContentScript( {
+                cmd: 'updateSidebar',
+                data: $event_list.outerHTML || ''
+            } );
         } );
     }
 
@@ -212,6 +229,8 @@ class Extension {
     }
 }
 
+setUninstallUrl();
+
 window.Ext = new Extension();
 
 Device.runtime.onMessage.addListener( callbackMessage );
@@ -249,6 +268,4 @@ Device.alarms.onAlarm.addListener( ( alarm ) => {
     }
 } );
 
-
-window.Ext.updateIcon();
-window.Ext.synchronize();
+Device.runtime.onInstalled.addListener( installHandler );

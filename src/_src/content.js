@@ -1,20 +1,9 @@
 /* global Device, Ext, browser, chrome */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
-const utils = require( '../js/utils' );
+import * as utils from './utils';
 
-const {
-    $,
-    $$,
-    createElement
-} = utils;
-
-const Device = ( () => {
-    if ( typeof browser === 'undefined' ) {
-        return chrome;
-    }
-    return browser;
-} )();
+const Device = utils.Device;
 
 const callbackMessage = ( request, sender, callback ) => {
     window.Ext.callbackMessage( request, sender, callback );
@@ -23,22 +12,19 @@ const callbackMessage = ( request, sender, callback ) => {
 class Extension {
     constructor( ...args ) {
         this.Options = {
-            ajax: false,
-            interval: 10,
             show_toolbar: true,
             use_kbd: true,
-            use_notifications: false,
-            use_badge_icon: false,
-            hide_top_panel: true
+            hide_top_panel: true,
+            hide_right_sidebar: true
         };
     }
 
     addKeyDownListener() {
-        const textareas = $$( 'textarea.textarea' );
+        const textareas = utils.$$( 'textarea.textarea' );
         for ( let i = 0; i < textareas.length; i++ ) {
             const textarea = textareas[ i ];
             const form = textarea.form;
-            const button = $( 'button[type="submit"]', form );
+            const button = utils.$( 'button[type="submit"]', form );
             textarea.addEventListener( 'keydown', ( event ) => {
                 if ( !event ) {
                     const event = window.event;
@@ -52,8 +38,8 @@ class Extension {
         }
     }
 
-    showToolbar() {
-        const toolbars = $$( 'div.twpwyg_toolbar' );
+    switchToolbar() {
+        const toolbars = utils.$$( 'div.twpwyg_toolbar' );
 
         if ( toolbars && toolbars.length ) {
             if ( this.Options.show_toolbar ) {
@@ -70,13 +56,13 @@ class Extension {
                 return;
             }
 
-            const commentForms = $$( 'form.form_comments[role$="comment_form"]' );
+            const commentForms = utils.$$( 'form.form_comments[role$="comment_form"]' );
 
             if ( commentForms ) {
                 const script = document.createElement( 'script' );
+                script.async = true;
                 script.src = Device.extension.getURL( 'resources/twpwyg.js' );
-
-                $( 'head' ).appendChild( script );
+                utils.$( 'head' ).appendChild( script );
 
                 const toolbar_url = Device.extension.getURL( 'resources/toolbar.html' );
 
@@ -87,10 +73,10 @@ class Extension {
                     .then( ( body ) => {
                         for ( let i = 0; i < commentForms.length; i++ ) {
                             const form = commentForms[ i ];
-                            const field_wrap = form.querySelector( 'div.field_wrap' );
+                            const field_wrap = utils.$( 'div.field_wrap', form );
 
                             const div = document.createElement( 'div' );
-                            div.appendChild( createElement( body ) );
+                            div.appendChild( utils.createElement( body ) );
                             field_wrap.insertBefore( div, field_wrap.firstChild );
                         }
                     } )
@@ -99,20 +85,42 @@ class Extension {
         }
     }
 
-    updateAnswerList( jsonData ) {
+    updateAnswerList( html ) {
 
     }
 
-    updateCommentList( jsonData ) {
+    updateCommentList( html ) {
 
     }
 
-    hideTopPanel() {
-        const topPanel = $( 'div.tmservices-panel[role="tm_panel"]' );
+    updateSidebar( html ) {
+        const $aside = utils.$( 'aside.layout__navbar[role="navbar"]' );
+        const $event_list = utils.$( 'ul.events-list', $aside );
+
+        try {
+            $aside.removeChild( $event_list );
+        } catch ( e ) {}
+
+        if ( html ) {
+            $aside.insertAdjacentHTML( 'beforeend', html );
+        }
+    }
+
+    switchTopPanel() {
+        const topPanel = utils.$( 'div.tmservices-panel[role="tm_panel"]' );
         if ( this.Options.hide_top_panel ) {
             topPanel.classList.add( 'hidden' );
         } else {
             topPanel.classList.remove( 'hidden' );
+        }
+    }
+
+    switchRightSidebar() {
+        const mainPage = utils.$( 'main.page' );
+        if ( this.Options.hide_right_sidebar ) {
+            mainPage.style.marginRight = '0px';
+        } else {
+            mainPage.style.marginRight = '300px';
         }
     }
 
@@ -121,16 +129,21 @@ class Extension {
             switch ( request.cmd ) {
             case 'updateAnswerList':
                 // this.updateAnswerList(request.data);
-                break
+                break;
             case 'updateCommentList':
                 // this.updateCommentList(request.data);
-                break
+                break;
+            case 'updateSidebar':
+                this.updateSidebar( request.data );
+                break;
             case 'options':
             default:
                 this.Options = Object.assign( {}, this.Options, request.data || {} );
-                this.showToolbar();
+                this.switchTopPanel();
+                this.switchRightSidebar();
+                this.switchToolbar();
                 this.addKeyDownListener();
-                break
+                break;
             }
         }
     }

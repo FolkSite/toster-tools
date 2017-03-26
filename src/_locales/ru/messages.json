@@ -21,7 +21,7 @@
         }
     },
 
-    "tracker_url": {
+    "feed_url": {
         "message": "<a target='_blank' href='$url$'>$text$</a>",
         "placeholders": {
             "url": {
@@ -35,8 +35,26 @@
         }
     },
 
+    "new_question_url": {
+        "message": "<a target='_blank' href='$url$'>$text$</a>",
+        "placeholders": {
+            "url": {
+                "content": "$1",
+                "example": "http://toster.ru"
+            },
+            "text": {
+                "content": "$2",
+                "example": "Задать вопрос"
+            }
+        }
+    },
+
     "action_go_to_website": {
         "message": "Перейти на toster.ru"
+    },
+
+    "action_new_question": {
+        "message": "Задать вопрос"
     },
 
     "action_save": {
@@ -65,6 +83,14 @@
 
     "options_use_keyboard_action": {
         "message": "Использовать Ctrl+Enter для отправки?"
+    },
+
+    "options_hide_top_panel": {
+        "message": "Скрыть верхнюю ТМ панель?"
+    },
+
+    "options_hide_right_sidebar": {
+        "message": "Скрыть правый сайдбар?"
     },
 
     "options_interval_ajax_checking": {
