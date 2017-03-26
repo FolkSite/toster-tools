@@ -23,3 +23,12 @@ export const Device = ( () => {
     }
     return browser;
 } )();
+
+export const _l = ( msg, placeholders ) => {
+    if ( Array.isArray( placeholders ) ) {
+        return Device.i18n.getMessage( msg, placeholders );
+    }
+    return Device.i18n.getMessage( msg );
+};
+
+export const openWin = url => window.open( url, 'wName' );

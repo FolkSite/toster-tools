@@ -11,3 +11,8 @@ div.tmservices-panel.hidden {
 div.dropdown__menu {
     left: -150px !important;
 }
+
+i[class^="fi-"] {
+    color: #a2a39d;
+    font-size: 24px;
+}

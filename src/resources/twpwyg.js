@@ -134,8 +134,8 @@ window.TWPWYG.insertList = function ( link, tagName ) {
 };
 
 window.TWPWYG.insertSpoiler = function ( link ) {
-    const startTag = '<spoiler title="">';
-    const endTag = '</spoiler>';
+    const startTag = '<spoiler title="Заголовок спойлера">\n';
+    const endTag = '\n</spoiler>';
     window.TWPWYG.insertTag( link, startTag, endTag );
 
     return false;

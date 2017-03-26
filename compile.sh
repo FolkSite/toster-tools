@@ -8,7 +8,7 @@ SRC_DIR="src"
 BABEL_SRC_DIR="${SRC_DIR}/_src"
 BABEL_OUT_DIR="${BABEL_SRC_DIR}/babel"
 
-FILES=("icon" "js" "css" "_locales" "resources" "manifest.json" "popup.html")
+FILES=("icon" "js" "css" "fonts" "_locales" "resources" "manifest.json" "popup.html")
 
 function build_babel() {
     [ -d "${BABEL_OUT_DIR}" ] && rm -rf "${BABEL_OUT_DIR}" && mkdir -p "${BABEL_OUT_DIR}"

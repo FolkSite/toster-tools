@@ -32,3 +32,14 @@ var Device = exports.Device = function () {
     }
     return browser;
 }();
+
+var _l = exports._l = function _l(msg, placeholders) {
+    if (Array.isArray(placeholders)) {
+        return Device.i18n.getMessage(msg, placeholders);
+    }
+    return Device.i18n.getMessage(msg);
+};
+
+var openWin = exports.openWin = function openWin(url) {
+    return window.open(url, 'wName');
+};

@@ -1,72 +1,83 @@
 <div class="wysiwyg twpwyg_toolbar" data-hs_host="https://habrastorage.org" role="wysiwyg_editor">
     <ul class="icons-bar icons-bar_horizontal">
+
         <li class="icons-bar__item">
             <a class="icons-bar__item_control" role="wysiwyg_bold" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'b');" tabindex="-1" title="Жирный">
-                <svg class="icon_svg icon_editor_bold" viewBox="0 0 32 32">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_bold"></use>
-                </svg>
+                <i class="fi-bold"></i>
             </a>
         </li>
+
         <li class="icons-bar__item">
             <a class="icons-bar__item_control" role="wysiwyg_italic" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'i');" tabindex="-1" title="Курсив">
-                <svg class="icon_svg icon_editor_italic" viewBox="0 0 32 32">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_italic"></use>
-                </svg>
+                <i class="fi-italic"></i>
             </a>
         </li>
+
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_strikethrough" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 's');" tabindex="-1" title="Зачеркнутый">
+                <i class="fi-strikethrough"></i>
+            </a>
+        </li>
+
         <li class="icons-bar__item dropdown" role="dropdown">
             <span class="icons-bar__item_control" data-toggle="dropdown" tabindex="-1" title="Вставить список" role="dropdown_trigger">
-                <svg class="icon_svg icon_editor_list">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_list"></use>
-                </svg>
+                <i class="fi-list"></i>
             </span>
             <div class="dropdown__menu">
                 <ul class="menu menu_dropdown">
                     <li class="menu__item">
-                        <a class="icon_link-internet menu__item-link" role="wysiwyg_list_num" href="javascript:void(0)" onclick="return window.TWPWYG.insertList(this, 'ol');">Нумерованный список</a>
+                        <a class="icon_link-internet menu__item-link" role="wysiwyg_list_num" href="javascript:void(0)" onclick="return window.TWPWYG.insertList(this, 'ol');"><i class="fi-list-number"></i> Нумерованный список</a>
                     </li>
                     <li class="menu__item">
-                        <a class="icon_comp menu__item-link" role="wysiwyg_list" href="javascript:void(0)" onclick="return window.TWPWYG.insertList(this, 'ul');">Ненумерованный список</a>
+                        <a class="icon_comp menu__item-link" role="wysiwyg_list" href="javascript:void(0)" onclick="return window.TWPWYG.insertList(this, 'ul');"><i class="fi-list-bullet"></i> Ненумерованный список</a>
                     </li>
                 </ul>
             </div>
         </li>
+
         <li class="icons-bar__item dropdown" role="dropdown">
             <span class="icons-bar__item_control" data-toggle="dropdown" tabindex="-1" title="Вставить изображение" role="dropdown_trigger">
-                <svg class="icon_svg icon_editor_picture" viewBox="0 0 32 32">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_picture"></use>
-                </svg>
+                <i class="fi-photo"></i>
             </span>
             <div class="dropdown__menu">
                 <ul class="menu menu_dropdown">
                     <li class="menu__item">
-                        <a class="icon_link-internet menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertImage(this);">Из интернета</a>
+                        <a class="icon_link-internet menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.insertImage(this);"><i class="fi-link"></i> Из интернета</a>
                     </li>
                     <li class="menu__item">
-                        <a class="icon_comp menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.uploadImage(this);">С компьютера</a>
+                        <a class="icon_comp menu__item-link" href="javascript:void(0)" onclick="return window.TWPWYG.uploadImage(this);"><i class="fi-camera"></i> С компьютера</a>
                     </li>
                 </ul>
             </div>
         </li>
+
         <li class="icons-bar__item">
             <a class="icons-bar__item_control" role="wysiwyg_link" href="javascript:void(0)" onclick="return window.TWPWYG.insertLink(this);" tabindex="-1" title="Вставить ссылку">
-                <svg class="icon_svg icon_editor_link" viewBox="0 0 32 32">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_link"></use>
-                </svg>
+                <i class="fi-link"></i>
             </a>
         </li>
+
         <li class="icons-bar__item">
             <a class="icons-bar__item_control" role="wysiwyg_quote" href="javascript:void(0)" onclick="return window.TWPWYG.insertTagWithText(this, 'blockquote');" tabindex="-1" title="Вставить цитату">
-                <svg class="icon_svg icon_editor_quote" viewBox="0 0 32 32">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_editor_quote"></use>
-                </svg>
+                <i class="fi-quote"></i>
             </a>
         </li>
+
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_spoiler" href="javascript:void(0)" onclick="return window.TWPWYG.insertSpoiler(this);" tabindex="-1" title="Вставить спойлер">
+                <i class="fi-eye"></i>
+            </a>
+        </li>
+
+        <li class="icons-bar__item">
+            <a class="icons-bar__item_control" role="wysiwyg_abbr" href="javascript:void(0)" onclick="return window.TWPWYG.insertAbbr(this);" tabindex="-1" title="Вставить аббревиатуру">
+                <i class="fi-price-tag"></i>
+            </a>
+        </li>
+
         <li class="icons-bar__item dropdown" role="dropdown">
             <span class="icons-bar__item_control" data-toggle="dropdown" tabindex="-1" title="Вставить исходный код" role="dropdown_trigger">
-                <svg class="icon_svg icon_dots" viewBox="0 0 131 32">
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://toster.ru/images/sprite_0.1.svg#icon_dots"></use>
-                </svg>
+                <i class="fi-page-edit"></i>
             </span>
             <div class="dropdown__menu">
                 <ul class="menu menu_dropdown menu_scroll">

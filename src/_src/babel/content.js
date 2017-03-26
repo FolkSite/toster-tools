@@ -92,6 +92,11 @@ var Extension = function () {
                     script.src = Device.extension.getURL('resources/twpwyg.js');
                     utils.$('head').appendChild(script);
 
+                    var icons_font = document.createElement('link');
+                    icons_font.rel = 'stylesheet';
+                    icons_font.href = Device.extension.getURL('css/foundation-icons.css');
+                    utils.$('head').appendChild(icons_font);
+
                     var toolbar_url = Device.extension.getURL('resources/toolbar.html');
 
                     fetch(toolbar_url, {

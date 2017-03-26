@@ -322,6 +322,11 @@ var Extension = function () {
                     script.src = Device.extension.getURL('resources/twpwyg.js');
                     utils.$('head').appendChild(script);
 
+                    var icons_font = document.createElement('link');
+                    icons_font.rel = 'stylesheet';
+                    icons_font.href = Device.extension.getURL('css/foundation-icons.css');
+                    utils.$('head').appendChild(icons_font);
+
                     var toolbar_url = Device.extension.getURL('resources/toolbar.html');
 
                     fetch(toolbar_url, {
@@ -457,4 +462,15 @@ var Device = exports.Device = function () {
     }
     return browser;
 }();
+
+var _l = exports._l = function _l(msg, placeholders) {
+    if (Array.isArray(placeholders)) {
+        return Device.i18n.getMessage(msg, placeholders);
+    }
+    return Device.i18n.getMessage(msg);
+};
+
+var openWin = exports.openWin = function openWin(url) {
+    return window.open(url, 'wName');
+};
 },{}]},{},[21]);

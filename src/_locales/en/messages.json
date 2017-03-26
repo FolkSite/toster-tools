@@ -22,29 +22,29 @@
     },
 
     "feed_url": {
-        "message": "<a target='_blank' href='$url$'>$text$</a>",
+        "message": "<b><a target='_blank' href='$url$'>$icon$</a></b>",
         "placeholders": {
             "url": {
                 "content": "$1",
                 "example": "http://toster.ru"
             },
-            "text": {
+            "icon": {
                 "content": "$2",
-                "example": "Go to toster.ru"
+                "example": "<span class='glyphicon glyphicon-home'></span>"
             }
         }
     },
 
     "new_question_url": {
-        "message": "<a target='_blank' href='$url$'>$text$</a>",
+        "message": "<b><a target='_blank' href='$url$'>$icon$</a></b>",
         "placeholders": {
             "url": {
                 "content": "$1",
                 "example": "http://toster.ru"
             },
-            "text": {
+            "icon": {
                 "content": "$2",
-                "example": "Add question"
+                "example": "<span class='glyphicon glyphicon-plus'></span>"
             }
         }
     },

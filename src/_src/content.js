@@ -64,6 +64,11 @@ class Extension {
                 script.src = Device.extension.getURL( 'resources/twpwyg.js' );
                 utils.$( 'head' ).appendChild( script );
 
+                const icons_font = document.createElement( 'link' );
+                icons_font.rel = 'stylesheet';
+                icons_font.href = Device.extension.getURL( 'css/foundation-icons.css' );
+                utils.$( 'head' ).appendChild( icons_font );
+
                 const toolbar_url = Device.extension.getURL( 'resources/toolbar.html' );
 
                 fetch( toolbar_url, {
