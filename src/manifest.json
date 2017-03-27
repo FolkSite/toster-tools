@@ -4,14 +4,18 @@
   "name": "__MSG_extension_name__",
   "short_name": "__MSG_extension_shortname__",
   "description": "__MSG_extension_description__",
-  "version": "3.8.3",
+  "version": "3.11.6",
   "author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
   "homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
   "default_locale": "ru",
   "offline_enabled": false,
 
   "icons": {
-    "64": "icon/icon-64-enabled.png"
+    "16": "icon/icon-16x16.png",
+    "32": "icon/icon-32x32.png",
+    "48": "icon/icon-48x48.png",
+    "64": "icon/icon-64x64.png",
+    "128": "icon/icon-128x128.png"
   },
 
   "permissions": [
@@ -35,9 +39,9 @@
 
   "browser_action": {
     "default_icon": {
-      "64": "icon/icon-64-enabled.png"
+      "64": "icon/icon-64x64.png"
     },
-    "default_title": "Toster",
+    "default_title": "__MSG_extension_name__",
     "default_popup": "popup.html"
   },
 
@@ -53,7 +57,7 @@
   "web_accessible_resources": [
 		"resources/twpwyg.js",
     "resources/toolbar.html",
-    "css/foundation-icons.css",
+    "css/foundation-icons.min.css",
     "fonts/foundation-icons.eot",
     "fonts/foundation-icons.svg",
     "fonts/foundation-icons.ttf",

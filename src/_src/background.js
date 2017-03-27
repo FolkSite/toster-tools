@@ -5,14 +5,18 @@ import * as utils from './utils';
 
 const Device = utils.Device;
 
+const chromeUninstallUrl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
+const operaUninstallUrl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
+const ffUninstallUrl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
+
 const setUninstallUrl = () => {
     let uninstallurl = '';
     if ( utils.isChrome && !utils.isOpera ) {
-        uninstallurl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
+        uninstallurl = chromeUninstallUrl;
     } else if ( utils.isOpera ) {
-        uninstallurl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
+        uninstallurl = operaUninstallUrl;
     } else if ( utils.isFirefox ) {
-        uninstallurl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
+        uninstallurl = ffUninstallUrl;
     }
     Device.runtime.setUninstallURL( uninstallurl );
 };
@@ -79,10 +83,7 @@ class Extension {
                 credentials: 'include'
             } )
             .then( ( response ) => {
-                if ( response.ok ) {
-                    return response.text();
-                }
-                return false;
+                return response.text();
             } )
             .catch( console.error );
     }
@@ -173,9 +174,9 @@ class Extension {
         if ( params && params.count ) {
             Device.notifications.create( 'toster.ru', {
                 type: 'basic',
-                title: Device.i18n.getMessage( 'unread_notifications_title' ),
-                iconUrl: 'icon/notify-icon.png',
-                message: Device.i18n.getMessage( 'unread_notifications_message', String( params.count ) )
+                title: utils._l( 'unread_notifications_title' ),
+                iconUrl: 'icon/icon-48x48.png',
+                message: utils._l( 'unread_notifications_message', String( params.count ) )
             }, id => id );
         }
     }
@@ -189,7 +190,7 @@ class Extension {
                 text: String( params.count )
             } );
             Device.browserAction.setTitle( {
-                title: Device.i18n.getMessage( 'unread_notifications_message', String( params.count ) )
+                title: utils._l( 'unread_notifications_message', [ String( params.count ) ] )
             } );
         } else if ( params && params.loading ) {
             Device.browserAction.setBadgeBackgroundColor( {
@@ -203,7 +204,7 @@ class Extension {
                 text: ''
             } );
             Device.browserAction.setTitle( {
-                title: 'Toster'
+                title: utils._l( 'extension_name' )
             } );
         }
     }
@@ -211,17 +212,6 @@ class Extension {
     synchronize() {
         this.loadOptions();
         this.reStartTimer();
-
-        if ( this.Options.ajax ) {
-            Device.browserAction.setIcon( {
-                path: 'icon/icon-64-enabled.png'
-            } );
-        } else {
-            Device.browserAction.setIcon( {
-                path: 'icon/icon-64-disabled.png'
-            } );
-        }
-
         this.sendMessageToContentScript( {
             cmd: 'options',
             data: this.Options
@@ -258,7 +248,7 @@ Device.notifications.onClicked.addListener( ( notifId ) => {
 Device.alarms.onAlarm.addListener( ( alarm ) => {
     switch ( alarm.name ) {
     case 'checkUnread':
-        if ( window.Ext.Options.ajax ) {
+        if ( window.Ext.Options.ajax && window.navigator.onLine ) {
             window.Ext.checkUnread();
         }
         window.Ext.reStartTimer();

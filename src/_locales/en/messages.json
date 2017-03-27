@@ -21,34 +21,6 @@
         }
     },
 
-    "feed_url": {
-        "message": "<b><a target='_blank' href='$url$'>$icon$</a></b>",
-        "placeholders": {
-            "url": {
-                "content": "$1",
-                "example": "http://toster.ru"
-            },
-            "icon": {
-                "content": "$2",
-                "example": "<span class='glyphicon glyphicon-home'></span>"
-            }
-        }
-    },
-
-    "new_question_url": {
-        "message": "<b><a target='_blank' href='$url$'>$icon$</a></b>",
-        "placeholders": {
-            "url": {
-                "content": "$1",
-                "example": "http://toster.ru"
-            },
-            "icon": {
-                "content": "$2",
-                "example": "<span class='glyphicon glyphicon-plus'></span>"
-            }
-        }
-    },
-
     "action_go_to_website": {
         "message": "Go to toster.ru"
     },
@@ -66,7 +38,7 @@
     },
 
     "options_enable_ajax_checking": {
-        "message": "Enable AJAX options_enable_ajax_checking?"
+        "message": "Enable AJAX checking?"
     },
 
     "options_enable_notifications": {

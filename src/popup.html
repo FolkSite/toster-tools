@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Options</title>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/foundation-icons.min.css" />
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -17,8 +18,12 @@
                     <div class="col-xs-6">
                         <div class="btn-toolbar pull-right" role="toolbar" aria-label="">
                             <div class="btn-group">
-                                <button data-msg="feed_url" type="button" class="btn btn-default"></button>
-                                <button data-msg="new_question_url" type="button" class="btn btn-default"></button>
+                                <button data-action="feed_url" type="button" class="btn btn-default">
+                                    <i class="fi-home"></i>
+                                </button>
+                                <button data-action="new_question_url" type="button" class="btn btn-default">
+                                    <i class="fi-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -27,38 +32,38 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    <form>
+                    <form id="options_form">
                         <div class="form-group">
                             <label data-msg="options_enable_ajax_checking"></label>
                             <div class="material-switch pull-right">
-                                <input id="AJAXCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="AJAXCheckbox"></label>
+                                <input id="ajax" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="ajax"></label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label data-msg="options_enable_notifications"></label>
                             <div class="material-switch pull-right">
-                                <input id="NotifyCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="NotifyCheckbox"></label>
+                                <input id="use_notifications" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="use_notifications"></label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label data-msg="options_enable_badge_icon"></label>
                             <div class="material-switch pull-right">
-                                <input id="BadgeCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="BadgeCheckbox"></label>
+                                <input id="use_badge_icon" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="use_badge_icon"></label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-xs-8">
-                                    <label for="IntervalInput" data-msg="options_interval_ajax_checking"></label>
+                                    <label for="interval" data-msg="options_interval_ajax_checking"></label>
                                 </div>
                                 <div class="col-xs-4">
-                                    <input id="IntervalInput" class="form-control" type="number" min="0" max="3600" value="" step="1"/>
+                                    <input id="interval" class="form-control" type="number" min="0" max="3600" value="" step="1"/>
                                 </div>
                             </div>
                         </div>
@@ -66,32 +71,32 @@
                         <div class="form-group">
                             <label data-msg="options_use_toolbar"></label>
                             <div class="material-switch pull-right">
-                                <input id="ToolBarCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="ToolBarCheckbox"></label>
+                                <input id="show_toolbar" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="show_toolbar"></label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label data-msg="options_use_keyboard_action"></label>
                             <div class="material-switch pull-right">
-                                <input id="KBDCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="KBDCheckbox"></label>
+                                <input id="use_kbd" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="use_kbd"></label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label data-msg="options_hide_top_panel"></label>
                             <div class="material-switch pull-right">
-                                <input id="HidePanelCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="HidePanelCheckbox"></label>
+                                <input id="hide_top_panel" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="hide_top_panel"></label>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label data-msg="options_hide_right_sidebar"></label>
                             <div class="material-switch pull-right">
-                                <input id="HideRightSidebarCheckbox" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="HideRightSidebarCheckbox"></label>
+                                <input id="hide_right_sidebar" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="hide_right_sidebar"></label>
                             </div>
                         </div>
                         

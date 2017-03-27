@@ -251,14 +251,18 @@ var Device = utils.Device; /* global Device, Ext, browser, chrome */
 /* eslint no-use-before-define: "off" */
 
 
+var chromeUninstallUrl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
+var operaUninstallUrl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
+var ffUninstallUrl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
+
 var setUninstallUrl = function setUninstallUrl() {
     var uninstallurl = '';
     if (utils.isChrome && !utils.isOpera) {
-        uninstallurl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
+        uninstallurl = chromeUninstallUrl;
     } else if (utils.isOpera) {
-        uninstallurl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
+        uninstallurl = operaUninstallUrl;
     } else if (utils.isFirefox) {
-        uninstallurl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
+        uninstallurl = ffUninstallUrl;
     }
     Device.runtime.setUninstallURL(uninstallurl);
 };
@@ -330,10 +334,7 @@ var Extension = function () {
             return fetch(this.Options.tracker_url, {
                 credentials: 'include'
             }).then(function (response) {
-                if (response.ok) {
-                    return response.text();
-                }
-                return false;
+                return response.text();
             }).catch(console.error);
         }
     }, {
@@ -434,9 +435,9 @@ var Extension = function () {
             if (params && params.count) {
                 Device.notifications.create('toster.ru', {
                     type: 'basic',
-                    title: Device.i18n.getMessage('unread_notifications_title'),
-                    iconUrl: 'icon/notify-icon.png',
-                    message: Device.i18n.getMessage('unread_notifications_message', String(params.count))
+                    title: utils._l('unread_notifications_title'),
+                    iconUrl: 'icon/icon-48x48.png',
+                    message: utils._l('unread_notifications_message', String(params.count))
                 }, function (id) {
                     return id;
                 });
@@ -453,7 +454,7 @@ var Extension = function () {
                     text: String(params.count)
                 });
                 Device.browserAction.setTitle({
-                    title: Device.i18n.getMessage('unread_notifications_message', String(params.count))
+                    title: utils._l('unread_notifications_message', [String(params.count)])
                 });
             } else if (params && params.loading) {
                 Device.browserAction.setBadgeBackgroundColor({
@@ -467,7 +468,7 @@ var Extension = function () {
                     text: ''
                 });
                 Device.browserAction.setTitle({
-                    title: 'Toster'
+                    title: utils._l('extension_name')
                 });
             }
         }
@@ -476,17 +477,6 @@ var Extension = function () {
         value: function synchronize() {
             this.loadOptions();
             this.reStartTimer();
-
-            if (this.Options.ajax) {
-                Device.browserAction.setIcon({
-                    path: 'icon/icon-64-enabled.png'
-                });
-            } else {
-                Device.browserAction.setIcon({
-                    path: 'icon/icon-64-disabled.png'
-                });
-            }
-
             this.sendMessageToContentScript({
                 cmd: 'options',
                 data: this.Options
@@ -529,7 +519,7 @@ Device.notifications.onClicked.addListener(function (notifId) {
 Device.alarms.onAlarm.addListener(function (alarm) {
     switch (alarm.name) {
         case 'checkUnread':
-            if (window.Ext.Options.ajax) {
+            if (window.Ext.Options.ajax && window.navigator.onLine) {
                 window.Ext.checkUnread();
             }
             window.Ext.reStartTimer();
