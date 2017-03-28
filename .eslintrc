@@ -19,6 +19,7 @@
         "semi": 2,
         "no-console": 0,
         "import/first": 0,
+        "no-lonely-if": 0,
         "no-tabs": 0,
         "func-names": 0,
         "no-underscore-dangle": 0,
@@ -40,6 +41,7 @@
         "import/no-dynamic-require": 0,
         "max-len": 0,
         "indent": 0,
+        "no-mixed-operators": 0,
         "linebreak-style": ["error", "unix"],
         
         "no-unused-vars": [0, {

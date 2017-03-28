@@ -50,7 +50,11 @@
     },
 
     "options_use_toolbar": {
-        "message": "Use toolbar?"
+        "message": "Use toolbar for comments?"
+    },
+
+    "options_use_toolbar_answers": {
+        "message": "Use toolbar for answers?"
     },
 
     "options_use_keyboard_action": {

@@ -240,16 +240,33 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _utils = require('./utils');
 
-var utils = _interopRequireWildcard(_utils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Device = utils.Device; /* global Device, Ext, browser, chrome */
+HTMLTextAreaElement.prototype.setCaretPosition = function (start, end) {
+    end = typeof end !== 'undefined' ? end : start;
+    this.selectionStart = start;
+    this.selectionEnd = end;
+    this.focus();
+}; /* global Ext, $ */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
+/* eslint no-useless-escape: "off" */
 
+
+HTMLTextAreaElement.prototype.hasSelection = function () {
+    if (this.selectionStart === this.selectionEnd) {
+        return false;
+    }
+    return true;
+};
+
+HTMLTextAreaElement.prototype.isMultilineSelection = function () {
+    var re = /(\n)/g;
+    if ((this.value.substring(this.selectionStart, this.selectionEnd).match(re) || []).length > 0) {
+        return true;
+    }
+    return false;
+};
 
 var callbackMessage = function callbackMessage(request, sender, callback) {
     window.Ext.callbackMessage(request, sender, callback);
@@ -268,80 +285,65 @@ var Extension = function () {
     }
 
     (0, _createClass3.default)(Extension, [{
-        key: 'addKeyDownListener',
-        value: function addKeyDownListener() {
+        key: 'addKeyDownSendListener',
+        value: function addKeyDownSendListener() {
             var _this = this;
 
-            var textareas = utils.$$('textarea.textarea');
-
-            var _loop = function _loop(i) {
-                var textarea = textareas[i];
-                var form = textarea.form;
-                var button = utils.$('button[type="submit"]', form);
-                textarea.addEventListener('keydown', function (event) {
-                    if (!event) {
-                        var _event = window.event;
+            $(document).delegate('textarea.textarea', 'keydown', function (event) {
+                if (!event) {
+                    var _event = window.event;
+                }
+                var form = $(event.target.form);
+                var button = $('button[type="submit"]', form);
+                if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
+                    if (_this.Options.use_kbd) {
+                        button.click();
                     }
-                    if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
-                        if (_this.Options.use_kbd) {
-                            button.click();
-                        }
-                    }
-                });
-            };
-
-            for (var i = 0; i < textareas.length; i++) {
-                _loop(i);
-            }
+                }
+            });
         }
     }, {
         key: 'switchToolbar',
         value: function switchToolbar() {
-            var toolbars = utils.$$('div.twpwyg_toolbar');
+            var toolbars = $('div.twpwyg_toolbar');
 
             if (toolbars && toolbars.length) {
                 if (this.Options.show_toolbar) {
-                    for (var i = 0; i < toolbars.length; i++) {
-                        toolbars[i].classList.remove('hidden');
-                    }
+                    $.each(toolbars, function (i, toolbar) {
+                        $(toolbar).removeClass('hidden');
+                    });
                 } else {
-                    for (var _i = 0; _i < toolbars.length; _i++) {
-                        toolbars[_i].classList.add('hidden');
-                    }
+                    $.each(toolbars, function (i, toolbar) {
+                        $(toolbar).addClass('hidden');
+                    });
                 }
             } else {
                 if (!this.Options.show_toolbar) {
                     return;
                 }
 
-                var commentForms = utils.$$('form.form_comments[role$="comment_form"]');
+                var commentForms = $('form.form_comments[role$="comment_form"]');
 
-                if (commentForms) {
-                    var script = document.createElement('script');
-                    script.async = true;
-                    script.src = Device.extension.getURL('resources/twpwyg.js');
-                    utils.$('head').appendChild(script);
+                if (commentForms.length > 0) {
+                    $('<script/>', {
+                        async: true,
+                        src: _utils.Device.extension.getURL('resources/twpwyg.js')
+                    }).appendTo($('head'));
 
-                    var icons_font = document.createElement('link');
-                    icons_font.rel = 'stylesheet';
-                    icons_font.href = Device.extension.getURL('css/foundation-icons.min.css');
-                    utils.$('head').appendChild(icons_font);
+                    $('<link/>', {
+                        rel: 'stylesheet',
+                        href: _utils.Device.extension.getURL('css/foundation-icons.min.css')
+                    }).appendTo($('head'));
 
-                    var toolbar_url = Device.extension.getURL('resources/toolbar.html');
-
-                    fetch(toolbar_url, {
+                    fetch(_utils.Device.extension.getURL('resources/toolbar.html'), {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();
                     }).then(function (body) {
-                        for (var _i2 = 0; _i2 < commentForms.length; _i2++) {
-                            var form = commentForms[_i2];
-                            var field_wrap = utils.$('div.field_wrap', form);
-
-                            var div = document.createElement('div');
-                            div.appendChild(utils.createElement(body));
-                            field_wrap.insertBefore(div, field_wrap.firstChild);
-                        }
+                        $.each(commentForms, function (i, form) {
+                            var field_wrap = $('div.field_wrap', form);
+                            field_wrap.prepend($(body));
+                        });
                     }).catch(console.error);
                 }
             }
@@ -355,35 +357,40 @@ var Extension = function () {
     }, {
         key: 'updateSidebar',
         value: function updateSidebar(html) {
-            var $aside = utils.$('aside.layout__navbar[role="navbar"]');
-            var $event_list = utils.$('ul.events-list', $aside);
+            var aside = $('aside.layout__navbar[role="navbar"]');
 
             try {
-                $aside.removeChild($event_list);
+                aside.children('ul.events-list').remove();
             } catch (e) {}
 
             if (html) {
-                $aside.insertAdjacentHTML('beforeend', html);
+                aside.append($(html));
             }
         }
     }, {
         key: 'switchTopPanel',
         value: function switchTopPanel() {
-            var topPanel = utils.$('div.tmservices-panel[role="tm_panel"]');
+            var topPanel = $('div.tmservices-panel[role="tm_panel"]');
+
             if (this.Options.hide_top_panel) {
-                topPanel.classList.add('hidden');
+                topPanel.addClass('hidden');
             } else {
-                topPanel.classList.remove('hidden');
+                topPanel.removeClass('hidden');
             }
         }
     }, {
         key: 'switchRightSidebar',
         value: function switchRightSidebar() {
-            var mainPage = utils.$('main.page');
+            var mainPage = $('main.page');
+
             if (this.Options.hide_right_sidebar) {
-                mainPage.style.marginRight = '0px';
+                mainPage.css({
+                    marginRight: '0px'
+                });
             } else {
-                mainPage.style.marginRight = '300px';
+                mainPage.css({
+                    marginRight: '300px'
+                });
             }
         }
     }, {
@@ -406,7 +413,7 @@ var Extension = function () {
                         this.switchTopPanel();
                         this.switchRightSidebar();
                         this.switchToolbar();
-                        this.addKeyDownListener();
+                        this.addKeyDownSendListener();
                         break;
                 }
             }
@@ -414,7 +421,7 @@ var Extension = function () {
     }, {
         key: 'sendMessageToBackgroundScript',
         value: function sendMessageToBackgroundScript(request) {
-            Device.runtime.sendMessage(request, {}, callbackMessage);
+            _utils.Device.runtime.sendMessage(request, {}, callbackMessage);
         }
     }]);
     return Extension;
@@ -422,10 +429,81 @@ var Extension = function () {
 
 window.Ext = new Extension();
 
-Device.runtime.onMessage.addListener(callbackMessage);
+_utils.Device.runtime.onMessage.addListener(callbackMessage);
 
 window.Ext.sendMessageToBackgroundScript({
     cmd: 'options'
+});
+
+$(document).delegate('textarea.textarea', 'keydown', function (e) {
+    if (!e) {
+        var _e = window.event;
+    }
+
+    if (e.keyCode !== 9 || event.ctrlKey || event.metaKey || e.altKey) return;
+
+    var target = e.target;
+    var selectionStart = target.selectionStart;
+    var selectionEnd = target.selectionEnd;
+
+    var lineStart = selectionStart;
+    for (lineStart = selectionStart; lineStart >= 0 && target.value[lineStart] !== '\n'; lineStart--) {}
+
+    var lineEnd = selectionEnd;
+    for (lineEnd = selectionEnd; lineEnd < target.value.length && target.value[lineEnd] !== '\n'; lineEnd++) {}
+
+    var text = target.value.substring(lineStart, lineEnd);
+
+    var tabString = '\t';
+
+    // Are we selecting multiple lines?
+    if (this.hasSelection() && this.isMultilineSelection()) {
+        var numChanges = 0;
+        var firstLineNumChanges = 1;
+
+        if (!e.shiftKey) {
+            // Normal Tab
+            var re = /(\n)/g;
+
+            numChanges = (text.match(re) || []).length;
+
+            text = text.replace(re, '$1' + tabString);
+        } else {
+            // Shift+Tab
+            var _re = new RegExp('(\n)' + tabString, 'g');
+
+            numChanges = (text.match(_re) || []).length;
+
+            var indexOfNewLine = 1;
+            for (indexOfNewLine = 1; indexOfNewLine < text.length && text[indexOfNewLine] !== '\n'; ++indexOfNewLine) {}
+            firstLineNumChanges = (text.substring(0, indexOfNewLine).match(_re) || []).length;
+
+            text = text.replace(_re, '$1');
+        }
+
+        target.value = target.value.substring(0, lineStart) + text + target.value.substring(lineEnd, target.value.length);
+
+        // Keep the selection we had before
+        var newSelectionStart = selectionStart + tabString.length * (!e.shiftKey ? 1 : -1) * firstLineNumChanges;
+        var newSelectionEnd = selectionEnd + tabString.length * numChanges * (!e.shiftKey ? 1 : -1);
+
+        this.setCaretPosition(newSelectionStart, newSelectionEnd);
+    } else {
+        // We are not in multiline so
+        // we should add a tab at the position
+        // only shift-tab if there is a tab present before
+        if (!e.shiftKey) {
+            // Normal Tab
+            target.value = target.value.substring(0, selectionStart) + tabString + target.value.substring(selectionEnd, target.value.length);
+
+            target.setCaretPosition(selectionStart + tabString.length, selectionEnd + tabString.length);
+        } else if (target.value.substring(selectionStart - tabString.length, selectionStart) === tabString) {
+            // Shift+Tab
+            target.value = target.value.substring(0, selectionStart - tabString.length) + target.value.substring(selectionEnd, target.value.length);
+            target.setCaretPosition(selectionStart - tabString.length, selectionEnd - tabString.length);
+        }
+    }
+    return false;
 });
 },{"./utils":22,"babel-runtime/helpers/classCallCheck":2,"babel-runtime/helpers/createClass":3}],22:[function(require,module,exports){
 'use strict';

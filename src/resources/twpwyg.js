@@ -33,6 +33,37 @@ window.TWPWYG.setCursor = function ( textarea, start, end ) {
     }
 };
 
+window.TWPWYG.insertTag = function ( link, startTag, endTag, repObj ) {
+    const form = $( link ).closest( 'form' );
+    const _id = form.attr( 'id' );
+    const form_id = $( `#${_id}` );
+    const textarea = $( 'textarea', form ).get( 0 );
+    textarea.focus();
+    const scrtop = textarea.scrollTop;
+    const cursorPos = window.TWPWYG.getCursor( textarea );
+    const txt_pre = textarea.value.substring( 0, cursorPos.start );
+    let txt_sel = textarea.value.substring( cursorPos.start, cursorPos.end );
+    const txt_aft = textarea.value.substring( cursorPos.end );
+    let nuCursorPos;
+    if ( repObj ) {
+        txt_sel = txt_sel.replace( /\r/g, '' );
+        txt_sel = txt_sel !== '' ? txt_sel : ' ';
+        txt_sel = txt_sel.replace( new RegExp( repObj.findStr, 'gm' ), repObj.repStr );
+    }
+    if ( cursorPos.start === cursorPos.end ) {
+        nuCursorPos = cursorPos.start + startTag.length;
+    } else {
+        nuCursorPos = String( txt_pre + startTag + txt_sel + endTag ).length;
+    }
+    textarea.value = txt_pre + startTag + txt_sel + endTag + txt_aft;
+    window.TWPWYG.setCursor( textarea, nuCursorPos, nuCursorPos );
+    if ( scrtop ) {
+        textarea.scrollTop = scrtop;
+    }
+    toggleSubmitButton( form_id );
+    return false;
+};
+
 window.TWPWYG.insertImage = function ( link ) {
     const src = prompt( 'Введите src картинки', 'http://' );
     if ( src ) {
@@ -76,48 +107,12 @@ window.TWPWYG.insertHabracut = function ( link ) {
     return false;
 };
 
-window.TWPWYG.insertTag = function ( link, startTag, endTag, repObj ) {
-    const textareaParent = $( link ).parents( 'form' );
-    const _id = textareaParent.attr( 'id' );
-    const form_id = $( `#${_id}` );
-    const textarea = $( 'textarea', textareaParent ).get( 0 );
-    textarea.focus();
-    const scrtop = textarea.scrollTop;
-    const cursorPos = window.TWPWYG.getCursor( textarea );
-    const txt_pre = textarea.value.substring( 0, cursorPos.start );
-    let txt_sel = textarea.value.substring( cursorPos.start, cursorPos.end );
-    const txt_aft = textarea.value.substring( cursorPos.end );
-    let nuCursorPos;
-    if ( repObj ) {
-        txt_sel = txt_sel.replace( /\r/g, '' );
-        txt_sel = txt_sel !== '' ? txt_sel : ' ';
-        txt_sel = txt_sel.replace( new RegExp( repObj.findStr, 'gm' ), repObj.repStr );
-    }
-    if ( cursorPos.start === cursorPos.end ) {
-        nuCursorPos = cursorPos.start + startTag.length;
-    } else {
-        nuCursorPos = String( txt_pre + startTag + txt_sel + endTag ).length;
-    }
-    textarea.value = txt_pre + startTag + txt_sel + endTag + txt_aft;
-    window.TWPWYG.setCursor( textarea, nuCursorPos, nuCursorPos );
-    if ( scrtop ) {
-        textarea.scrollTop = scrtop;
-    }
-    toggleSubmitButton( form_id );
-    return false;
-};
-
 window.TWPWYG.insertTagWithText = function ( link, tagName ) {
     const startTag = `<${tagName}>`;
     const endTag = `</${tagName}>`;
     window.TWPWYG.insertTag( link, startTag, endTag );
 
     return false;
-};
-
-window.TWPWYG.insertTagFromDropBox = function ( link ) {
-    window.TWPWYG.insertTagWithText( link, link.value );
-    link.selectedIndex = 0;
 };
 
 window.TWPWYG.insertList = function ( link, tagName ) {
@@ -141,14 +136,6 @@ window.TWPWYG.insertSpoiler = function ( link ) {
     return false;
 };
 
-window.TWPWYG.insertMention = function ( link ) {
-    const startTag = '@';
-    const endTag = '';
-    window.TWPWYG.insertTag( link, startTag, endTag );
-
-    return false;
-};
-
 window.TWPWYG.insertAbbr = function ( link ) {
     const startTag = '<abbr title="">';
     const endTag = '</abbr>';
@@ -163,53 +150,4 @@ window.TWPWYG.insertSource = function ( link, tagName ) {
     window.TWPWYG.insertTag( link, startTag, endTag );
 
     return false;
-};
-
-window.TWPWYG.insertTab = function ( e, textarea ) {
-    let keyCode = null;
-    if ( !e ) {
-        e = window.event;
-    }
-
-    if ( e.keyCode ) {
-        keyCode = e.keyCode;
-    } else if ( e.which ) {
-        keyCode = e.which;
-    }
-
-    switch ( e.type ) {
-    case 'keydown':
-        if ( keyCode === 16 ) {
-            this.shift = true;
-        }
-        break;
-    case 'keyup':
-        if ( keyCode === 16 ) {
-            this.shift = false;
-        }
-        break;
-    default:
-        break;
-    }
-    textarea.focus();
-    const cursorPos = window.TWPWYG.getCursor( textarea );
-    if ( cursorPos.start === cursorPos.end ) {
-        return true;
-    } else if ( keyCode === 9 && !this.shift ) {
-        const repObj = {
-            findStr: '^(.+)',
-            repStr: '   $1'
-        };
-        window.TWPWYG.insertTag( textarea, '', '', repObj );
-
-        return false;
-    } else if ( keyCode === 9 && this.shift ) {
-        const repObj = {
-            findStr: '^ (.+)',
-            repStr: '$1'
-        };
-        window.TWPWYG.insertTag( textarea, '', '', repObj );
-
-        return false;
-    }
 };
