@@ -251,6 +251,7 @@ HTMLTextAreaElement.prototype.setCaretPosition = function (start, end) {
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
 /* eslint no-useless-escape: "off" */
+/* eslint no-control-regex: "off" */
 
 
 HTMLTextAreaElement.prototype.hasSelection = function () {
@@ -463,14 +464,14 @@ $(document).delegate('textarea.textarea', 'keydown', function (e) {
 
         if (!e.shiftKey) {
             // Normal Tab
-            var re = /(\n)/g;
+            var re = new RegExp('(\n[ ]*)', 'g');
 
             numChanges = (text.match(re) || []).length;
 
             text = text.replace(re, '$1' + tabString);
         } else {
             // Shift+Tab
-            var _re = new RegExp('(\n)' + tabString, 'g');
+            var _re = new RegExp('(\n[ ]*)' + tabString, 'g');
 
             numChanges = (text.match(_re) || []).length;
 
