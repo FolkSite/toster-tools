@@ -2,6 +2,7 @@
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
 /* eslint no-useless-escape: "off" */
+/* eslint no-control-regex: "off" */
 import {
     Device,
     createElement
@@ -214,13 +215,13 @@ $( document ).delegate( 'textarea.textarea', 'keydown', function ( e ) {
         let firstLineNumChanges = 1;
 
         if ( !e.shiftKey ) { // Normal Tab
-            const re = /(\n)/g;
+            const re = new RegExp( '(\n[ ]*)', 'g' );
 
             numChanges = ( text.match( re ) || [] ).length;
 
             text = text.replace( re, `\$1${tabString}` );
         } else { // Shift+Tab
-            const re = new RegExp( `(\n)${tabString}`, 'g' );
+            const re = new RegExp( `(\n[ ]*)${tabString}`, 'g' );
 
             numChanges = ( text.match( re ) || [] ).length;
 
