@@ -1,6 +1,6 @@
 {
   "name": "toster-wysiwyg-panel",
-  "version": "3.11.7",
+  "version": "3.12.7",
   "description": "Расширение для сайта toster.ru",
   "dependencies": {},
   "devDependencies": {
