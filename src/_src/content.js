@@ -4,8 +4,7 @@
 /* eslint no-useless-escape: "off" */
 /* eslint no-control-regex: "off" */
 import {
-    Device,
-    createElement
+    Device
 } from './utils';
 
 
@@ -82,7 +81,6 @@ class Extension {
 
             if ( commentForms.length > 0 ) {
                 $( '<script/>', {
-                    async: true,
                     src: Device.extension.getURL( 'resources/twpwyg.js' )
                 } ).appendTo( $( 'head' ) );
 
@@ -95,10 +93,10 @@ class Extension {
                         credentials: 'include'
                     } )
                     .then( response => response.text() )
-                    .then( ( body ) => {
+                    .then( ( toolbar ) => {
                         $.each( commentForms, ( i, form ) => {
                             const field_wrap = $( 'div.field_wrap', form );
-                            field_wrap.prepend( $( body ) );
+                            field_wrap.prepend( $( toolbar ) );
                         } );
                     } )
                     .catch( console.error );

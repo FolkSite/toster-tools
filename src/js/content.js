@@ -327,7 +327,6 @@ var Extension = function () {
 
                 if (commentForms.length > 0) {
                     $('<script/>', {
-                        async: true,
                         src: _utils.Device.extension.getURL('resources/twpwyg.js')
                     }).appendTo($('head'));
 
@@ -340,10 +339,10 @@ var Extension = function () {
                         credentials: 'include'
                     }).then(function (response) {
                         return response.text();
-                    }).then(function (body) {
+                    }).then(function (toolbar) {
                         $.each(commentForms, function (i, form) {
                             var field_wrap = $('div.field_wrap', form);
-                            field_wrap.prepend($(body));
+                            field_wrap.prepend($(toolbar));
                         });
                     }).catch(console.error);
                 }

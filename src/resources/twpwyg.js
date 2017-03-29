@@ -1,4 +1,4 @@
-/* global TWPWYG, habrastorage_upload, $, toggleSubmitButton, showFlashMessage */
+/* global TWPWYG, $, habrastorage_upload, toggleSubmitButton, showFlashMessage */
 /* eslint no-alert: "off" */
 window.TWPWYG = {};
 
