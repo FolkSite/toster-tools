@@ -96,9 +96,13 @@ var Extension = function () {
                 var commentForms = $('form.form_comments[role$="comment_form"]');
 
                 if (commentForms.length > 0) {
-                    $('<script/>', {
-                        src: _utils.Device.extension.getURL('resources/twpwyg.js')
-                    }).appendTo($('head'));
+                    fetch(_utils.Device.extension.getURL('resources/twpwyg.js'), {
+                        credentials: 'include'
+                    }).then(function (response) {
+                        return response.text();
+                    }).then(function (script) {
+                        $('<script/>').html(script).appendTo($('head'));
+                    }).catch(console.error);
 
                     $('<link/>', {
                         rel: 'stylesheet',

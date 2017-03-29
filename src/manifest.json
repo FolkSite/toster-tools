@@ -55,7 +55,7 @@
   },
 
   "web_accessible_resources": [
-		"resources/twpwyg.js",
+    "resources/twpwyg.js",
     "resources/toolbar.html",
     "css/foundation-icons.min.css",
     "fonts/foundation-icons.eot",

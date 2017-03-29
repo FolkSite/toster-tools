@@ -7,7 +7,6 @@ import {
     Device
 } from './utils';
 
-
 HTMLTextAreaElement.prototype.setCaretPosition = function ( start, end ) {
     end = typeof end !== 'undefined' ? end : start;
     this.selectionStart = start;
@@ -80,9 +79,14 @@ class Extension {
             const commentForms = $( 'form.form_comments[role$="comment_form"]' );
 
             if ( commentForms.length > 0 ) {
-                $( '<script/>', {
-                    src: Device.extension.getURL( 'resources/twpwyg.js' )
-                } ).appendTo( $( 'head' ) );
+                fetch( Device.extension.getURL( 'resources/twpwyg.js' ), {
+                        credentials: 'include'
+                    } )
+                    .then( response => response.text() )
+                    .then( ( script ) => {
+                        $( '<script/>' ).html( script ).appendTo( $( 'head' ) );
+                    } )
+                    .catch( console.error );
 
                 $( '<link/>', {
                     rel: 'stylesheet',
