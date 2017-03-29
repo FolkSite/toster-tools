@@ -82,9 +82,7 @@ class Extension {
         return fetch( this.Options.tracker_url, {
                 credentials: 'include'
             } )
-            .then( ( response ) => {
-                return response.text();
-            } )
+            .then( response => response.text() )
             .catch( console.error );
     }
 
