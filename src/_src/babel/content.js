@@ -48,7 +48,6 @@ var Extension = function () {
         (0, _classCallCheck3.default)(this, Extension);
 
         this.Options = {
-            show_toolbar: true,
             use_kbd: true,
             hide_top_panel: true,
             hide_right_sidebar: true
@@ -72,55 +71,6 @@ var Extension = function () {
                     }
                 }
             });
-        }
-    }, {
-        key: 'switchToolbar',
-        value: function switchToolbar() {
-            var toolbars = $('div.twpwyg_toolbar');
-
-            if (toolbars && toolbars.length) {
-                if (this.Options.show_toolbar) {
-                    $.each(toolbars, function (i, toolbar) {
-                        $(toolbar).removeClass('hidden');
-                    });
-                } else {
-                    $.each(toolbars, function (i, toolbar) {
-                        $(toolbar).addClass('hidden');
-                    });
-                }
-            } else {
-                if (!this.Options.show_toolbar) {
-                    return;
-                }
-
-                var commentForms = $('form.form_comments[role$="comment_form"]');
-
-                if (commentForms.length > 0) {
-                    fetch(_utils.Device.extension.getURL('resources/twpwyg.js'), {
-                        credentials: 'include'
-                    }).then(function (response) {
-                        return response.text();
-                    }).then(function (script) {
-                        $('<script/>').html(script).appendTo($('head'));
-                    }).catch(console.error);
-
-                    $('<link/>', {
-                        rel: 'stylesheet',
-                        href: _utils.Device.extension.getURL('css/foundation-icons.min.css')
-                    }).appendTo($('head'));
-
-                    fetch(_utils.Device.extension.getURL('resources/toolbar.html'), {
-                        credentials: 'include'
-                    }).then(function (response) {
-                        return response.text();
-                    }).then(function (toolbar) {
-                        $.each(commentForms, function (i, form) {
-                            var field_wrap = $('div.field_wrap', form);
-                            field_wrap.prepend($(toolbar));
-                        });
-                    }).catch(console.error);
-                }
-            }
         }
     }, {
         key: 'updateAnswerList',
@@ -186,7 +136,6 @@ var Extension = function () {
                         this.Options = Object.assign({}, this.Options, request.data || {});
                         this.switchTopPanel();
                         this.switchRightSidebar();
-                        this.switchToolbar();
                         this.addKeyDownSendListener();
                         break;
                 }

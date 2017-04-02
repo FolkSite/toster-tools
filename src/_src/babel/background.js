@@ -63,7 +63,6 @@ var Extension = function () {
         this.defaults = {
             ajax: true,
             interval: 10,
-            show_toolbar: true,
             use_kbd: true,
             use_notifications: false,
             use_badge_icon: true,
