@@ -1,14 +1,22 @@
 body {
     padding: 0;
     margin: 0;
-    min-width: 350px;
+    min-width: 400px;
     font-size: 13px;
     line-height: 1;
 }
 
+main {
+    padding-top: 15px;
+}
+
 img.icon {
-    height: 24px;
-    width: 24px;
+    height: 20px;
+    width: 20px;
+}
+
+#options_form label[data-msg] {
+    cursor: pointer;
 }
 
 .material-switch {
@@ -39,7 +47,7 @@ img.icon {
     width: 40px;
 }
 .material-switch > label::after {
-    background: rgb(255, 255, 255);
+    background: rgb(255, 0, 0);
     border-radius: 16px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     content: '';

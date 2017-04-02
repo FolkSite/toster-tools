@@ -21,16 +21,20 @@
         }
     },
 
-    "action_go_to_website": {
-        "message": "Перейти на toster.ru"
+    "action_go_to_feed": {
+        "message": "Просмотреть ленту"
     },
 
-    "action_new_question": {
+    "action_go_to_new_question": {
         "message": "Задать вопрос"
     },
 
-    "action_save": {
-        "message": "Сохранить"
+    "action_go_to_home": {
+        "message": "Перейти на сайт расширения"
+    },
+
+    "action_go_to_feedback": {
+        "message": "Оставить отзыв"
     },
 
     "unread_notifications_title": {
@@ -49,8 +53,12 @@
         "message": "Включить уведомления на иконке?"
     },
 
-    "options_use_keyboard_action": {
-        "message": "Использовать Ctrl+Enter для отправки?"
+    "options_use_kbd": {
+        "message": "Использовать <kbd>Ctrl+Enter</kbd> для отправки?"
+    },
+
+    "options_use_tab": {
+        "message": "Использовать <kbd>Tab/Shift+Tab</kbd> для отступов?"
     },
 
     "options_hide_top_panel": {

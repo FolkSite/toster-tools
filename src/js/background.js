@@ -240,35 +240,27 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _utils = require('./utils');
 
-var utils = _interopRequireWildcard(_utils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Device = utils.Device; /* global Device, Ext, browser, chrome */
+var useNotificationsFlag = 0; /* global Ext, $ */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
 
-
 var chromeUninstallUrl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
-var operaUninstallUrl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
-var ffUninstallUrl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
+var operaUninstallUrl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
+var ffUninstallUrl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
 
-var setUninstallUrl = function setUninstallUrl() {
-    var uninstallurl = '';
-    if (utils.isChrome && !utils.isOpera) {
-        uninstallurl = chromeUninstallUrl;
-    } else if (utils.isOpera) {
-        uninstallurl = operaUninstallUrl;
-    } else if (utils.isFirefox) {
-        uninstallurl = ffUninstallUrl;
-    }
-    Device.runtime.setUninstallURL(uninstallurl);
-};
+var uninstallurl = void 0;
+if (_utils.isChrome && !_utils.isOpera) {
+    uninstallurl = chromeUninstallUrl;
+} else if (_utils.isOpera) {
+    uninstallurl = operaUninstallUrl;
+} else if (_utils.isFirefox) {
+    uninstallurl = ffUninstallUrl;
+}
 
 var installHandler = function installHandler(details) {
-    var currentVersion = Device.runtime.getManifest().version;
+    var currentVersion = _utils.Device.runtime.getManifest().version;
     window.Ext.updateIcon();
     window.Ext.synchronize();
     switch (details.reason) {
@@ -290,10 +282,13 @@ var Extension = function () {
     function Extension() {
         (0, _classCallCheck3.default)(this, Extension);
 
-        this.defaults = {
+        this.defaults = Object.freeze({
+            home_url: 'https://github.com/yarkovaleksei/toster-wysiwyg-panel',
+            feedback_url: uninstallurl,
             ajax: true,
             interval: 10,
             use_kbd: true,
+            use_tab: true,
             use_notifications: false,
             use_badge_icon: true,
             hide_top_panel: true,
@@ -301,8 +296,8 @@ var Extension = function () {
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
             new_question_url: 'https://toster.ru/question/new'
-        };
-        this.Options = this.defaults;
+        });
+        this.Options = Object.assign({}, this.defaults);
     }
 
     (0, _createClass3.default)(Extension, [{
@@ -339,7 +334,7 @@ var Extension = function () {
     }, {
         key: 'stopTimer',
         value: function stopTimer() {
-            Device.alarms.clear('checkUnread', function (wasCleared) {
+            _utils.Device.alarms.clear('checkUnread', function (wasCleared) {
                 return wasCleared;
             });
         }
@@ -354,42 +349,44 @@ var Extension = function () {
         value: function checkUnread() {
             var _this = this;
 
-            this.getNotifyPage().then(function (_body) {
-                var body = document.createElement('div');
-                body.innerHTML = _body;
-                var $event_list = utils.$('ul.events-list', body);
+            this.getNotifyPage().then(function (body) {
+                var event_list = $(body).find('ul.events-list')[0];
                 var count = 0;
 
-                if ($event_list) {
-                    var events_items = utils.$$('li', $event_list);
+                if ($(event_list)) {
+                    var events_items = $(event_list).find('li');
 
                     if (events_items.length > 3) {
-                        var text = $event_list.lastElementChild.textContent.replace(/[^\d]/g, '');
+                        var text = $(events_items).last().text().replace(/[^\d]/g, '');
                         count = parseInt(text, 10);
                     } else {
                         count = events_items.length;
                     }
 
-                    if (_this.Options.use_notifications) {
+                    if (_this.Options.use_notifications && useNotificationsFlag === 0) {
                         _this.createNotify({
                             count: count
                         });
                     }
+
                     if (_this.Options.use_badge_icon) {
                         _this.updateIcon({
                             count: count
                         });
                     }
+
+                    useNotificationsFlag = count;
+
+                    _this.sendMessageToContentScript({
+                        cmd: 'updateSidebar',
+                        data: $(event_list)[0].outerHTML || ''
+                    });
                 } else {
                     _this.updateIcon({
                         count: 0
                     });
+                    useNotificationsFlag = 0;
                 }
-
-                _this.sendMessageToContentScript({
-                    cmd: 'updateSidebar',
-                    data: $event_list.outerHTML || ''
-                });
             });
         }
     }, {
@@ -399,7 +396,7 @@ var Extension = function () {
                 return false;
             }
 
-            Device.alarms.create('checkUnread', {
+            _utils.Device.alarms.create('checkUnread', {
                 when: Date.now() + this.Options.interval * 1000
             });
         }
@@ -422,21 +419,21 @@ var Extension = function () {
     }, {
         key: 'sendMessageToContentScript',
         value: function sendMessageToContentScript(params) {
-            Device.tabs.query({}, function (tabs) {
+            _utils.Device.tabs.query({}, function (tabs) {
                 for (var i = 0; i < tabs.length; ++i) {
-                    Device.tabs.sendMessage(tabs[i].id, params, callbackMessage);
+                    _utils.Device.tabs.sendMessage(tabs[i].id, params, callbackMessage);
                 }
             });
         }
     }, {
         key: 'createNotify',
         value: function createNotify(params) {
-            if (params && params.count) {
-                Device.notifications.create('toster.ru', {
+            if (params && params.count > 0) {
+                _utils.Device.notifications.create('toster.ru', {
                     type: 'basic',
-                    title: utils._l('unread_notifications_title'),
-                    iconUrl: 'icon/icon-48x48.png',
-                    message: utils._l('unread_notifications_message', String(params.count))
+                    title: (0, _utils._l)('unread_notifications_title'),
+                    iconUrl: 'icon/svg/alarm.svg',
+                    message: (0, _utils._l)('unread_notifications_message', [String(params.count)])
                 }, function (id) {
                     return id;
                 });
@@ -446,28 +443,28 @@ var Extension = function () {
         key: 'updateIcon',
         value: function updateIcon(params) {
             if (params && params.count) {
-                Device.browserAction.setBadgeBackgroundColor({
+                _utils.Device.browserAction.setBadgeBackgroundColor({
                     color: '#ff0000'
                 });
-                Device.browserAction.setBadgeText({
+                _utils.Device.browserAction.setBadgeText({
                     text: String(params.count)
                 });
-                Device.browserAction.setTitle({
-                    title: utils._l('unread_notifications_message', [String(params.count)])
+                _utils.Device.browserAction.setTitle({
+                    title: (0, _utils._l)('unread_notifications_message', [String(params.count)])
                 });
             } else if (params && params.loading) {
-                Device.browserAction.setBadgeBackgroundColor({
+                _utils.Device.browserAction.setBadgeBackgroundColor({
                     color: '#5e5656'
                 });
-                Device.browserAction.setBadgeText({
+                _utils.Device.browserAction.setBadgeText({
                     text: '...'
                 });
             } else {
-                Device.browserAction.setBadgeText({
+                _utils.Device.browserAction.setBadgeText({
                     text: ''
                 });
-                Device.browserAction.setTitle({
-                    title: utils._l('extension_name')
+                _utils.Device.browserAction.setTitle({
+                    title: (0, _utils._l)('extension_name')
                 });
             }
         }
@@ -485,16 +482,16 @@ var Extension = function () {
     return Extension;
 }();
 
-setUninstallUrl();
-
 window.Ext = new Extension();
 
-Device.runtime.onMessage.addListener(callbackMessage);
+_utils.Device.runtime.setUninstallURL(uninstallurl);
 
-Device.notifications.onClosed.addListener(function (notifId, byUser) {
-    Device.notifications.clear(notifId, function (wasCleared) {
+_utils.Device.runtime.onMessage.addListener(callbackMessage);
+
+_utils.Device.notifications.onClosed.addListener(function (notifId, byUser) {
+    _utils.Device.notifications.clear(notifId, function (wasCleared) {
         if (byUser) {
-            Device.tabs.create({
+            _utils.Device.tabs.create({
                 url: window.Ext.Options.tracker_url
             }, function (tab) {
                 return tab;
@@ -503,19 +500,7 @@ Device.notifications.onClosed.addListener(function (notifId, byUser) {
     });
 });
 
-Device.notifications.onClicked.addListener(function (notifId) {
-    Device.notifications.clear(notifId, function (wasCleared) {
-        if (wasCleared) {
-            Device.tabs.create({
-                url: window.Ext.Options.tracker_url
-            }, function (tab) {
-                return tab;
-            });
-        }
-    });
-});
-
-Device.alarms.onAlarm.addListener(function (alarm) {
+_utils.Device.alarms.onAlarm.addListener(function (alarm) {
     switch (alarm.name) {
         case 'checkUnread':
             if (window.Ext.Options.ajax && window.navigator.onLine) {
@@ -528,21 +513,13 @@ Device.alarms.onAlarm.addListener(function (alarm) {
     }
 });
 
-Device.runtime.onInstalled.addListener(installHandler);
+_utils.Device.runtime.onInstalled.addListener(installHandler);
 },{"./utils":22,"babel-runtime/helpers/classCallCheck":2,"babel-runtime/helpers/createClass":3}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var $ = exports.$ = function $(selector, parent) {
-    return (parent || document).querySelector(selector);
-};
-
-var $$ = exports.$$ = function $$(selector, parent) {
-    return (parent || document).querySelectorAll(selector);
-};
-
 var createElement = exports.createElement = function createElement(str, parent) {
     var elem = (parent || document).createElement('div');
     elem.innerHTML = str;

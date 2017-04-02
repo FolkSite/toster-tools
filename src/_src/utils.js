@@ -1,7 +1,3 @@
-export const $ = ( selector, parent ) => ( parent || document ).querySelector( selector );
-
-export const $$ = ( selector, parent ) => ( parent || document ).querySelectorAll( selector );
-
 export const createElement = ( str, parent ) => {
     const elem = ( parent || document ).createElement( 'div' );
     elem.innerHTML = str;

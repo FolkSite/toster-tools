@@ -35,15 +35,18 @@ const callbackMessage = ( request, sender, callback ) => {
 
 class Extension {
     constructor( ...args ) {
-        this.Options = {
+        this.defaults = Object.freeze( {
             use_kbd: true,
-            hide_top_panel: true,
-            hide_right_sidebar: true
-        };
+            use_tab: true,
+            hide_top_panel: false,
+            hide_right_sidebar: false
+        } );
+        this.Options = Object.assign( {}, this.defaults );
+        this.textareaSelectorAll = 'textarea.textarea';
     }
 
     addKeyDownSendListener() {
-        $( document ).delegate( 'textarea.textarea', 'keydown', ( event ) => {
+        $( document ).delegate( this.textareaSelectorAll, 'keydown', ( event ) => {
             if ( !event ) {
                 const event = window.event;
             }
@@ -54,6 +57,79 @@ class Extension {
                     button.click();
                 }
             }
+        } );
+    }
+
+    addKeyDownIndentFormatListener() {
+        $( document ).delegate( this.textareaSelectorAll, 'keydown', ( event ) => {
+            if ( !event ) {
+                const event = window.event;
+            }
+
+            if ( event.keyCode !== 9 || ( event.ctrlKey || event.metaKey ) || event.altKey ) return;
+
+            if ( !this.Options.use_tab ) return false;
+
+            const tabString = '\t';
+            const target = event.target;
+            const selectionStart = target.selectionStart;
+            const selectionEnd = target.selectionEnd;
+
+            let lineStart = selectionStart;
+            for ( lineStart = selectionStart; lineStart >= 0 && target.value[ lineStart ] !== '\n'; lineStart-- );
+
+            let lineEnd = selectionEnd;
+            for ( lineEnd = selectionEnd; lineEnd < target.value.length && target.value[ lineEnd ] !== '\n'; lineEnd++ );
+
+
+            let text = target.value.substring( lineStart, lineEnd );
+
+            // Are we selecting multiple lines?
+            if ( target.hasSelection() && target.isMultilineSelection() ) {
+                let numChanges = 0;
+                let firstLineNumChanges = 1;
+
+                if ( !event.shiftKey ) { // Normal Tab
+                    const re = new RegExp( '(\n[ ]*)', 'g' );
+
+                    numChanges = ( text.match( re ) || [] ).length;
+
+                    text = text.replace( re, `\$1${tabString}` );
+                } else { // Shift+Tab
+                    const re = new RegExp( `(\n[ ]*)${tabString}`, 'g' );
+
+                    numChanges = ( text.match( re ) || [] ).length;
+
+                    let indexOfNewLine = 1;
+                    for ( indexOfNewLine = 1; indexOfNewLine < text.length && text[ indexOfNewLine ] !== '\n'; ++indexOfNewLine );
+                    firstLineNumChanges = ( text.substring( 0, indexOfNewLine ).match( re ) || [] ).length;
+
+                    text = text.replace( re, '$1' );
+                }
+
+
+                target.value = target.value.substring( 0, lineStart ) + text + target.value.substring( lineEnd, target.value.length );
+
+                // Keep the selection we had before
+                const newSelectionStart = ( selectionStart + ( tabString.length * ( ( !event.shiftKey ) ? 1 : -1 ) ) * firstLineNumChanges );
+                const newSelectionEnd = selectionEnd + ( ( tabString.length * numChanges * ( ( !event.shiftKey ) ? 1 : -1 ) ) );
+
+
+                target.setCaretPosition( newSelectionStart, newSelectionEnd );
+            } else {
+                // We are not in multiline so
+                // we should add a tab at the position
+                // only shift-tab if there is a tab present before
+                if ( !event.shiftKey ) { // Normal Tab
+                    target.value = target.value.substring( 0, selectionStart ) + tabString + target.value.substring( selectionEnd, target.value.length );
+
+                    target.setCaretPosition( selectionStart + tabString.length, selectionEnd + tabString.length );
+                } else if ( target.value.substring( selectionStart - tabString.length, selectionStart ) === tabString ) { // Shift+Tab
+                    target.value = target.value.substring( 0, selectionStart - tabString.length ) + target.value.substring( selectionEnd, target.value.length );
+                    target.setCaretPosition( selectionStart - tabString.length, selectionEnd - tabString.length );
+                }
+            }
+            return false;
         } );
     }
 
@@ -81,9 +157,9 @@ class Extension {
         const topPanel = $( 'div.tmservices-panel[role="tm_panel"]' );
 
         if ( this.Options.hide_top_panel ) {
-            topPanel.addClass( 'hidden' );
+            topPanel.hide();
         } else {
-            topPanel.removeClass( 'hidden' );
+            topPanel.show();
         }
     }
 
@@ -91,10 +167,16 @@ class Extension {
         const mainPage = $( 'main.page' );
 
         if ( this.Options.hide_right_sidebar ) {
+            $( 'div.dropdown__menu' ).css( {
+                left: '-150px'
+            } );
             mainPage.css( {
                 marginRight: '0px'
             } );
         } else {
+            $( 'div.dropdown__menu' ).css( {
+                left: '0px'
+            } );
             mainPage.css( {
                 marginRight: '300px'
             } );
@@ -119,6 +201,7 @@ class Extension {
                 this.switchTopPanel();
                 this.switchRightSidebar();
                 this.addKeyDownSendListener();
+                this.addKeyDownIndentFormatListener();
                 break;
             }
         }
@@ -135,74 +218,4 @@ Device.runtime.onMessage.addListener( callbackMessage );
 
 window.Ext.sendMessageToBackgroundScript( {
     cmd: 'options'
-} );
-
-$( document ).delegate( 'textarea.textarea', 'keydown', function ( e ) {
-    if ( !e ) {
-        const e = window.event;
-    }
-
-    if ( e.keyCode !== 9 || ( event.ctrlKey || event.metaKey ) || e.altKey ) return;
-
-    const target = e.target;
-    const selectionStart = target.selectionStart;
-    const selectionEnd = target.selectionEnd;
-
-    let lineStart = selectionStart;
-    for ( lineStart = selectionStart; lineStart >= 0 && target.value[ lineStart ] !== '\n'; lineStart-- );
-
-    let lineEnd = selectionEnd;
-    for ( lineEnd = selectionEnd; lineEnd < target.value.length && target.value[ lineEnd ] !== '\n'; lineEnd++ );
-
-
-    let text = target.value.substring( lineStart, lineEnd );
-
-    const tabString = '\t';
-
-    // Are we selecting multiple lines?
-    if ( this.hasSelection() && this.isMultilineSelection() ) {
-        let numChanges = 0;
-        let firstLineNumChanges = 1;
-
-        if ( !e.shiftKey ) { // Normal Tab
-            const re = new RegExp( '(\n[ ]*)', 'g' );
-
-            numChanges = ( text.match( re ) || [] ).length;
-
-            text = text.replace( re, `\$1${tabString}` );
-        } else { // Shift+Tab
-            const re = new RegExp( `(\n[ ]*)${tabString}`, 'g' );
-
-            numChanges = ( text.match( re ) || [] ).length;
-
-            let indexOfNewLine = 1;
-            for ( indexOfNewLine = 1; indexOfNewLine < text.length && text[ indexOfNewLine ] !== '\n'; ++indexOfNewLine );
-            firstLineNumChanges = ( text.substring( 0, indexOfNewLine ).match( re ) || [] ).length;
-
-            text = text.replace( re, '$1' );
-        }
-
-
-        target.value = target.value.substring( 0, lineStart ) + text + target.value.substring( lineEnd, target.value.length );
-
-        // Keep the selection we had before
-        const newSelectionStart = ( selectionStart + ( tabString.length * ( ( !e.shiftKey ) ? 1 : -1 ) ) * firstLineNumChanges );
-        const newSelectionEnd = selectionEnd + ( ( tabString.length * numChanges * ( ( !e.shiftKey ) ? 1 : -1 ) ) );
-
-
-        this.setCaretPosition( newSelectionStart, newSelectionEnd );
-    } else {
-        // We are not in multiline so
-        // we should add a tab at the position
-        // only shift-tab if there is a tab present before
-        if ( !e.shiftKey ) { // Normal Tab
-            target.value = target.value.substring( 0, selectionStart ) + tabString + target.value.substring( selectionEnd, target.value.length );
-
-            target.setCaretPosition( selectionStart + tabString.length, selectionEnd + tabString.length );
-        } else if ( target.value.substring( selectionStart - tabString.length, selectionStart ) === tabString ) { // Shift+Tab
-            target.value = target.value.substring( 0, selectionStart - tabString.length ) + target.value.substring( selectionEnd, target.value.length );
-            target.setCaretPosition( selectionStart - tabString.length, selectionEnd - tabString.length );
-        }
-    }
-    return false;
 } );

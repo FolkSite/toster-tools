@@ -1,25 +1,28 @@
-/* global Device, Ext, browser, chrome */
+/* global Ext, $ */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
-import * as utils from './utils';
+import {
+    Device,
+    _l,
+    isChrome,
+    isOpera,
+    isFirefox
+}
+from './utils';
 
-const Device = utils.Device;
-
+let useNotificationsFlag = 0;
 const chromeUninstallUrl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
-const operaUninstallUrl = 'https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/#feedback-container';
-const ffUninstallUrl = 'https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel';
+const operaUninstallUrl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
+const ffUninstallUrl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
 
-const setUninstallUrl = () => {
-    let uninstallurl = '';
-    if ( utils.isChrome && !utils.isOpera ) {
-        uninstallurl = chromeUninstallUrl;
-    } else if ( utils.isOpera ) {
-        uninstallurl = operaUninstallUrl;
-    } else if ( utils.isFirefox ) {
-        uninstallurl = ffUninstallUrl;
-    }
-    Device.runtime.setUninstallURL( uninstallurl );
-};
+let uninstallurl;
+if ( isChrome && !isOpera ) {
+    uninstallurl = chromeUninstallUrl;
+} else if ( isOpera ) {
+    uninstallurl = operaUninstallUrl;
+} else if ( isFirefox ) {
+    uninstallurl = ffUninstallUrl;
+}
 
 const installHandler = ( details ) => {
     const currentVersion = Device.runtime.getManifest().version;
@@ -42,10 +45,13 @@ const callbackMessage = ( request, sender, callback ) => {
 
 class Extension {
     constructor( ...args ) {
-        this.defaults = {
+        this.defaults = Object.freeze( {
+            home_url: 'https://github.com/yarkovaleksei/toster-wysiwyg-panel',
+            feedback_url: uninstallurl,
             ajax: true,
             interval: 10,
             use_kbd: true,
+            use_tab: true,
             use_notifications: false,
             use_badge_icon: true,
             hide_top_panel: true,
@@ -53,8 +59,8 @@ class Extension {
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
             new_question_url: 'https://toster.ru/question/new'
-        };
-        this.Options = this.defaults;
+        } );
+        this.Options = Object.assign( {}, this.defaults );
     }
 
     loadOptions() {
@@ -95,42 +101,44 @@ class Extension {
     }
 
     checkUnread() {
-        this.getNotifyPage().then( ( _body ) => {
-            const body = document.createElement( 'div' );
-            body.innerHTML = _body;
-            const $event_list = utils.$( 'ul.events-list', body );
+        this.getNotifyPage().then( ( body ) => {
+            const event_list = $( body ).find( 'ul.events-list' )[ 0 ];
             let count = 0;
 
-            if ( $event_list ) {
-                const events_items = utils.$$( 'li', $event_list );
+            if ( $( event_list ) ) {
+                const events_items = $( event_list ).find( 'li' );
 
                 if ( events_items.length > 3 ) {
-                    const text = $event_list.lastElementChild.textContent.replace( /[^\d]/g, '' );
+                    const text = $( events_items ).last().text().replace( /[^\d]/g, '' );
                     count = parseInt( text, 10 );
                 } else {
                     count = events_items.length;
                 }
 
-                if ( this.Options.use_notifications ) {
+                if ( this.Options.use_notifications && useNotificationsFlag === 0 ) {
                     this.createNotify( {
                         count: count
                     } );
                 }
+
                 if ( this.Options.use_badge_icon ) {
                     this.updateIcon( {
                         count: count
                     } );
                 }
+
+                useNotificationsFlag = count;
+
+                this.sendMessageToContentScript( {
+                    cmd: 'updateSidebar',
+                    data: $( event_list )[ 0 ].outerHTML || ''
+                } );
             } else {
                 this.updateIcon( {
                     count: 0
                 } );
+                useNotificationsFlag = 0;
             }
-
-            this.sendMessageToContentScript( {
-                cmd: 'updateSidebar',
-                data: $event_list.outerHTML || ''
-            } );
         } );
     }
 
@@ -168,12 +176,12 @@ class Extension {
     }
 
     createNotify( params ) {
-        if ( params && params.count ) {
+        if ( params && params.count > 0 ) {
             Device.notifications.create( 'toster.ru', {
                 type: 'basic',
-                title: utils._l( 'unread_notifications_title' ),
-                iconUrl: 'icon/icon-48x48.png',
-                message: utils._l( 'unread_notifications_message', String( params.count ) )
+                title: _l( 'unread_notifications_title' ),
+                iconUrl: 'icon/svg/alarm.svg',
+                message: _l( 'unread_notifications_message', [ String( params.count ) ] )
             }, id => id );
         }
     }
@@ -187,7 +195,7 @@ class Extension {
                 text: String( params.count )
             } );
             Device.browserAction.setTitle( {
-                title: utils._l( 'unread_notifications_message', [ String( params.count ) ] )
+                title: _l( 'unread_notifications_message', [ String( params.count ) ] )
             } );
         } else if ( params && params.loading ) {
             Device.browserAction.setBadgeBackgroundColor( {
@@ -201,7 +209,7 @@ class Extension {
                 text: ''
             } );
             Device.browserAction.setTitle( {
-                title: utils._l( 'extension_name' )
+                title: _l( 'extension_name' )
             } );
         }
     }
@@ -216,25 +224,15 @@ class Extension {
     }
 }
 
-setUninstallUrl();
-
 window.Ext = new Extension();
+
+Device.runtime.setUninstallURL( uninstallurl );
 
 Device.runtime.onMessage.addListener( callbackMessage );
 
 Device.notifications.onClosed.addListener( ( notifId, byUser ) => {
     Device.notifications.clear( notifId, ( wasCleared ) => {
         if ( byUser ) {
-            Device.tabs.create( {
-                url: window.Ext.Options.tracker_url
-            }, tab => tab );
-        }
-    } );
-} );
-
-Device.notifications.onClicked.addListener( ( notifId ) => {
-    Device.notifications.clear( notifId, ( wasCleared ) => {
-        if ( wasCleared ) {
             Device.tabs.create( {
                 url: window.Ext.Options.tracker_url
             }, tab => tab );

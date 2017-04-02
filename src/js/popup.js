@@ -4,24 +4,26 @@
 var _utils = require('./utils');
 
 $(document).ready(function () {
-    $('label[data-msg="extension_name"]').html((0, _utils._l)('extension_name'));
-
     var inputs = $('#options_form input[type!="button"]');
-    var SaveButton = $('#save_options');
 
     var save_options = function save_options() {
         $.each(inputs, function (i, el) {
             var name = $(el).attr('id');
             var type = $(el).attr('type');
-            if (type === 'checkbox') {
-                window.Extension.Options[name] = $(el).prop('checked');
-            } else if (type === 'number') {
-                window.Extension.Options[name] = parseInt($(el).val(), 10);
-            } else if (type === 'text') {
-                window.Extension.Options[name] = $(el).val();
-            } else {
-                window.Extension.Options[name] = $(el).val();
+            var value = void 0;
+            switch (type) {
+                case 'checkbox':
+                    value = $(el).prop('checked');
+                    break;
+                case 'number':
+                    value = parseInt($(el).val(), 10);
+                    break;
+                case 'text':
+                default:
+                    value = $(el).val();
+                    break;
             }
+            window.Extension.Options[name] = value;
         });
         window.Extension.saveOptions();
     };
@@ -31,43 +33,67 @@ $(document).ready(function () {
         $.each(inputs, function (i, el) {
             var name = $(el).attr('id');
             var type = $(el).attr('type');
-            if (type === 'checkbox') {
-                $(el).prop({
-                    checked: window.Extension.Options[name]
-                });
-            } else if (type === 'number') {
-                $(el).val(window.Extension.Options[name]);
-            } else if (type === 'text') {
-                $(el).val(window.Extension.Options[name]);
+            switch (type) {
+                case 'checkbox':
+                    $(el).prop({
+                        checked: window.Extension.Options[name]
+                    });
+                    break;
+                case 'number':
+                case 'text':
+                default:
+                    $(el).val(window.Extension.Options[name]);
+                    break;
             }
         });
     };
 
-    SaveButton.on('click', save_options);
-    SaveButton.text((0, _utils._l)('action_save'));
+    $('input[type="checkbox"]').on('change', save_options);
+    $('input[type="number"]').on('change', save_options);
 
     $.each($('label[data-msg^="options_"]'), function (i, item) {
         var msg = $(item).data('msg');
-        $(item).text((0, _utils._l)(msg));
+        $(item).html((0, _utils._l)(msg));
     });
 
     _utils.Device.runtime.getBackgroundPage(function (backgroundPageInstance) {
         window.Extension = backgroundPageInstance.Ext;
         restore_options();
 
-        var feedButton = $('button[data-action="feed_url"]');
-        var newQuestionButton = $('button[data-action="new_question_url"]');
+        var homeButton = $('button[data-action="go_to_home"]');
 
-        feedButton.attr({
-            title: (0, _utils._l)('action_go_to_website')
+        homeButton.attr({
+            title: (0, _utils._l)('action_go_to_home')
         });
 
-        newQuestionButton.attr({
-            title: (0, _utils._l)('action_new_question')
+        homeButton.on('click', function (e) {
+            (0, _utils.openWin)(window.Extension.Options.home_url);
+        });
+
+        var feedbackButton = $('button[data-action="go_to_feedback"]');
+
+        feedbackButton.attr({
+            title: (0, _utils._l)('action_go_to_feedback')
+        });
+
+        feedbackButton.on('click', function (e) {
+            (0, _utils.openWin)(window.Extension.Options.feedback_url);
+        });
+
+        var feedButton = $('button[data-action="go_to_feed"]');
+
+        feedButton.attr({
+            title: (0, _utils._l)('action_go_to_feed')
         });
 
         feedButton.on('click', function (e) {
             (0, _utils.openWin)(window.Extension.Options.feed_url);
+        });
+
+        var newQuestionButton = $('button[data-action="go_to_new_question"]');
+
+        newQuestionButton.attr({
+            title: (0, _utils._l)('action_go_to_new_question')
         });
 
         newQuestionButton.on('click', function (e) {
@@ -81,14 +107,6 @@ $(document).ready(function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var $ = exports.$ = function $(selector, parent) {
-    return (parent || document).querySelector(selector);
-};
-
-var $$ = exports.$$ = function $$(selector, parent) {
-    return (parent || document).querySelectorAll(selector);
-};
-
 var createElement = exports.createElement = function createElement(str, parent) {
     var elem = (parent || document).createElement('div');
     elem.innerHTML = str;

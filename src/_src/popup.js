@@ -7,24 +7,26 @@ import {
 from './utils';
 
 $( document ).ready( () => {
-    $( 'label[data-msg="extension_name"]' ).html( _l( 'extension_name' ) );
-
     const inputs = $( '#options_form input[type!="button"]' );
-    const SaveButton = $( '#save_options' );
 
     const save_options = () => {
         $.each( inputs, ( i, el ) => {
             const name = $( el ).attr( 'id' );
             const type = $( el ).attr( 'type' );
-            if ( type === 'checkbox' ) {
-                window.Extension.Options[ name ] = $( el ).prop( 'checked' );
-            } else if ( type === 'number' ) {
-                window.Extension.Options[ name ] = parseInt( $( el ).val(), 10 );
-            } else if ( type === 'text' ) {
-                window.Extension.Options[ name ] = $( el ).val();
-            } else {
-                window.Extension.Options[ name ] = $( el ).val();
+            let value;
+            switch ( type ) {
+            case 'checkbox':
+                value = $( el ).prop( 'checked' );
+                break;
+            case 'number':
+                value = parseInt( $( el ).val(), 10 );
+                break;
+            case 'text':
+            default:
+                value = $( el ).val();
+                break;
             }
+            window.Extension.Options[ name ] = value;
         } );
         window.Extension.saveOptions();
     };
@@ -34,43 +36,67 @@ $( document ).ready( () => {
         $.each( inputs, ( i, el ) => {
             const name = $( el ).attr( 'id' );
             const type = $( el ).attr( 'type' );
-            if ( type === 'checkbox' ) {
+            switch ( type ) {
+            case 'checkbox':
                 $( el ).prop( {
                     checked: window.Extension.Options[ name ]
                 } );
-            } else if ( type === 'number' ) {
+                break;
+            case 'number':
+            case 'text':
+            default:
                 $( el ).val( window.Extension.Options[ name ] );
-            } else if ( type === 'text' ) {
-                $( el ).val( window.Extension.Options[ name ] );
+                break;
             }
         } );
     };
 
-    SaveButton.on( 'click', save_options );
-    SaveButton.text( _l( 'action_save' ) );
+    $( 'input[type="checkbox"]' ).on( 'change', save_options );
+    $( 'input[type="number"]' ).on( 'change', save_options );
 
     $.each( $( 'label[data-msg^="options_"]' ), ( i, item ) => {
         const msg = $( item ).data( 'msg' );
-        $( item ).text( _l( msg ) );
+        $( item ).html( _l( msg ) );
     } );
 
     Device.runtime.getBackgroundPage( ( backgroundPageInstance ) => {
         window.Extension = backgroundPageInstance.Ext;
         restore_options();
 
-        const feedButton = $( 'button[data-action="feed_url"]' );
-        const newQuestionButton = $( 'button[data-action="new_question_url"]' );
+        const homeButton = $( 'button[data-action="go_to_home"]' );
 
-        feedButton.attr( {
-            title: _l( 'action_go_to_website' )
+        homeButton.attr( {
+            title: _l( 'action_go_to_home' )
         } );
 
-        newQuestionButton.attr( {
-            title: _l( 'action_new_question' )
+        homeButton.on( 'click', ( e ) => {
+            openWin( window.Extension.Options.home_url );
+        } );
+
+        const feedbackButton = $( 'button[data-action="go_to_feedback"]' );
+
+        feedbackButton.attr( {
+            title: _l( 'action_go_to_feedback' )
+        } );
+
+        feedbackButton.on( 'click', ( e ) => {
+            openWin( window.Extension.Options.feedback_url );
+        } );
+
+        const feedButton = $( 'button[data-action="go_to_feed"]' );
+
+        feedButton.attr( {
+            title: _l( 'action_go_to_feed' )
         } );
 
         feedButton.on( 'click', ( e ) => {
             openWin( window.Extension.Options.feed_url );
+        } );
+
+        const newQuestionButton = $( 'button[data-action="go_to_new_question"]' );
+
+        newQuestionButton.attr( {
+            title: _l( 'action_go_to_new_question' )
         } );
 
         newQuestionButton.on( 'click', ( e ) => {

@@ -4,14 +4,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var $ = exports.$ = function $(selector, parent) {
-    return (parent || document).querySelector(selector);
-};
-
-var $$ = exports.$$ = function $$(selector, parent) {
-    return (parent || document).querySelectorAll(selector);
-};
-
 var createElement = exports.createElement = function createElement(str, parent) {
     var elem = (parent || document).createElement('div');
     elem.innerHTML = str;

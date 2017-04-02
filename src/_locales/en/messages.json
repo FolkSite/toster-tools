@@ -21,16 +21,20 @@
         }
     },
 
-    "action_go_to_website": {
-        "message": "Go to toster.ru"
+    "action_go_to_feed": {
+        "message": "Go to feed"
     },
 
-    "action_new_question": {
+    "action_go_to_new_question": {
         "message": "Add question"
     },
 
-    "action_save": {
-        "message": "Save"
+    "action_go_to_home": {
+        "message": "Go to website"
+    },
+
+    "action_go_to_feedback": {
+        "message": "Give feedback"
     },
 
     "unread_notifications_title": {
@@ -49,8 +53,12 @@
         "message": "Enable notifications on icon?"
     },
 
-    "options_use_keyboard_action": {
-        "message": "Use Ctrl+Enter for submit?"
+    "options_use_kbd": {
+        "message": "Use <kbd>Ctrl+Enter</kbd> for submit?"
+    },
+
+    "options_use_tab": {
+        "message": "Use <kbd>Tab/Shift+Tab</kbd> for indent?"
     },
 
     "options_hide_top_panel": {
