@@ -36,7 +36,6 @@ const callbackMessage = ( request, sender, callback ) => {
 class Extension {
     constructor( ...args ) {
         this.Options = {
-            show_toolbar: true,
             use_kbd: true,
             hide_top_panel: true,
             hide_right_sidebar: true
@@ -56,56 +55,6 @@ class Extension {
                 }
             }
         } );
-    }
-
-    switchToolbar() {
-        const toolbars = $( 'div.twpwyg_toolbar' );
-
-        if ( toolbars && toolbars.length ) {
-            if ( this.Options.show_toolbar ) {
-                $.each( toolbars, ( i, toolbar ) => {
-                    $( toolbar ).removeClass( 'hidden' );
-                } );
-            } else {
-                $.each( toolbars, ( i, toolbar ) => {
-                    $( toolbar ).addClass( 'hidden' );
-                } );
-            }
-        } else {
-            if ( !this.Options.show_toolbar ) {
-                return;
-            }
-
-            const commentForms = $( 'form.form_comments[role$="comment_form"]' );
-
-            if ( commentForms.length > 0 ) {
-                fetch( Device.extension.getURL( 'resources/twpwyg.js' ), {
-                        credentials: 'include'
-                    } )
-                    .then( response => response.text() )
-                    .then( ( script ) => {
-                        $( '<script/>' ).html( script ).appendTo( $( 'head' ) );
-                    } )
-                    .catch( console.error );
-
-                $( '<link/>', {
-                    rel: 'stylesheet',
-                    href: Device.extension.getURL( 'css/foundation-icons.min.css' )
-                } ).appendTo( $( 'head' ) );
-
-                fetch( Device.extension.getURL( 'resources/toolbar.html' ), {
-                        credentials: 'include'
-                    } )
-                    .then( response => response.text() )
-                    .then( ( toolbar ) => {
-                        $.each( commentForms, ( i, form ) => {
-                            const field_wrap = $( 'div.field_wrap', form );
-                            field_wrap.prepend( $( toolbar ) );
-                        } );
-                    } )
-                    .catch( console.error );
-            }
-        }
     }
 
     updateAnswerList( html ) {
@@ -169,7 +118,6 @@ class Extension {
                 this.Options = Object.assign( {}, this.Options, request.data || {} );
                 this.switchTopPanel();
                 this.switchRightSidebar();
-                this.switchToolbar();
                 this.addKeyDownSendListener();
                 break;
             }

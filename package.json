@@ -1,6 +1,6 @@
 {
   "name": "toster-wysiwyg-panel",
-  "version": "3.12.7",
+  "version": "3.13.7",
   "description": "Расширение для сайта toster.ru",
   "dependencies": {},
   "devDependencies": {
@@ -26,7 +26,8 @@
     "preinstall": "chmod +x *.sh && npm install --global browserify web-ext eslint babel-cli",
     "postinstall": "npm run lint && npm run compile",
     "zip": "./zip.sh",
-    "ffsign": "./ffsign.sh"
+    "ffsign": "./ffsign.sh",
+    "dev2master": "./dev2master.sh"
   },
   "author": "Yarkov Aleksey <contact@data-keeper.ru>",
   "license": "MIT"

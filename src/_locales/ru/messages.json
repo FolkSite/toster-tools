@@ -49,14 +49,6 @@
         "message": "Включить уведомления на иконке?"
     },
 
-    "options_use_toolbar": {
-        "message": "Использовать тулбар для комментариев?"
-    },
-
-    "options_use_toolbar_answers": {
-        "message": "Использовать тулбар для ответов?"
-    },
-
     "options_use_keyboard_action": {
         "message": "Использовать Ctrl+Enter для отправки?"
     },

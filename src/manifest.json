@@ -4,7 +4,7 @@
   "name": "__MSG_extension_name__",
   "short_name": "__MSG_extension_shortname__",
   "description": "__MSG_extension_description__",
-  "version": "3.12.7",
+  "version": "3.13.7",
   "author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
   "homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
   "default_locale": "ru",
@@ -52,16 +52,6 @@
         "mac": "Alt+T"
       }
     }
-  },
-
-  "web_accessible_resources": [
-    "resources/twpwyg.js",
-    "resources/toolbar.html",
-    "css/foundation-icons.min.css",
-    "fonts/foundation-icons.eot",
-    "fonts/foundation-icons.svg",
-    "fonts/foundation-icons.ttf",
-    "fonts/foundation-icons.woff"
-	]
+  }
 
 }
