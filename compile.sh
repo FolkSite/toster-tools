@@ -11,7 +11,8 @@ BABEL_OUT_DIR="${BABEL_SRC_DIR}/babel"
 FILES=("icon" "js" "css" "fonts" "_locales" "manifest.json" "popup.html")
 
 function build_babel() {
-    [ -d "${BABEL_OUT_DIR}" ] && rm -rf "${BABEL_OUT_DIR}" && mkdir -p "${BABEL_OUT_DIR}"
+    [ -d "${BABEL_OUT_DIR}" ] && rm -rf "${BABEL_OUT_DIR}"
+    mkdir -p "${BABEL_OUT_DIR}"
     $(which babel) "${BABEL_SRC_DIR}" --out-dir "${BABEL_OUT_DIR}"  --ignore=babel
 }
 
