@@ -1,18 +1,11 @@
-div.twpwyg_toolbar,
 div.tmservices-panel {
     display: block !important;
 }
 
-div.twpwyg_toolbar.hidden,
 div.tmservices-panel.hidden {
     display: none !important;
 }
 
 div.dropdown__menu {
     left: -150px !important;
-}
-
-i[class^="fi-"] {
-    color: #a2a39d;
-    font-size: 24px;
 }

@@ -6,19 +6,24 @@ body {
     line-height: 1;
 }
 
+img.icon {
+    height: 24px;
+    width: 24px;
+}
+
 .material-switch {
-    display: inline;   
+    display: inline;
 }
 
 .material-switch > input[type="checkbox"] {
-    display: none;   
+    display: none;
 }
 
 .material-switch > label {
     cursor: pointer;
     height: 0px;
-    position: relative; 
-    width: 40px;  
+    position: relative;
+    width: 40px;
 }
 
 .material-switch > label::before {
