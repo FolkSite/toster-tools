@@ -3,6 +3,7 @@
 /* eslint no-use-before-define: "off" */
 import {
     Device,
+    getPage,
     _l,
     isChrome,
     isOpera,
@@ -11,23 +12,24 @@ import {
 from './utils';
 
 let useNotificationsFlag = 0;
-const chromeUninstallUrl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
-const operaUninstallUrl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
-const ffUninstallUrl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
 
-let uninstallurl;
+let feedbackurl;
+
 if ( isChrome && !isOpera ) {
-    uninstallurl = chromeUninstallUrl;
+    feedbackurl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
 } else if ( isOpera ) {
-    uninstallurl = operaUninstallUrl;
+    feedbackurl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
 } else if ( isFirefox ) {
-    uninstallurl = ffUninstallUrl;
+    feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
 }
 
+const extensionHomeUrl = 'https://github.com/yarkovaleksei/toster-wysiwyg-panel';
+
 const installHandler = ( details ) => {
+    if ( Device.runtime.setUninstallURL && feedbackurl ) {
+        Device.runtime.setUninstallURL( feedbackurl );
+    }
     const currentVersion = Device.runtime.getManifest().version;
-    window.Ext.updateIcon();
-    window.Ext.synchronize();
     switch ( details.reason ) {
     case 'update':
         // console.log( `Updated from ${details.previousVersion} to ${currentVersion}!` );
@@ -46,16 +48,17 @@ const callbackMessage = ( request, sender, callback ) => {
 class Extension {
     constructor( ...args ) {
         this.defaults = Object.freeze( {
-            home_url: 'https://github.com/yarkovaleksei/toster-wysiwyg-panel',
-            feedback_url: uninstallurl,
             ajax: true,
+            check_answers: false,
             interval: 10,
             use_kbd: true,
-            use_tab: true,
+            use_tab: false,
             use_notifications: false,
             use_badge_icon: true,
-            hide_top_panel: true,
-            hide_right_sidebar: true,
+            hide_top_panel: false,
+            hide_right_sidebar: false,
+            home_url: extensionHomeUrl,
+            feedback_url: feedbackurl || extensionHomeUrl,
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
             new_question_url: 'https://toster.ru/question/new'
@@ -80,17 +83,6 @@ class Extension {
         this.synchronize();
     }
 
-    getNotifyPage() {
-        this.updateIcon( {
-            loading: true
-        } );
-        return fetch( this.Options.tracker_url, {
-                credentials: 'include'
-            } )
-            .then( response => response.text() )
-            .catch( console.error );
-    }
-
     stopTimer() {
         Device.alarms.clear( 'checkUnread', wasCleared => wasCleared );
     }
@@ -101,7 +93,10 @@ class Extension {
     }
 
     checkUnread() {
-        this.getNotifyPage().then( ( body ) => {
+        this.updateIcon( {
+            loading: true
+        } );
+        getPage( this.Options.tracker_url ).then( ( body ) => {
             const event_list = $( body ).find( 'ul.events-list' )[ 0 ];
             let count = 0;
 
@@ -226,7 +221,9 @@ class Extension {
 
 window.Ext = new Extension();
 
-Device.runtime.setUninstallURL( uninstallurl );
+window.Ext.updateIcon();
+window.Ext.synchronize();
+
 
 Device.runtime.onMessage.addListener( callbackMessage );
 

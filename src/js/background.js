@@ -246,23 +246,24 @@ var useNotificationsFlag = 0; /* global Ext, $ */
 /* eslint class-methods-use-this: "off" */
 /* eslint no-use-before-define: "off" */
 
-var chromeUninstallUrl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
-var operaUninstallUrl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
-var ffUninstallUrl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
 
-var uninstallurl = void 0;
+var feedbackurl = void 0;
+
 if (_utils.isChrome && !_utils.isOpera) {
-    uninstallurl = chromeUninstallUrl;
+    feedbackurl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
 } else if (_utils.isOpera) {
-    uninstallurl = operaUninstallUrl;
+    feedbackurl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
 } else if (_utils.isFirefox) {
-    uninstallurl = ffUninstallUrl;
+    feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
 }
 
+var extensionHomeUrl = 'https://github.com/yarkovaleksei/toster-wysiwyg-panel';
+
 var installHandler = function installHandler(details) {
+    if (_utils.Device.runtime.setUninstallURL && feedbackurl) {
+        _utils.Device.runtime.setUninstallURL(feedbackurl);
+    }
     var currentVersion = _utils.Device.runtime.getManifest().version;
-    window.Ext.updateIcon();
-    window.Ext.synchronize();
     switch (details.reason) {
         case 'update':
             // console.log( `Updated from ${details.previousVersion} to ${currentVersion}!` );
@@ -283,16 +284,17 @@ var Extension = function () {
         (0, _classCallCheck3.default)(this, Extension);
 
         this.defaults = Object.freeze({
-            home_url: 'https://github.com/yarkovaleksei/toster-wysiwyg-panel',
-            feedback_url: uninstallurl,
             ajax: true,
+            check_answers: false,
             interval: 10,
             use_kbd: true,
-            use_tab: true,
+            use_tab: false,
             use_notifications: false,
             use_badge_icon: true,
-            hide_top_panel: true,
-            hide_right_sidebar: true,
+            hide_top_panel: false,
+            hide_right_sidebar: false,
+            home_url: extensionHomeUrl,
+            feedback_url: feedbackurl || extensionHomeUrl,
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
             new_question_url: 'https://toster.ru/question/new'
@@ -320,18 +322,6 @@ var Extension = function () {
             this.synchronize();
         }
     }, {
-        key: 'getNotifyPage',
-        value: function getNotifyPage() {
-            this.updateIcon({
-                loading: true
-            });
-            return fetch(this.Options.tracker_url, {
-                credentials: 'include'
-            }).then(function (response) {
-                return response.text();
-            }).catch(console.error);
-        }
-    }, {
         key: 'stopTimer',
         value: function stopTimer() {
             _utils.Device.alarms.clear('checkUnread', function (wasCleared) {
@@ -349,7 +339,10 @@ var Extension = function () {
         value: function checkUnread() {
             var _this = this;
 
-            this.getNotifyPage().then(function (body) {
+            this.updateIcon({
+                loading: true
+            });
+            (0, _utils.getPage)(this.Options.tracker_url).then(function (body) {
                 var event_list = $(body).find('ul.events-list')[0];
                 var count = 0;
 
@@ -484,7 +477,8 @@ var Extension = function () {
 
 window.Ext = new Extension();
 
-_utils.Device.runtime.setUninstallURL(uninstallurl);
+window.Ext.updateIcon();
+window.Ext.synchronize();
 
 _utils.Device.runtime.onMessage.addListener(callbackMessage);
 
@@ -529,7 +523,7 @@ var createElement = exports.createElement = function createElement(str, parent) 
     return elem;
 };
 
-var isChrome = exports.isChrome = window.chrome && window.chrome.webstore;
+var isChrome = exports.isChrome = window.chrome && /chrome\//i.test(window.navigator.userAgent);
 
 var isOpera = exports.isOpera = window.opr && window.opr.addons || window.opera || /opr\//i.test(window.navigator.userAgent);
 
@@ -541,6 +535,14 @@ var Device = exports.Device = function () {
     }
     return browser;
 }();
+
+var getPage = exports.getPage = function getPage(url) {
+    return fetch(url, {
+        credentials: 'include'
+    }).then(function (response) {
+        return response.text();
+    }).catch(console.error);
+};
 
 var _l = exports._l = function _l(msg, placeholders) {
     if (Array.isArray(placeholders)) {

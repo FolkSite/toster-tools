@@ -116,7 +116,7 @@ var createElement = exports.createElement = function createElement(str, parent) 
     return elem;
 };
 
-var isChrome = exports.isChrome = window.chrome && window.chrome.webstore;
+var isChrome = exports.isChrome = window.chrome && /chrome\//i.test(window.navigator.userAgent);
 
 var isOpera = exports.isOpera = window.opr && window.opr.addons || window.opera || /opr\//i.test(window.navigator.userAgent);
 
@@ -128,6 +128,14 @@ var Device = exports.Device = function () {
     }
     return browser;
 }();
+
+var getPage = exports.getPage = function getPage(url) {
+    return fetch(url, {
+        credentials: 'include'
+    }).then(function (response) {
+        return response.text();
+    }).catch(console.error);
+};
 
 var _l = exports._l = function _l(msg, placeholders) {
     if (Array.isArray(placeholders)) {

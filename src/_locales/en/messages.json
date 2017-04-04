@@ -45,6 +45,10 @@
         "message": "Enable AJAX checking?"
     },
 
+    "options_enable_check_answers": {
+        "message": "Enable answers update?"
+    },
+
     "options_enable_notifications": {
         "message": "Enable HTML5 notifications?"
     },

@@ -240,19 +240,43 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _utils = require('./utils');
 
+var _parser = require('./parser');
+
+var _parser2 = _interopRequireDefault(_parser);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* global Ext, $ */
+/* eslint class-methods-use-this: "off" */
+/* eslint no-use-before-define: "off" */
+/* eslint no-useless-escape: "off" */
+/* eslint no-control-regex: "off" */
+/* eslint no-extend-native: "off" */
+Array.prototype.remove = function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+    }
+
+    var a = [].concat(args);
+    var L = a.length;
+    var what = void 0;
+    var ax = void 0;
+    while (L && this.length) {
+        what = a[--L];
+        ax = this.indexOf(what);
+        if (ax > -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
 
 HTMLTextAreaElement.prototype.setCaretPosition = function (start, end) {
     end = typeof end !== 'undefined' ? end : start;
     this.selectionStart = start;
     this.selectionEnd = end;
     this.focus();
-}; /* global Ext, $ */
-/* eslint class-methods-use-this: "off" */
-/* eslint no-use-before-define: "off" */
-/* eslint no-useless-escape: "off" */
-/* eslint no-control-regex: "off" */
-
+};
 
 HTMLTextAreaElement.prototype.hasSelection = function () {
     if (this.selectionStart === this.selectionEnd) {
@@ -269,28 +293,165 @@ HTMLTextAreaElement.prototype.isMultilineSelection = function () {
     return false;
 };
 
+window.activeIDs = [];
+
+var onQuestionPage = window.location.pathname.startsWith('/q/');
+
 var callbackMessage = function callbackMessage(request, sender, callback) {
     window.Ext.callbackMessage(request, sender, callback);
 };
+
+var selectors = {
+    QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
+    SolutionsRootSelector: '#solutions > ul#solutions_list',
+    AnswersRootSelector: '#answers > ul#answers_list'
+};
+var Parser = new _parser2.default(selectors);
 
 var Extension = function () {
     function Extension() {
         (0, _classCallCheck3.default)(this, Extension);
 
-        this.defaults = Object.freeze({
+        this.Timer = undefined;
+        var defaults = Object.freeze({
+            ajax: true,
+            check_answers: false,
+            interval: 10,
             use_kbd: true,
-            use_tab: true,
+            use_tab: false,
             hide_top_panel: false,
             hide_right_sidebar: false
         });
-        this.Options = Object.assign({}, this.defaults);
+        this.Options = Object.assign({}, defaults);
         this.textareaSelectorAll = 'textarea.textarea';
     }
 
     (0, _createClass3.default)(Extension, [{
+        key: 'stopTimer',
+        value: function stopTimer() {
+            clearInterval(this.Timer);
+        }
+    }, {
+        key: 'startTimer',
+        value: function startTimer() {
+            var _this = this;
+
+            this.Timer = setInterval(function () {
+                _this.updatePage();
+            }, this.Options.interval * 1000);
+        }
+    }, {
+        key: 'reStartTimer',
+        value: function reStartTimer() {
+            this.stopTimer();
+
+            if (this.Options.check_answers && this.Options.interval > 0 && onQuestionPage) {
+                this.startTimer();
+            }
+        }
+    }, {
+        key: 'updateQuestionComments',
+        value: function updateQuestionComments(body) {
+            var newQuestionComments = Parser.getQuestionComments(body);
+            var QuestionCommentsRoot = $(document).find(selectors.QuestionCommentsRootSelector);
+            QuestionCommentsRoot.find('li').remove('li[role*="comments_item"]');
+            for (var i = 0; i < newQuestionComments.length; i++) {
+                var comment = newQuestionComments[i];
+                var li = $('<li/>', {
+                    class: 'content-list__item',
+                    role: 'comments_item'
+                });
+                $(li).html(comment.content);
+                $(li).insertBefore($(QuestionCommentsRoot.find('li.content-list__item').last()));
+            }
+        }
+    }, {
+        key: 'updateSolutions',
+        value: function updateSolutions(body) {
+            var localSolutions = Parser.getSolutions(document);
+            var Solutions = Parser.getSolutions(body);
+            var SolutionsRoot = $(document).find(selectors.SolutionsRootSelector);
+            var solutionsDeleteArray = [];
+
+            if (Solutions.length < localSolutions.length) {
+                solutionsDeleteArray = localSolutions.filter(function (item) {
+                    return !Solutions.find(function (search) {
+                        return search.id === item.id;
+                    });
+                });
+            }
+
+            $('#solutions span[role="answers_counter"]').text(localSolutions.length - solutionsDeleteArray.length);
+
+            for (var i = 0; i < solutionsDeleteArray.length; i++) {
+                var _id = $(solutionsDeleteArray[i]).attr('id');
+                $(SolutionsRoot).find('li').remove('#' + _id);
+            }
+
+            for (var _i = 0; _i < Solutions.length; _i++) {
+                var solution = $(Solutions[_i]);
+                var currentId = $(solution).attr('id');
+                var exists = $(SolutionsRoot).find('li#' + currentId).get(0);
+                if (!window.activeIDs.includes(currentId)) {
+                    if (exists) {
+                        $(exists).html($(solution).html());
+                    } else {
+                        $(SolutionsRoot).append($(solution));
+                    }
+                }
+            }
+        }
+    }, {
+        key: 'updateAnswers',
+        value: function updateAnswers(body) {
+            var localAnswers = Parser.getAnswers(document);
+            var Answers = Parser.getAnswers(body);
+            var AnswersRoot = $(document).find(selectors.AnswersRootSelector);
+            var answersDeleteArray = [];
+
+            if (Answers.length < localAnswers.length) {
+                answersDeleteArray = localAnswers.filter(function (item) {
+                    return !Answers.find(function (search) {
+                        return search.id === item.id;
+                    });
+                });
+            }
+
+            $('#answers span[role="answers_counter"]').text(localAnswers.length - answersDeleteArray.length);
+
+            for (var i = 0; i < answersDeleteArray.length; i++) {
+                var _id = $(answersDeleteArray[i]).attr('id');
+                $(AnswersRoot).find('li').remove('#' + _id);
+            }
+
+            for (var _i2 = 0; _i2 < Answers.length; _i2++) {
+                var answer = $(Answers[_i2]);
+                var currentId = $(answer).attr('id');
+                var exists = $(AnswersRoot).find('li#' + currentId).get(0);
+                if (!window.activeIDs.includes(currentId)) {
+                    if (exists) {
+                        $(exists).html($(answer).html());
+                    } else {
+                        $(AnswersRoot).append($(answer));
+                    }
+                }
+            }
+        }
+    }, {
+        key: 'updatePage',
+        value: function updatePage() {
+            var _this2 = this;
+
+            (0, _utils.getPage)(window.location.href).then(function (body) {
+                _this2.updateQuestionComments(body);
+                _this2.updateSolutions(body);
+                _this2.updateAnswers(body);
+            });
+        }
+    }, {
         key: 'addKeyDownSendListener',
         value: function addKeyDownSendListener() {
-            var _this = this;
+            var _this3 = this;
 
             $(document).delegate(this.textareaSelectorAll, 'keydown', function (event) {
                 if (!event) {
@@ -299,7 +460,7 @@ var Extension = function () {
                 var form = $(event.target.form);
                 var button = $('button[type="submit"]', form);
                 if ((event.ctrlKey || event.metaKey) && (event.keyCode === 13 || event.keyCode === 10)) {
-                    if (_this.Options.use_kbd) {
+                    if (_this3.Options.use_kbd) {
                         button.click();
                     }
                 }
@@ -308,7 +469,7 @@ var Extension = function () {
     }, {
         key: 'addKeyDownIndentFormatListener',
         value: function addKeyDownIndentFormatListener() {
-            var _this2 = this;
+            var _this4 = this;
 
             $(document).delegate(this.textareaSelectorAll, 'keydown', function (event) {
                 if (!event) {
@@ -317,7 +478,7 @@ var Extension = function () {
 
                 if (event.keyCode !== 9 || event.ctrlKey || event.metaKey || event.altKey) return;
 
-                if (!_this2.Options.use_tab) return false;
+                if (!_this4.Options.use_tab) return false;
 
                 var tabString = '\t';
                 var target = event.target;
@@ -383,12 +544,6 @@ var Extension = function () {
             });
         }
     }, {
-        key: 'updateAnswerList',
-        value: function updateAnswerList(html) {}
-    }, {
-        key: 'updateCommentList',
-        value: function updateCommentList(html) {}
-    }, {
         key: 'updateSidebar',
         value: function updateSidebar(html) {
             var aside = $('aside.layout__navbar[role="navbar"]');
@@ -438,12 +593,6 @@ var Extension = function () {
         value: function callbackMessage(request, sender, callback) {
             if (request && request.cmd) {
                 switch (request.cmd) {
-                    case 'updateAnswerList':
-                        // this.updateAnswerList(request.data);
-                        break;
-                    case 'updateCommentList':
-                        // this.updateCommentList(request.data);
-                        break;
                     case 'updateSidebar':
                         this.updateSidebar(request.data);
                         break;
@@ -454,6 +603,7 @@ var Extension = function () {
                         this.switchRightSidebar();
                         this.addKeyDownSendListener();
                         this.addKeyDownIndentFormatListener();
+                        this.reStartTimer();
                         break;
                 }
             }
@@ -474,7 +624,97 @@ _utils.Device.runtime.onMessage.addListener(callbackMessage);
 window.Ext.sendMessageToBackgroundScript({
     cmd: 'options'
 });
-},{"./utils":22,"babel-runtime/helpers/classCallCheck":2,"babel-runtime/helpers/createClass":3}],22:[function(require,module,exports){
+
+if (onQuestionPage) {
+    $(document).delegate('a[role="toggle_answer_comments"]', 'click', function (event) {
+        if (!event) {
+            var _event3 = window.event;
+        }
+
+        var target = $(event.target).closest('a[role="toggle_answer_comments"]');
+        var answerId = target.attr('id').replace(/[^\d]/g, '').replace(/([\d]+)/, 'answer_item_$1');
+        var isHidden = target.closest('footer').siblings('div.answer__comments').hasClass('hidden');
+
+        if (isHidden) {
+            window.activeIDs.remove(answerId);
+        } else {
+            window.activeIDs.push(answerId);
+        }
+    });
+}
+},{"./parser":22,"./utils":23,"babel-runtime/helpers/classCallCheck":2,"babel-runtime/helpers/createClass":3}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* global $ */
+
+var _class = function () {
+    function _class(selectors) {
+        (0, _classCallCheck3.default)(this, _class);
+
+        var defaults = Object.freeze({
+            QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
+            SolutionsRootSelector: '#solutions > ul#solutions_list',
+            AnswersRootSelector: '#answers > ul#answers_list',
+            TagsList: '#question_show ul.tags-list'
+        });
+        this.selectors = Object.assign({}, defaults, selectors || {});
+    }
+
+    (0, _createClass3.default)(_class, [{
+        key: 'getQuestionComments',
+        value: function getQuestionComments(source) {
+            var QuestionComments = $(source).find(this.selectors.QuestionCommentsRootSelector).find('li.content-list__item[role="comments_item"]');
+
+            var QuestionCommentsJSON = $(QuestionComments).map(function (i, comment) {
+                var result = {
+                    id: $(comment).attr('id'),
+                    content: $(comment).html(),
+                    questionComment: true,
+                    answer: false,
+                    solution: false
+                };
+                return result;
+            }).get();
+            return QuestionCommentsJSON;
+        }
+    }, {
+        key: 'getSolutions',
+        value: function getSolutions(source) {
+            var Solutions = $(source).find(this.selectors.SolutionsRootSelector).find('li.content-list__item[role^="answer_item"]').get();
+            return Solutions;
+        }
+    }, {
+        key: 'getAnswers',
+        value: function getAnswers(source) {
+            var Answers = $(source).find(this.selectors.AnswersRootSelector).find('li.content-list__item[role^="answer_item"]').get();
+            return Answers;
+        }
+    }, {
+        key: 'getTagsList',
+        value: function getTagsList(source) {
+            var TagsList = $(source).find(this.selectors.TagsList).find('li.tags-list').get();
+            return TagsList;
+        }
+    }]);
+    return _class;
+}();
+
+exports.default = _class;
+},{"babel-runtime/helpers/classCallCheck":2,"babel-runtime/helpers/createClass":3}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -489,7 +729,7 @@ var createElement = exports.createElement = function createElement(str, parent) 
     return elem;
 };
 
-var isChrome = exports.isChrome = window.chrome && window.chrome.webstore;
+var isChrome = exports.isChrome = window.chrome && /chrome\//i.test(window.navigator.userAgent);
 
 var isOpera = exports.isOpera = window.opr && window.opr.addons || window.opera || /opr\//i.test(window.navigator.userAgent);
 
@@ -501,6 +741,14 @@ var Device = exports.Device = function () {
     }
     return browser;
 }();
+
+var getPage = exports.getPage = function getPage(url) {
+    return fetch(url, {
+        credentials: 'include'
+    }).then(function (response) {
+        return response.text();
+    }).catch(console.error);
+};
 
 var _l = exports._l = function _l(msg, placeholders) {
     if (Array.isArray(placeholders)) {

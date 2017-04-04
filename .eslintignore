@@ -2,6 +2,7 @@ src/js/content.js
 src/js/popup.js
 src/js/background.js
 src/js/utils.js
+src/js/parser.js
 
 src/js/*.min.js
 src/_src/babel/*

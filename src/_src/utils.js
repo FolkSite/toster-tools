@@ -7,9 +7,9 @@ export const createElement = ( str, parent ) => {
     return elem;
 };
 
-export const isChrome = ( window.chrome && window.chrome.webstore );
+export const isChrome = ( window.chrome && /chrome\//i.test( window.navigator.userAgent ) );
 
-export const isOpera = ( ( window.opr && window.opr.addons ) || window.opera || /opr\//i.test( window.navigator.userAgent ) );
+export const isOpera = ( ( ( window.opr && window.opr.addons ) || window.opera ) || /opr\//i.test( window.navigator.userAgent ) );
 
 export const isFirefox = ( ( typeof InstallTrigger !== 'undefined' ) || /firefox/i.test( window.navigator.userAgent ) );
 
@@ -19,6 +19,10 @@ export const Device = ( () => {
     }
     return browser;
 } )();
+
+export const getPage = url => fetch( url, {
+    credentials: 'include'
+} ).then( response => response.text() ).catch( console.error );
 
 export const _l = ( msg, placeholders ) => {
     if ( Array.isArray( placeholders ) ) {

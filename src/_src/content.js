@@ -3,9 +3,28 @@
 /* eslint no-use-before-define: "off" */
 /* eslint no-useless-escape: "off" */
 /* eslint no-control-regex: "off" */
+/* eslint no-extend-native: "off" */
 import {
-    Device
+    Device,
+    getPage
 } from './utils';
+
+import QuestionParser from './parser';
+
+Array.prototype.remove = function ( ...args ) {
+    const a = [ ...args ];
+    let L = a.length;
+    let what;
+    let ax;
+    while ( L && this.length ) {
+        what = a[ --L ];
+        ax = this.indexOf( what );
+        if ( ax > -1 ) {
+            this.splice( ax, 1 );
+        }
+    }
+    return this;
+};
 
 HTMLTextAreaElement.prototype.setCaretPosition = function ( start, end ) {
     end = typeof end !== 'undefined' ? end : start;
@@ -29,20 +48,138 @@ HTMLTextAreaElement.prototype.isMultilineSelection = function () {
     return false;
 };
 
+window.activeIDs = [];
+
+const onQuestionPage = window.location.pathname.startsWith( '/q/' );
+
 const callbackMessage = ( request, sender, callback ) => {
     window.Ext.callbackMessage( request, sender, callback );
 };
 
+const selectors = {
+    QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
+    SolutionsRootSelector: '#solutions > ul#solutions_list',
+    AnswersRootSelector: '#answers > ul#answers_list'
+};
+const Parser = new QuestionParser( selectors );
+
 class Extension {
     constructor( ...args ) {
-        this.defaults = Object.freeze( {
+        this.Timer = undefined;
+        const defaults = Object.freeze( {
+            ajax: true,
+            check_answers: false,
+            interval: 10,
             use_kbd: true,
-            use_tab: true,
+            use_tab: false,
             hide_top_panel: false,
             hide_right_sidebar: false
         } );
-        this.Options = Object.assign( {}, this.defaults );
+        this.Options = Object.assign( {}, defaults );
         this.textareaSelectorAll = 'textarea.textarea';
+    }
+
+    stopTimer() {
+        clearInterval( this.Timer );
+    }
+
+    startTimer() {
+        this.Timer = setInterval( () => {
+            this.updatePage();
+        }, this.Options.interval * 1000 );
+    }
+
+    reStartTimer() {
+        this.stopTimer();
+
+        if ( this.Options.check_answers && ( this.Options.interval > 0 ) && onQuestionPage ) {
+            this.startTimer();
+        }
+    }
+
+    updateQuestionComments( body ) {
+        const newQuestionComments = Parser.getQuestionComments( body );
+        const QuestionCommentsRoot = $( document ).find( selectors.QuestionCommentsRootSelector );
+        QuestionCommentsRoot.find( 'li' ).remove( 'li[role*="comments_item"]' );
+        for ( let i = 0; i < newQuestionComments.length; i++ ) {
+            const comment = newQuestionComments[ i ];
+            const li = $( '<li/>', {
+                class: 'content-list__item',
+                role: 'comments_item'
+            } );
+            $( li ).html( comment.content );
+            $( li ).insertBefore( $( QuestionCommentsRoot.find( 'li.content-list__item' ).last() ) );
+        }
+    }
+
+    updateSolutions( body ) {
+        const localSolutions = Parser.getSolutions( document );
+        const Solutions = Parser.getSolutions( body );
+        const SolutionsRoot = $( document ).find( selectors.SolutionsRootSelector );
+        let solutionsDeleteArray = [];
+
+        if ( Solutions.length < localSolutions.length ) {
+            solutionsDeleteArray = localSolutions.filter( item => !Solutions.find( search => search.id === item.id ) );
+        }
+
+        $( '#solutions span[role="answers_counter"]' ).text( ( localSolutions.length - solutionsDeleteArray.length ) );
+
+        for ( let i = 0; i < solutionsDeleteArray.length; i++ ) {
+            const _id = $( solutionsDeleteArray[ i ] ).attr( 'id' );
+            $( SolutionsRoot ).find( 'li' ).remove( `#${_id}` );
+        }
+
+        for ( let i = 0; i < Solutions.length; i++ ) {
+            const solution = $( Solutions[ i ] );
+            const currentId = $( solution ).attr( 'id' );
+            const exists = $( SolutionsRoot ).find( `li#${currentId}` ).get( 0 );
+            if ( !window.activeIDs.includes( currentId ) ) {
+                if ( exists ) {
+                    $( exists ).html( $( solution ).html() );
+                } else {
+                    $( SolutionsRoot ).append( $( solution ) );
+                }
+            }
+        }
+    }
+
+    updateAnswers( body ) {
+        const localAnswers = Parser.getAnswers( document );
+        const Answers = Parser.getAnswers( body );
+        const AnswersRoot = $( document ).find( selectors.AnswersRootSelector );
+        let answersDeleteArray = [];
+
+        if ( Answers.length < localAnswers.length ) {
+            answersDeleteArray = localAnswers.filter( item => !Answers.find( search => search.id === item.id ) );
+        }
+
+        $( '#answers span[role="answers_counter"]' ).text( ( localAnswers.length - answersDeleteArray.length ) );
+
+        for ( let i = 0; i < answersDeleteArray.length; i++ ) {
+            const _id = $( answersDeleteArray[ i ] ).attr( 'id' );
+            $( AnswersRoot ).find( 'li' ).remove( `#${_id}` );
+        }
+
+        for ( let i = 0; i < Answers.length; i++ ) {
+            const answer = $( Answers[ i ] );
+            const currentId = $( answer ).attr( 'id' );
+            const exists = $( AnswersRoot ).find( `li#${currentId}` ).get( 0 );
+            if ( !window.activeIDs.includes( currentId ) ) {
+                if ( exists ) {
+                    $( exists ).html( $( answer ).html() );
+                } else {
+                    $( AnswersRoot ).append( $( answer ) );
+                }
+            }
+        }
+    }
+
+    updatePage() {
+        getPage( window.location.href ).then( ( body ) => {
+            this.updateQuestionComments( body );
+            this.updateSolutions( body );
+            this.updateAnswers( body );
+        } );
     }
 
     addKeyDownSendListener() {
@@ -133,14 +270,6 @@ class Extension {
         } );
     }
 
-    updateAnswerList( html ) {
-
-    }
-
-    updateCommentList( html ) {
-
-    }
-
     updateSidebar( html ) {
         const aside = $( 'aside.layout__navbar[role="navbar"]' );
 
@@ -186,12 +315,6 @@ class Extension {
     callbackMessage( request, sender, callback ) {
         if ( request && request.cmd ) {
             switch ( request.cmd ) {
-            case 'updateAnswerList':
-                // this.updateAnswerList(request.data);
-                break;
-            case 'updateCommentList':
-                // this.updateCommentList(request.data);
-                break;
             case 'updateSidebar':
                 this.updateSidebar( request.data );
                 break;
@@ -202,6 +325,7 @@ class Extension {
                 this.switchRightSidebar();
                 this.addKeyDownSendListener();
                 this.addKeyDownIndentFormatListener();
+                this.reStartTimer();
                 break;
             }
         }
@@ -219,3 +343,21 @@ Device.runtime.onMessage.addListener( callbackMessage );
 window.Ext.sendMessageToBackgroundScript( {
     cmd: 'options'
 } );
+
+if ( onQuestionPage ) {
+    $( document ).delegate( 'a[role="toggle_answer_comments"]', 'click', ( event ) => {
+        if ( !event ) {
+            const event = window.event;
+        }
+
+        const target = $( event.target ).closest( 'a[role="toggle_answer_comments"]' );
+        const answerId = target.attr( 'id' ).replace( /[^\d]/g, '' ).replace( /([\d]+)/, 'answer_item_$1' );
+        const isHidden = target.closest( 'footer' ).siblings( 'div.answer__comments' ).hasClass( 'hidden' );
+
+        if ( isHidden ) {
+            window.activeIDs.remove( answerId );
+        } else {
+            window.activeIDs.push( answerId );
+        }
+    } );
+}

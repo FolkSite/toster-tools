@@ -45,6 +45,10 @@
         "message": "Включить AJAX проверку?"
     },
 
+    "options_enable_check_answers": {
+        "message": "Включить обновление ответов?"
+    },
+
     "options_enable_notifications": {
         "message": "Включить HTML5 уведомления?"
     },
