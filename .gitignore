@@ -2,6 +2,9 @@ node_modules/
 build/
 src/_src/babel/
 
+src/js/*.js
+!src/js/*.min.js
+
 .jwtsign
 CHANGELOG.md
 *.sublime-workspace
