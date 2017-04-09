@@ -254,7 +254,7 @@ if (_utils.isChrome && !_utils.isOpera) {
 } else if (_utils.isOpera) {
     feedbackurl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
 } else if (_utils.isFirefox) {
-    feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel';
+    feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel#reviews';
 }
 
 var extensionHomeUrl = 'https://github.com/yarkovaleksei/toster-wysiwyg-panel';
@@ -286,6 +286,7 @@ var Extension = function () {
         this.defaults = Object.freeze({
             ajax: true,
             check_answers: false,
+            check_feed: true,
             interval: 10,
             use_kbd: true,
             use_tab: false,
@@ -482,17 +483,29 @@ window.Ext.synchronize();
 
 _utils.Device.runtime.onMessage.addListener(callbackMessage);
 
-_utils.Device.notifications.onClosed.addListener(function (notifId, byUser) {
-    _utils.Device.notifications.clear(notifId, function (wasCleared) {
-        if (byUser) {
+if (_utils.isChrome) {
+    _utils.Device.notifications.onClicked.addListener(function (notifId) {
+        _utils.Device.notifications.clear(notifId, function (wasCleared) {
             _utils.Device.tabs.create({
                 url: window.Ext.Options.tracker_url
             }, function (tab) {
                 return tab;
             });
-        }
+        });
     });
-});
+} else {
+    _utils.Device.notifications.onClosed.addListener(function (notifId, byUser) {
+        _utils.Device.notifications.clear(notifId, function (wasCleared) {
+            if (byUser) {
+                _utils.Device.tabs.create({
+                    url: window.Ext.Options.tracker_url
+                }, function (tab) {
+                    return tab;
+                });
+            }
+        });
+    });
+}
 
 _utils.Device.alarms.onAlarm.addListener(function (alarm) {
     switch (alarm.name) {

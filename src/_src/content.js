@@ -50,7 +50,19 @@ HTMLTextAreaElement.prototype.isMultilineSelection = function () {
 
 window.activeIDs = [];
 
-const onQuestionPage = window.location.pathname.startsWith( '/q/' );
+const state = {
+    onQuestionPage: window.location.pathname.startsWith( '/q/' ),
+    onFeedPage: window.location.pathname === '' || window.location.pathname === '/' || window.location.pathname.startsWith( '/my/feed' ),
+    onAllQuestionsPage: window.location.pathname.startsWith( '/questions' ),
+    onTagQuestionsPage: window.location.pathname.startsWith( '/tag/' ) && /\/?_?questions_?/g.test( window.location.pathname )
+};
+
+( () => {
+    if ( window.location.hash.startsWith( '#comment_' ) ) {
+        const comment = $( window.location.hash ).closest( 'li[role^="answer_item"]' );
+        window.activeIDs.push( $( comment ).attr( 'id' ) );
+    }
+} )();
 
 const callbackMessage = ( request, sender, callback ) => {
     window.Ext.callbackMessage( request, sender, callback );
@@ -59,8 +71,11 @@ const callbackMessage = ( request, sender, callback ) => {
 const selectors = {
     QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
     SolutionsRootSelector: '#solutions > ul#solutions_list',
-    AnswersRootSelector: '#answers > ul#answers_list'
+    AnswersRootSelector: '#answers > ul#answers_list',
+    TagsListRootSelector: '#question_show ul.tags-list',
+    FeedRootSelector: 'ul.content-list[role="content-list"]'
 };
+
 const Parser = new QuestionParser( selectors );
 
 class Extension {
@@ -69,6 +84,7 @@ class Extension {
         const defaults = Object.freeze( {
             ajax: true,
             check_answers: false,
+            check_feed: true,
             interval: 10,
             use_kbd: true,
             use_tab: false,
@@ -85,14 +101,19 @@ class Extension {
 
     startTimer() {
         this.Timer = setInterval( () => {
-            this.updatePage();
+            if ( state.onQuestionPage && this.Options.check_answers ) {
+                this.updatePage();
+            }
+            if ( ( state.onFeedPage || state.onAllQuestionsPage || state.onTagQuestionsPage ) && this.Options.check_feed ) {
+                this.updateFeed();
+            }
         }, this.Options.interval * 1000 );
     }
 
     reStartTimer() {
         this.stopTimer();
 
-        if ( this.Options.check_answers && ( this.Options.interval > 0 ) && onQuestionPage ) {
+        if ( this.Options.ajax && ( this.Options.interval > 0 ) ) {
             this.startTimer();
         }
     }
@@ -135,7 +156,10 @@ class Extension {
             const exists = $( SolutionsRoot ).find( `li#${currentId}` ).get( 0 );
             if ( !window.activeIDs.includes( currentId ) ) {
                 if ( exists ) {
-                    $( exists ).html( $( solution ).html() );
+                    const isEdition = $( exists ).find( 'div.answer-form_edit[role*="edit_answer_form"]' ).get( 0 );
+                    if ( !isEdition ) {
+                        $( exists ).html( $( solution ).html() );
+                    }
                 } else {
                     $( SolutionsRoot ).append( $( solution ) );
                 }
@@ -166,12 +190,32 @@ class Extension {
             const exists = $( AnswersRoot ).find( `li#${currentId}` ).get( 0 );
             if ( !window.activeIDs.includes( currentId ) ) {
                 if ( exists ) {
-                    $( exists ).html( $( answer ).html() );
+                    const isEdition = $( exists ).find( 'div.answer-form_edit[role*="edit_answer_form"]' ).get( 0 );
+                    if ( !isEdition ) {
+                        $( exists ).html( $( answer ).html() );
+                    }
                 } else {
                     $( AnswersRoot ).append( $( answer ) );
                 }
             }
         }
+    }
+
+    updateFeed( body ) {
+        getPage( window.location.href ).then( ( body ) => {
+            const Questions = Parser.getFeed( body );
+            const FeedRoot = $( document ).find( selectors.FeedRootSelector );
+            $( FeedRoot ).find( 'li' ).remove();
+            const li = $( '<li/>', {
+                class: 'content-list__item new-question',
+                role: 'content-list__item'
+            } );
+            for ( let i = 0; i < Questions.length; i++ ) {
+                const question = $( Questions[ i ] );
+                const html = $( question ).wrap( $( li ).clone() );
+                $( FeedRoot ).append( $( html ) );
+            }
+        } );
     }
 
     updatePage() {
@@ -344,7 +388,7 @@ window.Ext.sendMessageToBackgroundScript( {
     cmd: 'options'
 } );
 
-if ( onQuestionPage ) {
+if ( state.onQuestionPage ) {
     $( document ).delegate( 'a[role="toggle_answer_comments"]', 'click', ( event ) => {
         if ( !event ) {
             const event = window.event;

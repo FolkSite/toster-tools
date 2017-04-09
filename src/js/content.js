@@ -295,7 +295,19 @@ HTMLTextAreaElement.prototype.isMultilineSelection = function () {
 
 window.activeIDs = [];
 
-var onQuestionPage = window.location.pathname.startsWith('/q/');
+var state = {
+    onQuestionPage: window.location.pathname.startsWith('/q/'),
+    onFeedPage: window.location.pathname === '' || window.location.pathname === '/' || window.location.pathname.startsWith('/my/feed'),
+    onAllQuestionsPage: window.location.pathname.startsWith('/questions'),
+    onTagQuestionsPage: window.location.pathname.startsWith('/tag/') && /\/?_?questions_?/g.test(window.location.pathname)
+};
+
+(function () {
+    if (window.location.hash.startsWith('#comment_')) {
+        var comment = $(window.location.hash).closest('li[role^="answer_item"]');
+        window.activeIDs.push($(comment).attr('id'));
+    }
+})();
 
 var callbackMessage = function callbackMessage(request, sender, callback) {
     window.Ext.callbackMessage(request, sender, callback);
@@ -304,8 +316,11 @@ var callbackMessage = function callbackMessage(request, sender, callback) {
 var selectors = {
     QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
     SolutionsRootSelector: '#solutions > ul#solutions_list',
-    AnswersRootSelector: '#answers > ul#answers_list'
+    AnswersRootSelector: '#answers > ul#answers_list',
+    TagsListRootSelector: '#question_show ul.tags-list',
+    FeedRootSelector: 'ul.content-list[role="content-list"]'
 };
+
 var Parser = new _parser2.default(selectors);
 
 var Extension = function () {
@@ -316,6 +331,7 @@ var Extension = function () {
         var defaults = Object.freeze({
             ajax: true,
             check_answers: false,
+            check_feed: true,
             interval: 10,
             use_kbd: true,
             use_tab: false,
@@ -337,7 +353,12 @@ var Extension = function () {
             var _this = this;
 
             this.Timer = setInterval(function () {
-                _this.updatePage();
+                if (state.onQuestionPage && _this.Options.check_answers) {
+                    _this.updatePage();
+                }
+                if ((state.onFeedPage || state.onAllQuestionsPage || state.onTagQuestionsPage) && _this.Options.check_feed) {
+                    _this.updateFeed();
+                }
             }, this.Options.interval * 1000);
         }
     }, {
@@ -345,7 +366,7 @@ var Extension = function () {
         value: function reStartTimer() {
             this.stopTimer();
 
-            if (this.Options.check_answers && this.Options.interval > 0 && onQuestionPage) {
+            if (this.Options.ajax && this.Options.interval > 0) {
                 this.startTimer();
             }
         }
@@ -394,7 +415,10 @@ var Extension = function () {
                 var exists = $(SolutionsRoot).find('li#' + currentId).get(0);
                 if (!window.activeIDs.includes(currentId)) {
                     if (exists) {
-                        $(exists).html($(solution).html());
+                        var isEdition = $(exists).find('div.answer-form_edit[role*="edit_answer_form"]').get(0);
+                        if (!isEdition) {
+                            $(exists).html($(solution).html());
+                        }
                     } else {
                         $(SolutionsRoot).append($(solution));
                     }
@@ -430,12 +454,33 @@ var Extension = function () {
                 var exists = $(AnswersRoot).find('li#' + currentId).get(0);
                 if (!window.activeIDs.includes(currentId)) {
                     if (exists) {
-                        $(exists).html($(answer).html());
+                        var isEdition = $(exists).find('div.answer-form_edit[role*="edit_answer_form"]').get(0);
+                        if (!isEdition) {
+                            $(exists).html($(answer).html());
+                        }
                     } else {
                         $(AnswersRoot).append($(answer));
                     }
                 }
             }
+        }
+    }, {
+        key: 'updateFeed',
+        value: function updateFeed(body) {
+            (0, _utils.getPage)(window.location.href).then(function (body) {
+                var Questions = Parser.getFeed(body);
+                var FeedRoot = $(document).find(selectors.FeedRootSelector);
+                $(FeedRoot).find('li').remove();
+                var li = $('<li/>', {
+                    class: 'content-list__item new-question',
+                    role: 'content-list__item'
+                });
+                for (var i = 0; i < Questions.length; i++) {
+                    var question = $(Questions[i]);
+                    var html = $(question).wrap($(li).clone());
+                    $(FeedRoot).append($(html));
+                }
+            });
         }
     }, {
         key: 'updatePage',
@@ -625,7 +670,7 @@ window.Ext.sendMessageToBackgroundScript({
     cmd: 'options'
 });
 
-if (onQuestionPage) {
+if (state.onQuestionPage) {
     $(document).delegate('a[role="toggle_answer_comments"]', 'click', function (event) {
         if (!event) {
             var _event3 = window.event;
@@ -669,7 +714,8 @@ var _class = function () {
             QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
             SolutionsRootSelector: '#solutions > ul#solutions_list',
             AnswersRootSelector: '#answers > ul#answers_list',
-            TagsList: '#question_show ul.tags-list'
+            TagsListRootSelector: '#question_show ul.tags-list',
+            FeedRootSelector: 'ul.content-list[role="content-list"]'
         });
         this.selectors = Object.assign({}, defaults, selectors || {});
     }
@@ -706,8 +752,14 @@ var _class = function () {
     }, {
         key: 'getTagsList',
         value: function getTagsList(source) {
-            var TagsList = $(source).find(this.selectors.TagsList).find('li.tags-list').get();
+            var TagsList = $(source).find(this.selectors.TagsListRootSelector).find('li.tags-list').get();
             return TagsList;
+        }
+    }, {
+        key: 'getFeed',
+        value: function getFeed(source) {
+            var Feed = $(source).find(this.selectors.FeedRootSelector).find('li.content-list__item').get();
+            return Feed;
         }
     }]);
     return _class;

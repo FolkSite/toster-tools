@@ -49,6 +49,10 @@
         "message": "Включить обновление ответов?"
     },
 
+    "options_enable_check_feed": {
+        "message": "Включить обновление ленты?"
+    },
+
     "options_enable_notifications": {
         "message": "Включить HTML5 уведомления?"
     },

@@ -6,7 +6,8 @@ export default class {
             QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
             SolutionsRootSelector: '#solutions > ul#solutions_list',
             AnswersRootSelector: '#answers > ul#answers_list',
-            TagsList: '#question_show ul.tags-list'
+            TagsListRootSelector: '#question_show ul.tags-list',
+            FeedRootSelector: 'ul.content-list[role="content-list"]'
         } );
         this.selectors = Object.assign( {}, defaults, selectors || {} );
     }
@@ -38,8 +39,13 @@ export default class {
     }
 
     getTagsList( source ) {
-        const TagsList = $( source ).find( this.selectors.TagsList ).find( 'li.tags-list' ).get();
+        const TagsList = $( source ).find( this.selectors.TagsListRootSelector ).find( 'li.tags-list' ).get();
         return TagsList;
+    }
+
+    getFeed( source ) {
+        const Feed = $( source ).find( this.selectors.FeedRootSelector ).find( 'li.content-list__item' ).get();
+        return Feed;
     }
 
 }

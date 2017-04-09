@@ -4,7 +4,7 @@
   "name": "__MSG_extension_name__",
   "short_name": "__MSG_extension_shortname__",
   "description": "__MSG_extension_description__",
-  "version": "3.20.9",
+  "version": "3.22.10",
   "author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
   "homepage_url": "https://github.com/yarkovaleksei/toster-wysiwyg-panel",
   "default_locale": "ru",
@@ -27,7 +27,8 @@
   "content_scripts": [ {
     "all_frames": false,
     "matches": [
-      "https://toster.ru/*" ],
+      "https://toster.ru/*"
+    ],
     "js": [
       "js/jquery-3.2.0.slim.min.js",
       "js/content.js"

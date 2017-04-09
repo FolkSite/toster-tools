@@ -49,6 +49,10 @@
         "message": "Enable answers update?"
     },
 
+    "options_enable_check_feed": {
+        "message": "Enable feed update?"
+    },
+
     "options_enable_notifications": {
         "message": "Enable HTML5 notifications?"
     },
