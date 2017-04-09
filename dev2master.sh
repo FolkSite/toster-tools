@@ -19,7 +19,7 @@ if [ "${CURRENT_BRANCH}" != "master" ]; then
     git merge "${CURRENT_BRANCH}"
     git push --all origin
     git branch -d "${CURRENT_BRANCH}"
-    git checkout "${CURRENT_BRANCH}"
+    git checkout -b "${CURRENT_BRANCH}"
 else
     git push --all origin
 fi
