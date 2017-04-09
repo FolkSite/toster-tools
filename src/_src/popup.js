@@ -8,6 +8,22 @@ from './utils';
 
 $( document ).ready( () => {
     const inputs = $( '#options_form input[type!="button"]' );
+    const selects = $( '#options_form select' );
+    const Manifest = Device.runtime.getManifest();
+    const sounds = Manifest.web_accessible_resources.filter( ( item ) => {
+        if ( item.endsWith( '.ogg' ) ) {
+            return item;
+        }
+        return false;
+    } );
+
+    for ( let i = 0; i < sounds.length; i++ ) {
+        const option = $( '<option/>', {
+            value: sounds[ i ]
+        } );
+        option.text( sounds[ i ].split( '/' )[ 1 ] );
+        $( '#name_sound' ).append( option );
+    }
 
     const save_options = () => {
         $.each( inputs, ( i, el ) => {
@@ -26,6 +42,11 @@ $( document ).ready( () => {
                 value = $( el ).val();
                 break;
             }
+            window.Extension.Options[ name ] = value;
+        } );
+        $.each( selects, ( i, el ) => {
+            const name = $( el ).attr( 'id' );
+            const value = $( el ).val();
             window.Extension.Options[ name ] = value;
         } );
         window.Extension.saveOptions();
@@ -49,10 +70,16 @@ $( document ).ready( () => {
                 break;
             }
         } );
+        $.each( selects, ( i, el ) => {
+            const name = $( el ).attr( 'id' );
+            const value = window.Extension.Options[ name ];
+            $( el ).val( value );
+        } );
     };
 
     $( 'input[type="checkbox"]' ).on( 'change', save_options );
     $( 'input[type="number"]' ).on( 'change', save_options );
+    $( 'select' ).on( 'change', save_options );
 
     $.each( $( 'label[data-msg^="options_"]' ), ( i, item ) => {
         const msg = $( item ).data( 'msg' );

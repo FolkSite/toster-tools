@@ -53,6 +53,14 @@
         "message": "Включить обновление ленты?"
     },
 
+    "options_enable_sound": {
+        "message": "Включить звук?"
+    },
+
+    "options_name_sound": {
+        "message": "Выберите мелодию"
+    },
+
     "options_enable_notifications": {
         "message": "Включить HTML5 уведомления?"
     },

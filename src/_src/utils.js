@@ -20,9 +20,18 @@ export const Device = ( () => {
     return browser;
 } )();
 
-export const getPage = url => fetch( url, {
-    credentials: 'include'
-} ).then( response => response.text() ).catch( console.error );
+export const getPage = ( url, method = 'GET' ) => {
+    const headers = new Headers();
+    const config = {
+        method: method,
+        headers: headers,
+        credentials: 'include',
+        cache: 'no-store',
+        client: 'no-window'
+    };
+    const request = new Request( url, config );
+    return fetch( request ).then( response => response.clone().text() ).catch( console.error );
+};
 
 export const _l = ( msg, placeholders ) => {
     if ( Array.isArray( placeholders ) ) {

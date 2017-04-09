@@ -41,6 +41,19 @@ const installHandler = ( details ) => {
     }
 };
 
+const alarmHandler = ( alarm ) => {
+    switch ( alarm.name ) {
+    case 'checkUnread':
+        if ( window.Ext.Options.ajax && window.navigator.onLine ) {
+            window.Ext.checkUnread();
+        }
+        window.Ext.reStartTimer();
+        break;
+    default:
+        break;
+    }
+};
+
 const callbackMessage = ( request, sender, callback ) => {
     window.Ext.callbackMessage( request, sender, callback );
 };
@@ -52,6 +65,8 @@ class Extension {
             check_answers: false,
             check_feed: true,
             interval: 10,
+            use_sound: true,
+            name_sound: 'sound/sound1.ogg',
             use_kbd: true,
             use_tab: false,
             use_notifications: false,
@@ -79,18 +94,9 @@ class Extension {
         return this.Options;
     }
 
-    saveOptions() {
-        localStorage.setItem( 'options', JSON.stringify( this.Options ) );
+    saveOptions( options ) {
+        localStorage.setItem( 'options', JSON.stringify( options || this.Options ) );
         this.synchronize();
-    }
-
-    stopTimer() {
-        Device.alarms.clear( 'checkUnread', wasCleared => wasCleared );
-    }
-
-    reStartTimer() {
-        this.stopTimer();
-        this.startTimer();
     }
 
     checkUnread() {
@@ -98,11 +104,12 @@ class Extension {
             loading: true
         } );
         getPage( this.Options.tracker_url ).then( ( body ) => {
-            const event_list = $( body ).find( 'ul.events-list' )[ 0 ];
+            let event_list = $( body ).find( 'ul.events-list' )[ 0 ];
             let count = 0;
+            let events_items;
 
             if ( $( event_list ) ) {
-                const events_items = $( event_list ).find( 'li' );
+                events_items = $( event_list ).find( 'li' );
 
                 if ( events_items.length > 3 ) {
                     const text = $( events_items ).last().text().replace( /[^\d]/g, '' );
@@ -135,11 +142,24 @@ class Extension {
                 } );
                 useNotificationsFlag = 0;
             }
+
+            event_list = null;
+            events_items = null;
+            body = null;
         } );
     }
 
+    stopTimer() {
+        Device.alarms.clear( 'checkUnread', wasCleared => wasCleared );
+    }
+
+    reStartTimer() {
+        this.stopTimer();
+        this.startTimer();
+    }
+
     startTimer() {
-        if ( !this.Options.ajax || ( this.Options.interval === 0 ) ) {
+        if ( !this.Options.ajax || ( this.Options.interval < 1 ) ) {
             return false;
         }
 
@@ -225,9 +245,6 @@ window.Ext = new Extension();
 window.Ext.updateIcon();
 window.Ext.synchronize();
 
-
-Device.runtime.onMessage.addListener( callbackMessage );
-
 if ( isChrome ) {
     Device.notifications.onClicked.addListener( ( notifId ) => {
         Device.notifications.clear( notifId, ( wasCleared ) => {
@@ -248,17 +265,8 @@ if ( isChrome ) {
     } );
 }
 
-Device.alarms.onAlarm.addListener( ( alarm ) => {
-    switch ( alarm.name ) {
-    case 'checkUnread':
-        if ( window.Ext.Options.ajax && window.navigator.onLine ) {
-            window.Ext.checkUnread();
-        }
-        window.Ext.reStartTimer();
-        break;
-    default:
-        break;
-    }
-} );
+Device.runtime.onMessage.addListener( callbackMessage );
+
+Device.alarms.onAlarm.addListener( alarmHandler );
 
 Device.runtime.onInstalled.addListener( installHandler );

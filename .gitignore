@@ -6,6 +6,5 @@ src/js/*.js
 !src/js/*.min.js
 
 .jwtsign
-CHANGELOG.md
 *.sublime-workspace
 .fuse_hidden*

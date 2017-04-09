@@ -69,6 +69,7 @@ const callbackMessage = ( request, sender, callback ) => {
 };
 
 const selectors = {
+    textareaSelectorAll: 'textarea.textarea',
     QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
     SolutionsRootSelector: '#solutions > ul#solutions_list',
     AnswersRootSelector: '#answers > ul#answers_list',
@@ -81,18 +82,22 @@ const Parser = new QuestionParser( selectors );
 class Extension {
     constructor( ...args ) {
         this.Timer = undefined;
+        this.OldTitle = $( document ).prop( 'title' );
         const defaults = Object.freeze( {
             ajax: true,
             check_answers: false,
             check_feed: true,
             interval: 10,
+            use_sound: true,
+            name_sound: 'sound/sound1.ogg',
             use_kbd: true,
             use_tab: false,
             hide_top_panel: false,
             hide_right_sidebar: false
         } );
         this.Options = Object.assign( {}, defaults );
-        this.textareaSelectorAll = 'textarea.textarea';
+
+        this.Sound = new Audio( Device.runtime.getURL( this.Options.name_sound ) );
     }
 
     stopTimer() {
@@ -116,6 +121,23 @@ class Extension {
         if ( this.Options.ajax && ( this.Options.interval > 0 ) ) {
             this.startTimer();
         }
+    }
+
+    addHighlight() {
+        const id = 'highlightContentScript';
+        if ( $( `#${id}` ).get( 0 ) ) return;
+        $( '<script/>', {
+            src: Device.runtime.getURL( 'js/highlight.js' ),
+            id: id,
+            async: true
+        } ).appendTo( 'head' );
+    }
+
+    removeHighlight() {
+        const id = 'highlightContentScript';
+        try {
+            $( `#${id}` ).remove();
+        } catch ( e ) {}
     }
 
     updateQuestionComments( body ) {
@@ -196,24 +218,44 @@ class Extension {
                     }
                 } else {
                     $( AnswersRoot ).append( $( answer ) );
+                    if ( this.Options.use_sound ) {
+                        this.Sound.play();
+                    }
                 }
             }
         }
     }
 
-    updateFeed( body ) {
+    updateFeed() {
         getPage( window.location.href ).then( ( body ) => {
             const Questions = Parser.getFeed( body );
             const FeedRoot = $( document ).find( selectors.FeedRootSelector );
-            $( FeedRoot ).find( 'li' ).remove();
-            const li = $( '<li/>', {
-                class: 'content-list__item new-question',
-                role: 'content-list__item'
-            } );
+
             for ( let i = 0; i < Questions.length; i++ ) {
                 const question = $( Questions[ i ] );
-                const html = $( question ).wrap( $( li ).clone() );
-                $( FeedRoot ).append( $( html ) );
+                const href = $( question ).find( 'a[itemprop="url"]' ).attr( 'href' );
+                const exists = $( FeedRoot ).find( 'li' ).find( `a[href="${href}"]` ).get( 0 );
+
+                if ( exists ) {
+                    const parent = $( exists ).closest( 'li.content-list__item' ).get( 0 );
+                    $( parent ).html( $( question ).html() );
+                } else {
+                    $( question ).addClass( 'new-item' );
+                    $( FeedRoot ).prepend( $( question ) );
+                    $( FeedRoot ).find( ' li.new-item:first-child' ).fadeIn( 2000 );
+                    $( FeedRoot ).find( ' li.content-list__item:last-child' ).remove();
+                    if ( this.Options.use_sound ) {
+                        this.Sound.play();
+                    }
+                }
+            }
+
+            const count = $( FeedRoot ).find( ' li.new-item' ).length;
+
+            if ( count > 0 ) {
+                $( document ).prop( 'title', `[${count}] - ${this.OldTitle}` );
+            } else {
+                $( document ).prop( 'title', this.OldTitle );
             }
         } );
     }
@@ -227,7 +269,7 @@ class Extension {
     }
 
     addKeyDownSendListener() {
-        $( document ).delegate( this.textareaSelectorAll, 'keydown', ( event ) => {
+        $( document ).delegate( selectors.textareaSelectorAll, 'keydown', ( event ) => {
             if ( !event ) {
                 const event = window.event;
             }
@@ -242,7 +284,7 @@ class Extension {
     }
 
     addKeyDownIndentFormatListener() {
-        $( document ).delegate( this.textareaSelectorAll, 'keydown', ( event ) => {
+        $( document ).delegate( selectors.textareaSelectorAll, 'keydown', ( event ) => {
             if ( !event ) {
                 const event = window.event;
             }
@@ -316,6 +358,7 @@ class Extension {
 
     updateSidebar( html ) {
         const aside = $( 'aside.layout__navbar[role="navbar"]' );
+        const eventsListExists = aside.children( 'ul.events-list' ).find( 'li' ).get( 0 );
 
         try {
             aside.children( 'ul.events-list' ).remove();
@@ -323,6 +366,10 @@ class Extension {
 
         if ( html ) {
             aside.append( $( html ) );
+            const newEventsListExists = $( html ).find( 'li' ).get( 0 );
+            if ( this.Options.use_sound && newEventsListExists && !eventsListExists ) {
+                this.Sound.play();
+            }
         }
     }
 
@@ -365,6 +412,14 @@ class Extension {
             case 'options':
             default:
                 this.Options = Object.assign( {}, this.Options, request.data || {} );
+
+                if ( state.onQuestionPage && this.Options.check_answers ) {
+                    this.addHighlight();
+                } else {
+                    this.removeHighlight();
+                }
+
+                this.Sound = new Audio( Device.runtime.getURL( this.Options.name_sound ) );
                 this.switchTopPanel();
                 this.switchRightSidebar();
                 this.addKeyDownSendListener();
