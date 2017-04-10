@@ -9,7 +9,7 @@ if ( window.location.pathname.startsWith( '/q/' ) ) {
             const element = elements[ i ];
             if ( !element.ready ) {
                 element.ready = true;
-                fn.call( element, element );
+                fn( element );
             }
         }
     };
@@ -39,7 +39,6 @@ if ( window.location.pathname.startsWith( '/q/' ) ) {
     ready( '#question_show code', ( element ) => {
         if ( window.hljs ) {
             window.hljs.highlightBlock( element );
-            console.log( listeners.length );
         }
     } );
 }

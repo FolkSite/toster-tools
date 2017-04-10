@@ -6,6 +6,11 @@ import {
 }
 from './utils';
 
+
+$( window ).on( 'unload', () => {
+    ( window.BG || ( window.BG = {} ) ).popupIsOpened = false;
+} );
+
 $( document ).ready( () => {
     const inputs = $( '#options_form input[type!="button"]' );
     const selects = $( '#options_form select' );
@@ -42,37 +47,37 @@ $( document ).ready( () => {
                 value = $( el ).val();
                 break;
             }
-            window.Extension.Options[ name ] = value;
+            window.BG.Ext.Options[ name ] = value;
         } );
         $.each( selects, ( i, el ) => {
             const name = $( el ).attr( 'id' );
             const value = $( el ).val();
-            window.Extension.Options[ name ] = value;
+            window.BG.Ext.Options[ name ] = value;
         } );
-        window.Extension.saveOptions();
+        window.BG.Ext.saveOptions();
     };
 
     const restore_options = () => {
-        window.Extension.loadOptions();
+        window.BG.Ext.loadOptions();
         $.each( inputs, ( i, el ) => {
             const name = $( el ).attr( 'id' );
             const type = $( el ).attr( 'type' );
             switch ( type ) {
             case 'checkbox':
                 $( el ).prop( {
-                    checked: window.Extension.Options[ name ]
+                    checked: window.BG.Ext.Options[ name ]
                 } );
                 break;
             case 'number':
             case 'text':
             default:
-                $( el ).val( window.Extension.Options[ name ] );
+                $( el ).val( window.BG.Ext.Options[ name ] );
                 break;
             }
         } );
         $.each( selects, ( i, el ) => {
             const name = $( el ).attr( 'id' );
-            const value = window.Extension.Options[ name ];
+            const value = window.BG.Ext.Options[ name ];
             $( el ).val( value );
         } );
     };
@@ -86,8 +91,10 @@ $( document ).ready( () => {
         $( item ).html( _l( msg ) );
     } );
 
-    Device.runtime.getBackgroundPage( ( backgroundPageInstance ) => {
-        window.Extension = backgroundPageInstance.Ext;
+    Device.runtime.getBackgroundPage( ( BGInstance ) => {
+        window.BG = BGInstance;
+        window.BG.popupIsOpened = true;
+
         restore_options();
 
         const homeButton = $( 'button[data-action="go_to_home"]' );
@@ -97,7 +104,7 @@ $( document ).ready( () => {
         } );
 
         homeButton.on( 'click', ( e ) => {
-            openWin( window.Extension.Options.home_url );
+            openWin( window.BG.Ext.Options.home_url );
         } );
 
         const feedbackButton = $( 'button[data-action="go_to_feedback"]' );
@@ -107,17 +114,19 @@ $( document ).ready( () => {
         } );
 
         feedbackButton.on( 'click', ( e ) => {
-            openWin( window.Extension.Options.feedback_url );
+            openWin( window.BG.Ext.Options.feedback_url );
         } );
 
         const feedButton = $( 'button[data-action="go_to_feed"]' );
+
+        feedButton.find( 'span.badge' ).text( window.BG.Ext.notifyCounter );
 
         feedButton.attr( {
             title: _l( 'action_go_to_feed' )
         } );
 
         feedButton.on( 'click', ( e ) => {
-            openWin( window.Extension.Options.feed_url );
+            openWin( window.BG.Ext.Options.feed_url );
         } );
 
         const newQuestionButton = $( 'button[data-action="go_to_new_question"]' );
@@ -127,7 +136,7 @@ $( document ).ready( () => {
         } );
 
         newQuestionButton.on( 'click', ( e ) => {
-            openWin( window.Extension.Options.new_question_url );
+            openWin( window.BG.Ext.Options.new_question_url );
         } );
     } );
 } );

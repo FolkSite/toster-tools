@@ -119,12 +119,26 @@ Upgrade to v3.22.10
 3. Fixed the click handler for the pop-up notification
 
 - - -
-Обновление до v3.29.10
+Обновление до v3.30.11
 
-1. Оновлена иконка "Задать вопрос"
+1. Обновлена иконка "Задать вопрос"
 2. Добавлены CSS стили для новых вопросов при обновлении ленты
 3. Добавлено звуковое уведомление для новых вопросов при обновлении ленты
 4. Добавлено звуковое уведомление для новых ответов на текущий открытый вопрос
 5. Добавлено звуковое уведомление для непрочитанных уведомлений
 6. В настройки вынесена возможность выбрать звук уведомления
-7. Почти реалезован фикс #15 задачи
+7. Закрыта задача #15
+8. Закрыта задача #16
+9. Исправлены почти все утечки памяти (но не все :cry:)
+
+Upgrade to v3.30.11
+
+1. Updated the icon "Ask a question"
+2. Added CSS styles for new issues when updating a tape
+3. Added sound notification for new questions when updating the tape
+4. Added a sound notification for new answers to the current open question
+5. Added sound notification for unread notifications
+6. The settings made it possible to choose the sound notification
+7. Fix #15 issue
+8. Fix #16 issue
+9. Fixed almost all memory leaks (but not all :cry:)

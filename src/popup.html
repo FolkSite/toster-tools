@@ -22,11 +22,12 @@
                         </div>
 
                         <div class="btn-group pull-right">
-                            <button data-action="go_to_feed" type="button" class="btn btn-default">
-                                <img class="icon" src="icon/svg/notification.svg">
-                            </button>
                             <button data-action="go_to_new_question" type="button" class="btn btn-default">
                                 <img class="icon" src="icon/svg/plus.svg">
+                            </button>
+                            <button data-action="go_to_feed" type="button" class="btn btn-default">
+                                <img class="icon" src="icon/svg/notification.svg">
+                                <span class="badge"></span>
                             </button>
                         </div>
                     </div>
@@ -39,10 +40,10 @@
                 <div class="col-xs-12">
                     <form id="options_form">
                         <div class="form-group">
-                            <label for="ajax" data-msg="options_enable_ajax_checking"></label>
+                            <label for="check_notify" data-msg="options_enable_check_notify"></label>
                             <div class="material-switch pull-right">
-                                <input id="ajax" class="form-control" type="checkbox"/>
-                                <label class="label-success" for="ajax"></label>
+                                <input id="check_notify" class="form-control" type="checkbox"/>
+                                <label class="label-success" for="check_notify"></label>
                             </div>
                         </div>
 

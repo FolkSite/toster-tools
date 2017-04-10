@@ -1,6 +1,6 @@
 {
     "extension_name": {
-        "message": "Toster wysiwyg panel"
+        "message": "Toster tools"
     },
 
     "extension_description": {
@@ -8,7 +8,7 @@
     },
 
     "extension_shortname": {
-        "message": "TWP"
+        "message": "TT"
     },
 
     "unread_notifications_message": {
@@ -41,16 +41,16 @@
         "message": "Новые события на toster.ru"
     },
 
-    "options_enable_ajax_checking": {
-        "message": "Включить AJAX проверку?"
+    "options_enable_check_notify": {
+        "message": "Включить живые уведомления?"
     },
 
     "options_enable_check_answers": {
-        "message": "Включить обновление ответов?"
+        "message": "Включить живые ответы?"
     },
 
     "options_enable_check_feed": {
-        "message": "Включить обновление ленты?"
+        "message": "Включить живую ленту?"
     },
 
     "options_enable_sound": {

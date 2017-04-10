@@ -20,6 +20,25 @@ export const Device = ( () => {
     return browser;
 } )();
 
+export const _l = ( msg, placeholders ) => {
+    if ( Array.isArray( placeholders ) ) {
+        return Device.i18n.getMessage( msg, placeholders );
+    }
+    return Device.i18n.getMessage( msg );
+};
+
+export const openWin = url => window.open( url, 'wName' );
+
+
+const status = ( response ) => {
+    if ( response.status >= 200 && response.status < 300 ) {
+        return Promise.resolve( response );
+    }
+    return Promise.reject( new Error( response.statusText ) );
+};
+
+const body = response => response.text();
+
 export const getPage = ( url, method = 'GET' ) => {
     const headers = new Headers();
     const config = {
@@ -29,15 +48,9 @@ export const getPage = ( url, method = 'GET' ) => {
         cache: 'no-store',
         client: 'no-window'
     };
-    const request = new Request( url, config );
-    return fetch( request ).then( response => response.clone().text() ).catch( console.error );
+    let f = fetch( url, config ).then( status ).then( body ).catch( console.error );
+    setTimeout( function () {
+        f = null;
+    }, 500 );
+    return f;
 };
-
-export const _l = ( msg, placeholders ) => {
-    if ( Array.isArray( placeholders ) ) {
-        return Device.i18n.getMessage( msg, placeholders );
-    }
-    return Device.i18n.getMessage( msg );
-};
-
-export const openWin = url => window.open( url, 'wName' );

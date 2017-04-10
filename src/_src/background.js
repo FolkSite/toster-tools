@@ -23,7 +23,7 @@ if ( isChrome && !isOpera ) {
     feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel/#reviews';
 }
 
-const extensionHomeUrl = 'https://github.com/yarkovaleksei/toster-wysiwyg-panel';
+const extensionHomeUrl = 'https://github.com/yarkovaleksei/toster-tools';
 
 const installHandler = ( details ) => {
     if ( Device.runtime.setUninstallURL && feedbackurl ) {
@@ -44,10 +44,15 @@ const installHandler = ( details ) => {
 const alarmHandler = ( alarm ) => {
     switch ( alarm.name ) {
     case 'checkUnread':
-        if ( window.Ext.Options.ajax && window.navigator.onLine ) {
-            window.Ext.checkUnread();
+        if ( window.Ext.Options.check_notify && window.navigator.onLine ) {
+            window.Ext.checkNotify();
         }
         window.Ext.reStartTimer();
+        break;
+    case 'reload':
+        if ( !window.popupIsOpened ) {
+            Device.runtime.reload();
+        }
         break;
     default:
         break;
@@ -61,25 +66,26 @@ const callbackMessage = ( request, sender, callback ) => {
 class Extension {
     constructor( ...args ) {
         this.defaults = Object.freeze( {
-            ajax: true,
+            check_notify: true,
             check_answers: false,
             check_feed: true,
             interval: 10,
             use_sound: true,
             name_sound: 'sound/sound1.ogg',
             use_kbd: true,
-            use_tab: false,
+            use_tab: true,
             use_notifications: false,
             use_badge_icon: true,
             hide_top_panel: false,
             hide_right_sidebar: false,
             home_url: extensionHomeUrl,
-            feedback_url: feedbackurl || extensionHomeUrl,
+            feedback_url: feedbackurl,
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
             new_question_url: 'https://toster.ru/question/new'
         } );
         this.Options = Object.assign( {}, this.defaults );
+        this.notifyCounter = 0;
     }
 
     loadOptions() {
@@ -99,11 +105,11 @@ class Extension {
         this.synchronize();
     }
 
-    checkUnread() {
+    checkNotify() {
         this.updateIcon( {
             loading: true
         } );
-        getPage( this.Options.tracker_url ).then( ( body ) => {
+        window.promise = getPage( this.Options.tracker_url ).then( ( body ) => {
             let event_list = $( body ).find( 'ul.events-list' )[ 0 ];
             let count = 0;
             let events_items;
@@ -136,6 +142,8 @@ class Extension {
                     cmd: 'updateSidebar',
                     data: $( event_list )[ 0 ].outerHTML || ''
                 } );
+
+                this.notifyCounter = count;
             } else {
                 this.updateIcon( {
                     count: 0
@@ -147,19 +155,25 @@ class Extension {
             events_items = null;
             body = null;
         } );
+        setTimeout( function () {
+            window.promise = null;
+        }, 500 );
     }
 
     stopTimer() {
         Device.alarms.clear( 'checkUnread', wasCleared => wasCleared );
+        window.promise = null;
     }
 
     reStartTimer() {
-        this.stopTimer();
-        this.startTimer();
+        const stop = new Promise( ( resolve, reject ) => {
+            resolve( this.stopTimer() );
+        } );
+        stop.then( r => this.startTimer() );
     }
 
     startTimer() {
-        if ( !this.Options.ajax || ( this.Options.interval < 1 ) ) {
+        if ( !this.Options.check_notify || ( this.Options.interval < 1 ) ) {
             return false;
         }
 
@@ -185,9 +199,11 @@ class Extension {
 
     sendMessageToContentScript( params ) {
         Device.tabs.query( {}, ( tabs ) => {
+            let tab;
             for ( let i = 0; i < tabs.length; ++i ) {
-                Device.tabs.sendMessage( tabs[ i ].id, params, callbackMessage );
+                tab = Device.tabs.sendMessage( tabs[ i ].id, params, callbackMessage );
             }
+            tab = null;
         } );
     }
 
@@ -240,6 +256,8 @@ class Extension {
     }
 }
 
+window.popupIsOpened = false;
+
 window.Ext = new Extension();
 
 window.Ext.updateIcon();
@@ -270,3 +288,8 @@ Device.runtime.onMessage.addListener( callbackMessage );
 Device.alarms.onAlarm.addListener( alarmHandler );
 
 Device.runtime.onInstalled.addListener( installHandler );
+
+// This is a terrible crutch for issue #16
+Device.alarms.create( 'reload', {
+    periodInMinutes: 1
+} );

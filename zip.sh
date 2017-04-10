@@ -17,4 +17,6 @@ VERSION=$(get_version)
 
 [ -f "${SRC_DIR}_${VERSION}.zip" ] && rm -f "${SRC_DIR}_${VERSION}.zip"
 
+[ -f "${SRC_DIR}/.web-extension-id" ] && rm -f "${SRC_DIR}/.web-extension-id"
+
 (cd "${SRC_DIR}" && $(which zip) -r "../source_${VERSION}.zip" .)
