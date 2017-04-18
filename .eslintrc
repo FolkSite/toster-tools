@@ -40,6 +40,8 @@
         "import/no-dynamic-require": 0,
         "max-len": 0,
         "indent": 0,
+        "class-methods-use-this": "off",
+        "no-extend-native": 0,
         "no-mixed-operators": 0,
         "linebreak-style": ["error", "unix"],
         

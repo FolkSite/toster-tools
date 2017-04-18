@@ -1,0 +1,20 @@
+include _inc/_mixin.pug
+
+doctype html
+html(lang='ru')
+    head
+        include _inc/_head.pug
+    body
+        .container-fluid
+            .popup-header
+                .row
+                    .col-xs-12
+                        .btn-toolbar(role='toolbar')
+                            .btn-group
+                                +popup_button('go_to_home', '../icon/svg/home.svg')
+                                +popup_button('go_to_feedback', '../icon/svg/like.svg')
+                                +popup_button('go_to_options', '../icon/svg/options.svg')
+                            .btn-group.pull-right
+                                +popup_button('go_to_new_question', '../icon/svg/plus.svg')
+                                +popup_button('go_to_feed', '../icon/svg/notification.svg')
+        script(src='../js/popup.js')

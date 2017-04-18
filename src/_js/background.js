@@ -1,6 +1,7 @@
-/* global Ext, $ */
-/* eslint class-methods-use-this: "off" */
-/* eslint no-use-before-define: "off" */
+import $ from 'jquery';
+
+import Timer from './_modules/timer';
+
 import {
     Device,
     getPage,
@@ -9,9 +10,7 @@ import {
     isOpera,
     isFirefox
 }
-from './utils';
-
-let useNotificationsFlag = 0;
+from './_modules/utils';
 
 let feedbackurl;
 
@@ -49,11 +48,6 @@ const alarmHandler = ( alarm ) => {
         }
         window.Ext.reStartTimer();
         break;
-    case 'reload':
-        if ( !window.popupIsOpened ) {
-            Device.runtime.reload();
-        }
-        break;
     default:
         break;
     }
@@ -69,23 +63,31 @@ class Extension {
             check_notify: true,
             check_answers: false,
             check_feed: true,
-            interval: 10,
+            interval_notify: 10,
+            interval_answers: 10,
+            interval_feed: 10,
             use_sound: true,
-            name_sound: 'sound/sound1.ogg',
+            sound_notify: 'sound/sound1.ogg',
+            sound_answers: 'sound/sound2.ogg',
+            sound_feed: 'sound/sound3.ogg',
             use_kbd: true,
             use_tab: true,
             use_notifications: false,
             use_badge_icon: true,
             hide_top_panel: false,
             hide_right_sidebar: false,
+            use_sign: false,
+            sign_string: `- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n${Device.runtime.getManifest().name}`,
             home_url: extensionHomeUrl,
             feedback_url: feedbackurl,
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
-            new_question_url: 'https://toster.ru/question/new'
+            new_question_url: 'https://toster.ru/question/new',
+            feed_border_color: '#8c9480'
         } );
         this.Options = Object.assign( {}, this.defaults );
-        this.notifyCounter = 0;
+        this.useNotificationsFlag = 0;
+        this.Timer = new Timer( 'checkUnread', this.Options.interval_notify );
     }
 
     loadOptions() {
@@ -109,77 +111,70 @@ class Extension {
         this.updateIcon( {
             loading: true
         } );
-        window.promise = getPage( this.Options.tracker_url ).then( ( body ) => {
-            let event_list = $( body ).find( 'ul.events-list' )[ 0 ];
-            let count = 0;
-            let events_items;
 
-            if ( $( event_list ) ) {
-                events_items = $( event_list ).find( 'li' );
+        window.promise = getPage( this.Options.tracker_url );
+        window.promise.then( ( body ) => {
+                let count = 0;
+                const event_list = $( body ).find( 'ul.events-list' )[ 0 ];
 
-                if ( events_items.length > 3 ) {
-                    const text = $( events_items ).last().text().replace( /[^\d]/g, '' );
-                    count = parseInt( text, 10 );
+                if ( $( event_list ) ) {
+                    const events_items = $( event_list ).find( 'li' );
+
+                    if ( events_items.length > 3 ) {
+                        const text = $( events_items ).last().text().replace( /[^\d]/g, '' );
+                        count = parseInt( text, 10 );
+                    } else {
+                        count = events_items.length;
+                    }
+
+                    if ( this.Options.use_notifications && this.useNotificationsFlag === 0 ) {
+                        this.createNotify( {
+                            count: count
+                        } );
+                    }
+
+                    if ( this.Options.use_badge_icon ) {
+                        this.updateIcon( {
+                            count: count
+                        } );
+                    }
+
+                    this.useNotificationsFlag = count;
+
+                    this.sendMessageToContentScript( {
+                        cmd: 'updateSidebar',
+                        data: ( $( event_list )[ 0 ] || {} ).outerHTML || ''
+                    } );
                 } else {
-                    count = events_items.length;
-                }
-
-                if ( this.Options.use_notifications && useNotificationsFlag === 0 ) {
-                    this.createNotify( {
-                        count: count
-                    } );
-                }
-
-                if ( this.Options.use_badge_icon ) {
                     this.updateIcon( {
-                        count: count
+                        count: 0
                     } );
+                    this.useNotificationsFlag = 0;
                 }
 
-                useNotificationsFlag = count;
-
-                this.sendMessageToContentScript( {
-                    cmd: 'updateSidebar',
-                    data: $( event_list )[ 0 ].outerHTML || ''
-                } );
-
-                this.notifyCounter = count;
-            } else {
-                this.updateIcon( {
-                    count: 0
-                } );
-                useNotificationsFlag = 0;
-            }
-
-            event_list = null;
-            events_items = null;
-            body = null;
-        } );
-        setTimeout( function () {
-            window.promise = null;
-        }, 500 );
+                $( body ).empty();
+                body = null;
+                return Promise.resolve();
+            } )
+            .then( () => ( window.promise = null ) );
     }
 
     stopTimer() {
-        Device.alarms.clear( 'checkUnread', wasCleared => wasCleared );
-        window.promise = null;
+        this.Timer.stop( name => ( window.promise = null ) );
     }
 
     reStartTimer() {
-        const stop = new Promise( ( resolve, reject ) => {
-            resolve( this.stopTimer() );
-        } );
-        stop.then( r => this.startTimer() );
+        this.stopTimer();
+        this.startTimer();
     }
 
     startTimer() {
-        if ( !this.Options.check_notify || ( this.Options.interval < 1 ) ) {
+        if ( !this.Options.check_notify || ( this.Options.interval_notify < 1 ) ) {
             return false;
         }
 
-        Device.alarms.create( 'checkUnread', {
-            when: ( Date.now() + ( this.Options.interval * 1000 ) )
-        } );
+        this.Timer.setInterval( this.Options.interval_notify );
+        this.Timer.start( name => ( window.promise = null ) );
     }
 
     callbackMessage( request, sender, callback ) {
@@ -219,29 +214,38 @@ class Extension {
     }
 
     updateIcon( params ) {
+        let backgroundColor = '#5e5656';
+        let badgeText = '...';
+        let badgeTitle = _l( 'extension_name' );
+
         if ( params && params.count ) {
+            backgroundColor = '#ff0000';
+            badgeText = String( params.count );
+            badgeTitle = _l( 'unread_notifications_message', [ String( params.count ) ] );
+
             Device.browserAction.setBadgeBackgroundColor( {
-                color: '#ff0000'
+                color: backgroundColor
             } );
             Device.browserAction.setBadgeText( {
-                text: String( params.count )
+                text: badgeText
             } );
             Device.browserAction.setTitle( {
-                title: _l( 'unread_notifications_message', [ String( params.count ) ] )
+                title: badgeTitle
             } );
         } else if ( params && params.loading ) {
             Device.browserAction.setBadgeBackgroundColor( {
-                color: '#5e5656'
+                color: backgroundColor
             } );
             Device.browserAction.setBadgeText( {
-                text: '...'
+                text: badgeText
             } );
         } else {
+            badgeText = '';
             Device.browserAction.setBadgeText( {
-                text: ''
+                text: badgeText
             } );
             Device.browserAction.setTitle( {
-                title: _l( 'extension_name' )
+                title: badgeTitle
             } );
         }
     }
@@ -255,8 +259,6 @@ class Extension {
         } );
     }
 }
-
-window.popupIsOpened = false;
 
 window.Ext = new Extension();
 
@@ -288,8 +290,3 @@ Device.runtime.onMessage.addListener( callbackMessage );
 Device.alarms.onAlarm.addListener( alarmHandler );
 
 Device.runtime.onInstalled.addListener( installHandler );
-
-// This is a terrible crutch for issue #16
-Device.alarms.create( 'reload', {
-    periodInMinutes: 1
-} );

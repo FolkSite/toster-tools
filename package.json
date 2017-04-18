@@ -2,7 +2,10 @@
   "name": "toster-tools",
   "version": "3.30.11",
   "description": "Расширение для сайта toster.ru",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1"
+  },
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
@@ -21,9 +24,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --color ./src",
+    "lint": "eslint --color ./src/_src",
     "compile": "./compile.sh",
-    "preinstall": "chmod +x *.sh && npm install --global browserify web-ext eslint babel-cli",
+    "preinstall": "chmod +x *.sh && npm install --global pug-cli less less-plugin-clean-css uglify-js browserify web-ext eslint babel-cli",
     "postinstall": "npm run lint && npm run compile",
     "zip": "./zip.sh",
     "ffsign": "./ffsign.sh",

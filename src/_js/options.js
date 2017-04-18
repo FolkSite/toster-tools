@@ -1,19 +1,17 @@
-/* global Extension, $ */
+import $ from 'jquery';
+
 import {
     Device,
     openWin,
     _l
 }
-from './utils';
+from './_modules/utils';
 
-
-$( window ).on( 'unload', () => {
-    ( window.BG || ( window.BG = {} ) ).popupIsOpened = false;
-} );
 
 $( document ).ready( () => {
     const inputs = $( '#options_form input[type!="button"]' );
     const selects = $( '#options_form select' );
+    const textareas = $( '#options_form textarea' );
     const Manifest = Device.runtime.getManifest();
     const sounds = Manifest.web_accessible_resources.filter( ( item ) => {
         if ( item.endsWith( '.ogg' ) ) {
@@ -27,8 +25,17 @@ $( document ).ready( () => {
             value: sounds[ i ]
         } );
         option.text( sounds[ i ].split( '/' )[ 1 ] );
-        $( '#name_sound' ).append( option );
+        $( 'select[id^="sound_"]' ).append( option );
     }
+
+    const setDisabled = ( el, value ) => {
+        const fieldset = $( el ).closest( 'fieldset' ).get( 0 );
+        if ( fieldset && !value ) {
+            $( fieldset ).find( 'input[type!="checkbox"], select, textarea' ).prop( 'disabled', true );
+        } else {
+            $( fieldset ).find( 'input[type!="checkbox"], select, textarea' ).prop( 'disabled', false );
+        }
+    };
 
     const save_options = () => {
         $.each( inputs, ( i, el ) => {
@@ -38,11 +45,13 @@ $( document ).ready( () => {
             switch ( type ) {
             case 'checkbox':
                 value = $( el ).prop( 'checked' );
+                setDisabled( el, value );
                 break;
             case 'number':
                 value = parseInt( $( el ).val(), 10 );
                 break;
             case 'text':
+            case 'color':
             default:
                 value = $( el ).val();
                 break;
@@ -50,6 +59,11 @@ $( document ).ready( () => {
             window.BG.Ext.Options[ name ] = value;
         } );
         $.each( selects, ( i, el ) => {
+            const name = $( el ).attr( 'id' );
+            const value = $( el ).val();
+            window.BG.Ext.Options[ name ] = value;
+        } );
+        $.each( textareas, ( i, el ) => {
             const name = $( el ).attr( 'id' );
             const value = $( el ).val();
             window.BG.Ext.Options[ name ] = value;
@@ -62,14 +76,17 @@ $( document ).ready( () => {
         $.each( inputs, ( i, el ) => {
             const name = $( el ).attr( 'id' );
             const type = $( el ).attr( 'type' );
+            const value = window.BG.Ext.Options[ name ];
             switch ( type ) {
             case 'checkbox':
                 $( el ).prop( {
-                    checked: window.BG.Ext.Options[ name ]
+                    checked: value
                 } );
+                setDisabled( el, value );
                 break;
             case 'number':
             case 'text':
+            case 'color':
             default:
                 $( el ).val( window.BG.Ext.Options[ name ] );
                 break;
@@ -80,63 +97,29 @@ $( document ).ready( () => {
             const value = window.BG.Ext.Options[ name ];
             $( el ).val( value );
         } );
+        $.each( textareas, ( i, el ) => {
+            const name = $( el ).attr( 'id' );
+            const value = window.BG.Ext.Options[ name ];
+            $( el ).val( value );
+        } );
     };
 
-    $( 'input[type="checkbox"]' ).on( 'change', save_options );
-    $( 'input[type="number"]' ).on( 'change', save_options );
+    $( 'input' ).on( 'change', save_options );
     $( 'select' ).on( 'change', save_options );
+    $( 'textarea' ).on( 'change', save_options );
 
-    $.each( $( 'label[data-msg^="options_"]' ), ( i, item ) => {
+    $.each( $( '[placeholder^="options_"]' ), ( i, item ) => {
+        const msg = $( item ).attr( 'placeholder' );
+        $( item ).attr( 'placeholder', _l( msg ) );
+    } );
+
+    $.each( $( '[data-msg^="options_"]' ), ( i, item ) => {
         const msg = $( item ).data( 'msg' );
         $( item ).html( _l( msg ) );
     } );
 
     Device.runtime.getBackgroundPage( ( BGInstance ) => {
         window.BG = BGInstance;
-        window.BG.popupIsOpened = true;
-
         restore_options();
-
-        const homeButton = $( 'button[data-action="go_to_home"]' );
-
-        homeButton.attr( {
-            title: _l( 'action_go_to_home' )
-        } );
-
-        homeButton.on( 'click', ( e ) => {
-            openWin( window.BG.Ext.Options.home_url );
-        } );
-
-        const feedbackButton = $( 'button[data-action="go_to_feedback"]' );
-
-        feedbackButton.attr( {
-            title: _l( 'action_go_to_feedback' )
-        } );
-
-        feedbackButton.on( 'click', ( e ) => {
-            openWin( window.BG.Ext.Options.feedback_url );
-        } );
-
-        const feedButton = $( 'button[data-action="go_to_feed"]' );
-
-        feedButton.find( 'span.badge' ).text( window.BG.Ext.notifyCounter );
-
-        feedButton.attr( {
-            title: _l( 'action_go_to_feed' )
-        } );
-
-        feedButton.on( 'click', ( e ) => {
-            openWin( window.BG.Ext.Options.feed_url );
-        } );
-
-        const newQuestionButton = $( 'button[data-action="go_to_new_question"]' );
-
-        newQuestionButton.attr( {
-            title: _l( 'action_go_to_new_question' )
-        } );
-
-        newQuestionButton.on( 'click', ( e ) => {
-            openWin( window.BG.Ext.Options.new_question_url );
-        } );
     } );
 } );

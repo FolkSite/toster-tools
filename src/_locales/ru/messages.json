@@ -37,28 +37,44 @@
         "message": "Оставить отзыв"
     },
 
+    "action_go_to_options": {
+        "message": "Настройки"
+    },
+
     "unread_notifications_title": {
         "message": "Новые события на toster.ru"
     },
 
-    "options_enable_check_notify": {
-        "message": "Включить живые уведомления?"
+    "options_sign": {
+        "message": "Подпись"
     },
 
-    "options_enable_check_answers": {
-        "message": "Включить живые ответы?"
+    "options_sign_string": {
+        "message": "Текст подписи"
     },
 
-    "options_enable_check_feed": {
-        "message": "Включить живую ленту?"
+    "options_enable": {
+        "message": "Включить"
+    },
+
+    "options_leave_notify": {
+        "message": "Живые уведомления:"
+    },
+
+    "options_leave_answers": {
+        "message": "Живые ответы:"
+    },
+
+    "options_leave_feed": {
+        "message": "Живая лента:"
     },
 
     "options_enable_sound": {
         "message": "Включить звук?"
     },
 
-    "options_name_sound": {
-        "message": "Выберите мелодию"
+    "options_select_sound": {
+        "message": "Выберите мелодию:"
     },
 
     "options_enable_notifications": {
@@ -73,16 +89,16 @@
         "message": "Использовать <kbd>Ctrl+Enter</kbd> для отправки?"
     },
 
-    "options_use_tab": {
-        "message": "Использовать <kbd>Tab/Shift+Tab</kbd> для отступов?"
-    },
-
     "options_hide_top_panel": {
         "message": "Скрыть верхнюю ТМ панель?"
     },
 
     "options_hide_right_sidebar": {
         "message": "Скрыть правый сайдбар?"
+    },
+
+    "options_feed_border_color": {
+        "message": "Цвет рамки нового вопроса"
     },
 
     "options_interval_ajax_checking": {

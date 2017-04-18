@@ -10,6 +10,12 @@
   "default_locale": "ru",
   "offline_enabled": false,
 
+  "options_ui": {
+    "chrome_style": true,
+    "page": "html/options.html",
+    "open_in_tab": true
+  },
+
   "icons": {
     "16": "icon/icon-16x16.png",
     "32": "icon/icon-32x32.png",
@@ -21,7 +27,8 @@
   "permissions": [
 		"https://toster.ru/*",
 		"notifications",
-    "alarms"
+    "alarms",
+    "browsingData"
 	],
 
   "content_scripts": [ {
@@ -30,7 +37,6 @@
       "https://toster.ru/*"
     ],
     "js": [
-      "js/jquery-3.2.0.min.js",
       "js/content.js"
     ],
     "css": [
@@ -43,12 +49,16 @@
     "sound/sound1.ogg",
     "sound/sound2.ogg",
     "sound/sound3.ogg",
+    "sound/sound4.ogg",
+    "sound/sound5.ogg",
+    "sound/sound6.ogg",
+    "sound/sound7.ogg",
+    "sound/sound8.ogg",
     "js/highlight.js"
   ],
 
   "background": {
     "scripts": [
-      "js/jquery-3.2.0.min.js",
       "js/background.js"
     ],
     "persistent": true
@@ -59,7 +69,7 @@
       "64": "icon/icon-64x64.png"
     },
     "default_title": "__MSG_extension_name__",
-    "default_popup": "popup.html"
+    "default_popup": "html/popup.html"
   },
 
   "commands": {

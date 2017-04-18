@@ -1,15 +1,30 @@
-/* global $ */
+/**
+ * @description Extension parser module
+ * @module _modules/parser
+ */
 
-export default class {
-    constructor( selectors ) {
+import $ from 'jquery';
+
+/**
+ * A custom QuestionParser class
+ */
+class QuestionParser {
+    /**
+     * Constructs the QuestionParser class
+     * @param {Object} [selectors={}] Object-set of CSS selectors
+     */
+    constructor( selectors = {} ) {
         const defaults = Object.freeze( {
+            textareaSelectorAll: 'textarea.textarea',
+            highlightScriptId: 'highlightContentScript',
             QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
             SolutionsRootSelector: '#solutions > ul#solutions_list',
             AnswersRootSelector: '#answers > ul#answers_list',
             TagsListRootSelector: '#question_show ul.tags-list',
-            FeedRootSelector: 'ul.content-list[role="content-list"]'
+            FeedRootSelector: 'ul.content-list[role="content-list"]',
+            commentsWrapper: 'ul.content-list_comments[role="answer_comments_list"]'
         } );
-        this.selectors = Object.assign( {}, defaults, selectors || {} );
+        this.selectors = Object.assign( {}, defaults, selectors );
     }
 
     getQuestionComments( source ) {
@@ -49,3 +64,5 @@ export default class {
     }
 
 }
+
+export default QuestionParser;

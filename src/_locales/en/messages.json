@@ -37,28 +37,44 @@
         "message": "Give feedback"
     },
 
+    "action_go_to_options": {
+        "message": "Options"
+    },
+
     "unread_notifications_title": {
         "message": "New notifications on toster.ru"
     },
 
-    "options_enable_check_notify": {
-        "message": "Enable leave notifyes?"
+    "options_sign": {
+        "message": "Signature"
     },
 
-    "options_enable_check_answers": {
-        "message": "Enable leave answers?"
+    "options_sign_string": {
+        "message": "Signature text"
     },
 
-    "options_enable_check_feed": {
-        "message": "Enable leave feed?"
+    "options_enable": {
+        "message": "Enable"
+    },
+
+    "options_leave_notify": {
+        "message": "Leave notifyes:"
+    },
+
+    "options_leave_answers": {
+        "message": "Leave answers:"
+    },
+
+    "options_leave_feed": {
+        "message": "Leave feed:"
     },
 
     "options_enable_sound": {
-        "message": "Enable sound?"
+        "message": "Enable sound:"
     },
 
-    "options_name_sound": {
-        "message": "Change sound"
+    "options_select_sound": {
+        "message": "Select sound:"
     },
 
     "options_enable_notifications": {
@@ -73,16 +89,16 @@
         "message": "Use <kbd>Ctrl+Enter</kbd> for submit?"
     },
 
-    "options_use_tab": {
-        "message": "Use <kbd>Tab/Shift+Tab</kbd> for indent?"
-    },
-
     "options_hide_top_panel": {
         "message": "Hide top ТМ panel?"
     },
 
     "options_hide_right_sidebar": {
         "message": "Hide right sidebar?"
+    },
+
+    "options_feed_border_color": {
+        "message": "New question border color"
     },
 
     "options_interval_ajax_checking": {

@@ -1,9 +1,1 @@
-li.new-item {
-    border: 1px solid #5aa969;
-    padding: 20px;
-    display: none;
-}
-
-li.new-item:not(:nth-child(1)) {
-    border-top: none;
-}
+li.new-item{padding:20px;display:none}li.new-item.new-item:not(:nth-child(1)){border-top:none}

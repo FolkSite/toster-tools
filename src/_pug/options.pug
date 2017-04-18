@@ -1,0 +1,58 @@
+include _inc/_mixin.pug
+
+doctype html
+html(lang='ru')
+    head
+        include _inc/_head.pug
+        title Настройки
+    body
+        main
+            .container.col-xs-12.col-md-8.col-md-push-2.col-lg-6.col-lg-push-3
+                .row
+                    .col-xs-12
+                        form#options_form
+                            fieldset
+                                legend(data-msg='options_leave_notify')
+                                .form-group
+                                    +options_checkbox_section('check_notify', 'options_enable')
+                                .form-group
+                                    +options_number_section('interval_notify', 'options_interval_ajax_checking', {'min':'0', 'max':'3600', 'step':'1'})
+                                .form-group
+                                    +options_select_section('sound_notify', 'options_select_sound')
+                            fieldset
+                                legend(data-msg='options_leave_answers')
+                                .form-group
+                                    +options_checkbox_section('check_answers', 'options_enable')
+                                .form-group
+                                    +options_number_section('interval_answers', 'options_interval_ajax_checking', {'min':'0', 'max':'3600', 'step':'1'})
+                                .form-group
+                                    +options_select_section('sound_answers', 'options_select_sound')
+                            fieldset
+                                legend(data-msg='options_leave_feed')
+                                .form-group
+                                    +options_checkbox_section('check_feed', 'options_enable')
+                                .form-group
+                                    +options_number_section('interval_feed', 'options_interval_ajax_checking', {'min':'0', 'max':'3600', 'step':'1'})
+                                .form-group
+                                    +options_select_section('sound_feed', 'options_select_sound')
+                            .form-group
+                                +options_checkbox_section('use_sound', 'options_enable_sound')
+                            .form-group
+                                +options_checkbox_section('use_notifications', 'options_enable_notifications')
+                            .form-group
+                                +options_checkbox_section('use_badge_icon', 'options_enable_badge_icon')
+                            .form-group
+                                +options_checkbox_section('use_kbd', 'options_use_kbd')
+                            .form-group
+                                +options_checkbox_section('hide_top_panel', 'options_hide_top_panel')
+                            .form-group
+                                +options_checkbox_section('hide_right_sidebar', 'options_hide_right_sidebar')
+                            .form-group
+                                +options_color_section('feed_border_color', 'options_feed_border_color', value='#8c9480')
+                            fieldset
+                                legend(data-msg='options_sign')
+                                .form-group
+                                    +options_checkbox_section('use_sign', 'options_enable')
+                                .form-group
+                                    +options_textarea_section('sign_string', 'options_sign_string')
+        script(src='../js/options.js')
