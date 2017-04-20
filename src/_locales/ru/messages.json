@@ -54,19 +54,19 @@
     },
 
     "options_enable": {
-        "message": "Включить"
+        "message": "Включить?"
     },
 
     "options_leave_notify": {
-        "message": "Живые уведомления:"
+        "message": "Живые уведомления"
     },
 
     "options_leave_answers": {
-        "message": "Живые ответы:"
+        "message": "Живые ответы"
     },
 
     "options_leave_feed": {
-        "message": "Живая лента:"
+        "message": "Живая лента"
     },
 
     "options_enable_sound": {
@@ -102,6 +102,6 @@
     },
 
     "options_interval_ajax_checking": {
-        "message": "Интервал проверки в секундах"
+        "message": "Интервал проверки в секундах:"
     }
 }

@@ -43,6 +43,7 @@
         "class-methods-use-this": "off",
         "no-extend-native": 0,
         "no-mixed-operators": 0,
+        "no-trailing-spaces": 0,
         "linebreak-style": ["error", "unix"],
         
         "no-unused-vars": [0, {

@@ -4,7 +4,7 @@
   "name": "__MSG_extension_name__",
   "short_name": "__MSG_extension_shortname__",
   "description": "__MSG_extension_description__",
-  "version": "3.30.11",
+  "version": "3.34.17",
   "author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
   "homepage_url": "https://github.com/yarkovaleksei/toster-tools",
   "default_locale": "ru",
@@ -13,7 +13,7 @@
   "options_ui": {
     "chrome_style": true,
     "page": "html/options.html",
-    "open_in_tab": true
+    "open_in_tab": false
   },
 
   "icons": {
@@ -54,7 +54,9 @@
     "sound/sound6.ogg",
     "sound/sound7.ogg",
     "sound/sound8.ogg",
-    "js/highlight.js"
+    "js/highlight.js",
+    "js/bind.js",
+    "CHANGELOG.md"
   ],
 
   "background": {

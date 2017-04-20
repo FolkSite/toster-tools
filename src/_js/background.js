@@ -53,9 +53,7 @@ const alarmHandler = ( alarm ) => {
     }
 };
 
-const callbackMessage = ( request, sender, callback ) => {
-    window.Ext.callbackMessage( request, sender, callback );
-};
+const callbackMessage = ( ...args ) => window.Ext.callbackMessage( ...args );
 
 class Extension {
     constructor( ...args ) {
@@ -80,6 +78,7 @@ class Extension {
             sign_string: `- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n${Device.runtime.getManifest().name}`,
             home_url: extensionHomeUrl,
             feedback_url: feedbackurl,
+            allowDomain: 'https://toster.ru',
             feed_url: 'https://toster.ru/my/feed',
             tracker_url: 'https://toster.ru/my/tracker',
             new_question_url: 'https://toster.ru/question/new',
@@ -177,10 +176,36 @@ class Extension {
         this.Timer.start( name => ( window.promise = null ) );
     }
 
+    allTabs() {
+        const tabs = new Promise( ( resolve, reject ) => {
+            const tabsArray = [];
+            Device.tabs.query( {}, ( tabs ) => {
+                for ( const tab of tabs ) {
+                    if ( tab && tab.id && tab.url && tab.url.startsWith( this.Options.allowDomain ) ) {
+                        tabsArray.push( tab );
+                    }
+                }
+                resolve( tabsArray );
+            } );
+        } );
+        return tabs;
+    }
+
     callbackMessage( request, sender, callback ) {
         this.loadOptions();
         if ( request && request.cmd ) {
             switch ( request.cmd ) {
+            case 'execute':
+                this.allTabs().then( ( tabs ) => {
+                    for ( const tab of tabs ) {
+                        Device.tabs.executeScript( tab.id, {
+                            code: request.code,
+                            allFrames: false,
+                            runAt: 'document_end'
+                        }, result => console.log( result ) );
+                    }
+                } );
+                break;
             case 'options':
             default:
                 callback( {
@@ -190,16 +215,6 @@ class Extension {
                 break;
             }
         }
-    }
-
-    sendMessageToContentScript( params ) {
-        Device.tabs.query( {}, ( tabs ) => {
-            let tab;
-            for ( let i = 0; i < tabs.length; ++i ) {
-                tab = Device.tabs.sendMessage( tabs[ i ].id, params, callbackMessage );
-            }
-            tab = null;
-        } );
     }
 
     createNotify( params ) {
@@ -256,6 +271,14 @@ class Extension {
         this.sendMessageToContentScript( {
             cmd: 'options',
             data: this.Options
+        } );
+    }
+
+    sendMessageToContentScript( params ) {
+        this.allTabs().then( ( tabs ) => {
+            for ( const tab of tabs ) {
+                Device.tabs.sendMessage( tab.id, params, callbackMessage );
+            }
         } );
     }
 }

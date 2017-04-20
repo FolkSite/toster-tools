@@ -2,19 +2,18 @@
 
 set -e
 
-TARGET_DIR="build/source"
-SRC_DIR="src"
+SCRIPT_NAME=$(basename $0)
+ARGS=
+FLAG_JS=
+FLAG_LESS=
+FLAG_PUG=
 
-BABEL_SRC_DIR="${SRC_DIR}/_js"
-BABEL_OUT_DIR="${BABEL_SRC_DIR}/babel"
+if [ ! -f vars.sh ]; then
+    echo "Not found 'vars.sh' file!"
+    exit 1
+fi
 
-LESS_SRC_DIR="${SRC_DIR}/_less"
-LESS_OUT_DIR="${SRC_DIR}/css"
-
-PUG_SRC_DIR="${SRC_DIR}/_pug"
-PUG_OUT_DIR="${SRC_DIR}/html"
-
-FILES=("_locales" "css" "html" "icon" "js" "sound" "manifest.json")
+source vars.sh
 
 function clean_dir() {
     local dir_clean_name="$1"
@@ -24,35 +23,22 @@ function clean_dir() {
 
 function build_babel() {
     clean_dir "${BABEL_OUT_DIR}"
-    $(which babel) "${BABEL_SRC_DIR}" --out-dir "${BABEL_OUT_DIR}"  --ignore=babel
+    ${PATH_BABEL} "${BABEL_SRC_DIR}" --out-dir "${BABEL_OUT_DIR}"  --ignore=babel
 }
 
 function build_browserify() {
-    for cfile in $(find "${BABEL_OUT_DIR}" -type f -name *.js)
+    clean_dir "${BROWSERIFY_OUT_DIR}"
+    for cfile in $(find "${BROWSERIFY_SRC_DIR}" -type f -name *.js)
     do
         local cfilename="${cfile##*/}"
-        $(which browserify) --ignore="${BABEL_OUT_DIR}/_modules/*.js" "${cfile}" -o "${SRC_DIR}/js/${cfilename}"
+        ${PATH_BROWSERIFY} --ignore="${BROWSERIFY_SRC_DIR}/_modules/*.js" "${cfile}" -o "${BROWSERIFY_OUT_DIR}/${cfilename}"
     done
-}
-
-function build_less() {
-    clean_dir "${LESS_OUT_DIR}"
-    for cfile in $(find "${LESS_SRC_DIR}" -maxdepth 1 -type f -name *.less)
-    do
-        local newname="$(basename "${cfile##*/}" .less).css"
-        $(which lessc) --clean-css="--s1 --advanced" "${cfile}" "${LESS_OUT_DIR}/${newname}"
-    done
-}
-
-function build_pug() {
-    clean_dir "${PUG_OUT_DIR}"
-    $(which pug) "${PUG_SRC_DIR}" --pretty --out "${PUG_OUT_DIR}"
 }
 
 function compress_uglify() {
-    for cfile in $(find "${SRC_DIR}/js" -type f -name *.js)
+    for cfile in $(find "${BROWSERIFY_OUT_DIR}" -type f -name *.js)
     do
-        $(which uglifyjs) --no-dead-code --compress unused=false --mangle --quotes 1 --output "${cfile}" -- "${cfile}"
+        ${PATH_UGLIFY} --no-dead-code --compress unused=false --mangle --quotes 1 --output "${cfile}" -- "${cfile}"
     done
 }
 
@@ -64,8 +50,22 @@ function remove_js_excludes() {
     done
 }
 
+function build_less() {
+    clean_dir "${LESS_OUT_DIR}"
+    for cfile in $(find "${LESS_SRC_DIR}" -maxdepth 1 -type f -name *.less)
+    do
+        local newname="$(basename "${cfile##*/}" .less).css"
+        ${PATH_LESS} --verbose --plugin=${PATH_LESS_PLUGIN_CLEAN}="--s1 --advanced" --plugin=${PATH_LESS_PLUGIN_AUTOPREFIXER}="last 10 versions" "${cfile}" "${LESS_OUT_DIR}/${newname}"
+    done
+}
+
+function build_pug() {
+    clean_dir "${PUG_OUT_DIR}"
+    ${PATH_PUG} "${PUG_SRC_DIR}" --pretty --out "${PUG_OUT_DIR}"
+}
+
 function remove_pug_excludes() {
-    find "${PUG_OUT_DIR}" -maxdepth 1 -type d -name _* -exec rm -rf {} \;
+    find "${PUG_OUT_DIR}" -maxdepth 1 -type d -name "*_*" -exec rm -rf {} \;
 }
 
 function build_copy() {
@@ -77,13 +77,78 @@ function build_copy() {
     done
 }
 
+function parse_args(){
+    ARGS=$(getopt -o hjlp --long help,js,less,pug -- "$@")
+    if [ $? != 0 ] ; then
+        echo "Shutdown script ${SCRIPT_NAME}!"
+        exit 1
+    fi
+    eval set -- "$ARGS"
+}
 
+function print_help() {
+    echo '
+Help for '"${SCRIPT_NAME}"'
 
-build_babel;
-build_browserify;
-remove_js_excludes;
-compress_uglify;
-build_less;
-build_pug;
-remove_pug_excludes;
-build_copy;
+ARGUMENTS:
+    -h[--help]       Display this message and exit
+    -j[--js]         Compile *.js files
+    -l[--less]       Compile *.less files
+    -p[--pug]        Compile *.pug files
+    -A[--all]        Compile all *.{js,less,pug} files
+'
+    exit 0
+}
+
+if [ "$#" -eq 0 ]; then
+    echo "Requires at least one argument!"
+    exit 1
+fi
+
+parse_args;
+
+while true; do
+    case "$1" in
+        -h | --help )       print_help;
+                    ;;
+        -j | --js )         FLAG_JS=true;
+                            shift;
+                    ;;
+        -l | --less )       FLAG_LESS=true;
+                            shift;
+                    ;;
+        -p | --pug )        FLAG_PUG=true;
+                            shift;
+                    ;;
+        -A | --all )        FLAG_JS=true;
+                            FLAG_LESS=true;
+                            FLAG_PUG=true;
+                            shift;
+                    ;;
+        -- )                shift;
+                            break;
+                    ;;
+        * )                 break;
+                    ;;
+    esac
+done
+
+if [ ${FLAG_JS} ]; then
+    build_babel;
+    build_browserify;
+    remove_js_excludes;
+    compress_uglify;
+fi
+
+if [ ${FLAG_LESS} ]; then
+    build_less;
+fi
+
+if [ ${FLAG_PUG} ]; then
+    build_pug;
+    remove_pug_excludes;
+fi
+
+if [ ${FLAG_JS} ] || [ ${FLAG_LESS} ] || [ ${FLAG_PUG} ]; then
+    build_copy;
+fi

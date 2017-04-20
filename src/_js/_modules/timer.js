@@ -1,6 +1,6 @@
 /**
- * @description Extension timer module
- * @module _modules/timer
+ * @description Модуль timer
+ * @module timer
  */
 
 import {
@@ -8,7 +8,7 @@ import {
 }
 from './utils';
 
-const checkCallback = ( callback ) => {
+const isFunction = ( callback ) => {
     if ( typeof callback === 'function' ) {
         return callback;
     }
@@ -16,14 +16,14 @@ const checkCallback = ( callback ) => {
 };
 
 /**
- * Class for working with extension timers.
- * Documentation is available by reference {@link https://developer.chrome.com/extensions/alarms|chrome.alarms}
+ * @description  Класс для работы с таймерами расширения. Документация доступна по ссылке {@link https://developer.chrome.com/extensions/alarms|chrome.alarms}
  */
 class Timer {
     /**
-     * Constructs the Timer class
-     * @param {String} [name="Timer"] Timer name
-     * @param {Number} [sec=10] Timer interval in seconds
+     * @description  Конструктор класса Timer
+     * 
+     * @param {String} [name="Timer"] Имя таймера
+     * @param {Number} [sec=10] Интервал в секундах
      */
     constructor( name = 'Timer', sec = 10 ) {
         this.name = name;
@@ -31,15 +31,16 @@ class Timer {
     }
 
     /**
-     * The method sets a new interval in seconds
-     * @param {Number} [sec=10] Timer interval in seconds
+     * @description  Метод устанавливает новый интервал в секундах
+     * 
+     * @param {Number} [sec=10] Интервал в секундах
      */
     setInterval( sec = 10 ) {
         this.intervalInSeconds = sec;
     }
 
     /**
-     * The method returns a timestamp in seconds, taking into account the current time and the specified interval
+     * @description  Метод возвращает временную метку, по истечении которой таймер сгенерирует событие срабатывания
      *
      * @returns {Number}
      */
@@ -49,11 +50,12 @@ class Timer {
     }
 
     /**
-     * The method creates and starts a timer
-     * @param {Function} [callback] Callback function
+     * @description  Метод создает и запускает таймер
+     * 
+     * @param {Function} [callback] Callback-функция. Вызывается после запуска таймера.
      */
     start( callback ) {
-        const cb = checkCallback( callback );
+        const cb = isFunction( callback );
 
         Device.alarms.create( this.name, {
             when: this.getWhen()
@@ -63,11 +65,12 @@ class Timer {
     }
 
     /**
-     * The method stops the timer
-     * @param {Function} [callback] Callback function
+     * @description  Метод останавливает таймер
+     * 
+     * @param {Function} [callback] Callback-функция. Вызывается после остановки таймера.
      */
     stop( callback ) {
-        const cb = checkCallback( callback );
+        const cb = isFunction( callback );
         Device.alarms.clear( this.name, c => cb( this.name ) );
     }
 }

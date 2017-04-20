@@ -2,6 +2,13 @@
 
 set -e
 
+if [ ! -f vars.sh ]; then
+    echo "Not found 'vars.sh' file!"
+    exit 1
+fi
+
+source vars.sh
+
 if [ ! -f .jwtsign ]; then
     echo "Not found '.jwtsign' file!"
     echo "Go to https://addons.mozilla.org/en-US/developers/addon/api/key/ and save your private keys to '.jwtsign' file!"
@@ -10,11 +17,8 @@ fi
 
 source .jwtsign
 
-BUILD_DIR="build"
-SRC_DIR="${BUILD_DIR}/source"
-
-if [ ! -d ${SRC_DIR} ]; then
+if [ ! -d ${TARGET_DIR} ]; then
     $(which npm) run compile
 fi
 
-$(which web-ext) sign --api-key ${APIKEY} --api-secret ${SECRETKEY} --source-dir=${SRC_DIR} --artifacts-dir=${BUILD_DIR}
+${PATH_WEBEXT} sign --api-key ${APIKEY} --api-secret ${SECRETKEY} --source-dir=${TARGET_DIR} --artifacts-dir=${BUILD_DIR}

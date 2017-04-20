@@ -2,21 +2,21 @@
 
 set -e
 
-BUILD_DIR="build"
-SRC_DIR="${BUILD_DIR}/source"
+if [ ! -f vars.sh ]; then
+    echo "Not found 'vars.sh' file!"
+    exit 1
+fi
 
-function get_version() {
-    cat "${SRC_DIR}/manifest.json" | grep -E '"version": "([0-9\.]+)"' | awk '{ print $2 }' | sed -e 's/[",]//g'
-}
+source vars.sh
 
-if [ ! -d ${SRC_DIR} ]; then
+if [ ! -d "${TARGET_DIR}" ]; then
     $(which npm) run compile
 fi
 
 VERSION=$(get_version)
 
-[ -f "${SRC_DIR}_${VERSION}.zip" ] && rm -f "${SRC_DIR}_${VERSION}.zip"
+[ -f "${TARGET_DIR}_${VERSION}.zip" ] && rm -f "${TARGET_DIR}_${VERSION}.zip"
 
-[ -f "${SRC_DIR}/.web-extension-id" ] && rm -f "${SRC_DIR}/.web-extension-id"
+[ -f "${TARGET_DIR}/.web-extension-id" ] && rm -f "${TARGET_DIR}/.web-extension-id"
 
-(cd "${SRC_DIR}" && $(which zip) -r "../source_${VERSION}.zip" .)
+(cd "${TARGET_DIR}" && $(which zip) -r "../source_${VERSION}.zip" .)

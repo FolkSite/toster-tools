@@ -1,16 +1,35 @@
 import $ from 'jquery';
 
+import marked from 'marked';
+
 import {
     Device,
     openWin,
+    getPage,
     _l
 }
 from './_modules/utils';
 
+marked.setOptions( {
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false
+} );
 
 $( document ).ready( () => {
     Device.runtime.getBackgroundPage( ( BGInstance ) => {
         window.BG = BGInstance;
+
+        window.promise = getPage( Device.runtime.getURL( 'CHANGELOG.md' ) );
+        window.promise.then( ( mdstring ) => {
+                $( '#changelog' ).html( marked( mdstring ) );
+            } )
+            .then( () => ( window.promise = null ) );
 
         const homeButton = $( 'button[data-action="go_to_home"]' );
 

@@ -26,7 +26,7 @@ const activeIDs = [];
 
 const selectors = {
     textareaSelectorAll: 'textarea.textarea',
-    highlightScriptId: 'highlightContentScript',
+    highlightScriptId: '#highlightContentScript',
     QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
     SolutionsRootSelector: '#solutions > ul#solutions_list',
     AnswersRootSelector: '#answers > ul#answers_list',
@@ -42,8 +42,8 @@ const state = {
     onTagQuestionsPage: window.location.pathname.startsWith( '/tag/' ) && /\/?_?questions_?/g.test( window.location.pathname )
 };
 
-const callbackMessage = ( request, sender, callback ) => {
-    window.Ext.callbackMessage( request, sender, callback );
+const callbackMessage = ( ...args ) => {
+    window.Ext.callbackMessage( ...args );
 };
 
 const commentsShowHideHandler = function ( event ) {
@@ -84,28 +84,8 @@ if ( window.location.hash.startsWith( '#comment_' ) ) {
     activeIDs.push( $( comment ).attr( 'id' ) );
 }
 
-$.fn.bindFirst = function ( name, selector, fn ) {
-    this.on( name, selector, fn );
-    this.each( function () {
-        const handlers = $._data( this, 'events' )[ name.split( /\s+/ )[ 0 ] ];
-        console.log( handlers );
-        const handler = handlers.pop();
-        handlers.splice( 0, 0, handler );
-    } );
-};
-
-const formSubmitHandler = function ( event ) {
-    if ( window.Ext.Options.use_sign ) {
-        const textarea = $( this ).find( selectors.textareaSelectorAll );
-        const val = textarea.val();
-        const str = window.Ext.Options.sign_string;
-        textarea.val( `${val}\n${str}` );
-    }
-};
-
 if ( state.onQuestionPage ) {
     $( document ).on( 'click', 'a[role="toggle_answer_comments"]', commentsShowHideHandler );
-    $( document ).bindFirst( 'submit', 'form[data-remote]', formSubmitHandler );
 }
 
 const Parser = new QuestionParser( selectors );
@@ -134,6 +114,10 @@ class Extension {
             pageTimer: false
         };
         this.OldTitle = $( document ).prop( 'title' );
+        this.loadSounds();
+    }
+
+    loadSounds() {
         this.notifySound = new Audio( Device.runtime.getURL( this.Options.sound_notify ) );
         this.answersSound = new Audio( Device.runtime.getURL( this.Options.sound_answers ) );
         this.feedSound = new Audio( Device.runtime.getURL( this.Options.sound_feed ) );
@@ -176,17 +160,18 @@ class Extension {
 
     addHighlight() {
         const id = selectors.highlightScriptId;
-        if ( $( `#${id}` ).get( 0 ) ) return;
+        if ( $( `${id}` ).get( 0 ) ) return;
         $( '<script/>', {
             src: Device.runtime.getURL( 'js/highlight.js' ),
-            id: id,
+            id: id.replace( /#/g, '' ),
             async: true
         } ).appendTo( 'body' );
     }
 
     removeHighlight() {
         try {
-            $( `#${selectors.highlightScriptId}` ).remove();
+            const id = selectors.highlightScriptId;
+            $( `${id}` ).remove();
         } catch ( e ) {}
     }
 
@@ -359,6 +344,21 @@ class Extension {
             .then( () => ( window.promise = null ) );
     }
 
+    addSignToSubmitListener() {
+        if ( state.onQuestionPage ) {
+            try {
+                $( '#bindFirst' ).remove();
+            } catch ( e ) {}
+
+            $( '<script/>', {
+                src: Device.runtime.getURL( 'js/bind.js' ),
+                id: 'bindFirst',
+                'data-use': this.Options.use_sign,
+                'data-string': this.Options.sign_string
+            } ).appendTo( 'body' );
+        }
+    }
+
     addKeyDownSendListener() {
         if ( this.Options.use_kbd ) {
             $( document ).off( 'keydown', selectors.textareaSelectorAll, ctrlEnterHandler );
@@ -424,12 +424,12 @@ class Extension {
 
     callbackMessage( request, sender, callback ) {
         if ( request && request.cmd ) {
+            const timersKeys = Object.keys( this.timers );
             switch ( request.cmd ) {
             case 'updateSidebar':
                 this.updateSidebar( request.data );
                 break;
             case 'options':
-            default:
                 this.Options = Object.assign( {}, this.Options, request.data || {} );
 
                 if ( state.onQuestionPage && this.Options.check_answers ) {
@@ -439,17 +439,17 @@ class Extension {
                     this.removeHighlight();
                 }
 
-                this.notifySound = new Audio( Device.runtime.getURL( this.Options.sound_notify ) );
-                this.answersSound = new Audio( Device.runtime.getURL( this.Options.sound_answers ) );
-                this.feedSound = new Audio( Device.runtime.getURL( this.Options.sound_feed ) );
+                this.loadSounds();
                 this.switchTopPanel();
                 this.switchRightSidebar();
                 this.addKeyDownSendListener();
-                for ( const timer in this.timers ) {
-                    if ( {}.hasOwnProperty.call( this.timers, timer ) ) {
-                        this.reStartTimer( timer );
-                    }
+                this.addSignToSubmitListener();
+
+                for ( let i = 0, len = timersKeys.length; i < len; i++ ) {
+                    this.reStartTimer( timersKeys[ i ] );
                 }
+                break;
+            default:
                 break;
             }
         }

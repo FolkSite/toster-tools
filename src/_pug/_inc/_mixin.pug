@@ -1,5 +1,5 @@
-mixin popup_button(action, icon)
-    button.btn.btn-default(data-action=`${action}`, type='button')
+mixin popup_button(action, icon, btnclass='default')
+    button.btn(class=`btn-${btnclass}`, data-action=`${action}`, type='button')
         img.icon(src=`${icon}`)
 
 mixin options_checkbox_section(id, msg, attrs={})

@@ -1,17 +1,18 @@
 /**
- * @description Extension parser module
- * @module _modules/parser
+ * @description Модуль parser
+ * @module parser
  */
 
 import $ from 'jquery';
 
 /**
- * A custom QuestionParser class
+ * @description  Класс QuestionParser
  */
 class QuestionParser {
     /**
-     * Constructs the QuestionParser class
-     * @param {Object} [selectors={}] Object-set of CSS selectors
+     * @description  Конструктор класса QuestionParser
+     * 
+     * @param {Object} [selectors={}] Объект-коллекция CSS селекторов
      */
     constructor( selectors = {} ) {
         const defaults = Object.freeze( {

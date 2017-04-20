@@ -54,23 +54,23 @@
     },
 
     "options_enable": {
-        "message": "Enable"
+        "message": "Enable?"
     },
 
     "options_leave_notify": {
-        "message": "Leave notifyes:"
+        "message": "Leave notifyes"
     },
 
     "options_leave_answers": {
-        "message": "Leave answers:"
+        "message": "Leave answers"
     },
 
     "options_leave_feed": {
-        "message": "Leave feed:"
+        "message": "Leave feed"
     },
 
     "options_enable_sound": {
-        "message": "Enable sound:"
+        "message": "Enable sound?"
     },
 
     "options_select_sound": {
@@ -102,6 +102,6 @@
     },
 
     "options_interval_ajax_checking": {
-        "message": "Interval of checks in seconds"
+        "message": "Interval of checks in seconds:"
     }
 }

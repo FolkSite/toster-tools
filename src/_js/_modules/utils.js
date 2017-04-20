@@ -1,9 +1,14 @@
 /**
- * @description Extension utils module
- * @module _modules/utils
+ * @description Модуль utils
+ * @module utils
  */
 
-export const Device = ( () => {
+/**
+ * @description  Объект браузера для работы с API расширения
+ *
+ * @return  {Browser}
+ */
+const Device = ( () => {
     if ( typeof browser === 'undefined' ) {
         return chrome;
     }
@@ -11,53 +16,64 @@ export const Device = ( () => {
 } )();
 
 /**
- * True if the Google Chrome browser is true
- */
-export const isChrome = ( window.chrome && /chrome\//i.test( window.navigator.userAgent ) );
-
-/**
- * True if the Opera browser is true
- */
-export const isOpera = ( ( ( window.opr && window.opr.addons ) || window.opera ) || /opr\//i.test( window.navigator.userAgent ) );
-
-/**
- * True if the Firefox browser is true
- */
-export const isFirefox = ( ( typeof InstallTrigger !== 'undefined' ) || /firefox/i.test( window.navigator.userAgent ) );
-
-/**
- * This is wrapper of chrome.i18n.getMessage
+ * @description  Если браузер Google Chrome, то константа имеет значение true
  *
- * @param   {String}  msg  Phrase ID
- * @param   {Array}  [placeholders=[]]  Array of placeholders. See {@link https://developer.chrome.com/extensions/i18n|documentation}
- *
- * @return  {String}  Locale phrase
+ * @return  {Boolean}
  */
-export const _l = ( msg, placeholders = [] ) => Device.i18n.getMessage( msg, placeholders );
+const isChrome = ( window.chrome && /chrome\//i.test( window.navigator.userAgent ) );
 
 /**
- * This is wrapper of window.open
+ * @description  Если браузер Opera, то константа имеет значение true
  *
- * @param   {String}  url  Page URL
+ * @return  {Boolean}
  */
-export const openWin = url => window.open( url, 'wName' );
+const isOpera = ( ( ( window.opr && window.opr.addons ) || window.opera ) || /opr\//i.test( window.navigator.userAgent ) );
 
 /**
- * This is wrapper of window.fetch
+ * @description  Если браузер Firefox, то константа имеет значение true
  *
- * @param   {String}  url  Page URL
- * @param   {String}  [method="GET"]  Request method
- * @param   {Object}  [headers={}]  Headers object
+ * @return  {Boolean}
+ */
+const isFirefox = ( ( typeof InstallTrigger !== 'undefined' ) || /firefox/i.test( window.navigator.userAgent ) );
+
+/**
+ * @description  Обертка над *.i18n.getMessage. Используется для локализации расширения.
+ * @function
+ *
+ * @param   {String}  msg  ID фразы
+ * @param   {Array}  [placeholders=[]]  Массив фраз-плэйсхолдеров. Подробнее {@link https://developer.chrome.com/extensions/i18n|в документации}
+ *
+ * @return  {String}  Фраза в нужной локализации
+ */
+const _l = ( msg, placeholders = [] ) => Device.i18n.getMessage( msg, placeholders );
+
+/**
+ * @description  Функция открывает переданный URL в новой вкладке
+ * @function
+ *
+ * @param   {String}  url  URL страницы
+ */
+const openWin = url => Device.tabs.create( {
+    url: url
+}, tab => tab );
+
+
+/**
+ * @description  Обертка над window.fetch
+ * @function
+ *
+ * @param   {String}  url  URL страницы
+ * @param   {String}  [method="GET"]  HTTP метод 
+ * @param   {Object}  [headers={}]  Заголовки запроса
  *
  * @return  {Promise}
  */
-export const getPage = function ( url, method = 'GET', headers = {} ) {
+const getPage = ( url, method = 'GET', headers = {} ) => {
     const _headers = new Headers();
 
-    for ( const key in headers ) {
-        if ( headers[ key ] ) {
-            _headers.append( key, headers[ key ] );
-        }
+    const keys = Object.keys( headers );
+    for ( let i = 0, len = keys.length; i < len; i++ ) {
+        _headers.append( keys[ i ], headers[ keys[ i ] ] );
     }
 
     _headers.append( 'Pragma', 'No-cache' );
@@ -80,4 +96,15 @@ export const getPage = function ( url, method = 'GET', headers = {} ) {
         .then( response => response.text() )
         .catch( e => console.error( e ) );
     return f;
+};
+
+
+export {
+    Device,
+    isChrome,
+    isOpera,
+    isFirefox,
+    _l,
+    openWin,
+    getPage
 };
