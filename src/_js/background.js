@@ -15,11 +15,11 @@ from './_modules/utils';
 let feedbackurl;
 
 if ( isChrome && !isOpera ) {
-    feedbackurl = 'https://chrome.google.com/webstore/detail/toster-wysiwyg-panel/kpfolongmglpleidinnhnlefeoljdecm/reviews';
+    feedbackurl = 'https://chrome.google.com/webstore/detail/toster-tools/kpfolongmglpleidinnhnlefeoljdecm/reviews';
 } else if ( isOpera ) {
     feedbackurl = 'https://addons.opera.com/extensions/details/toster-wysiwyg-panel/#feedback-container';
 } else if ( isFirefox ) {
-    feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-wysiwyg-panel/#reviews';
+    feedbackurl = 'https://addons.mozilla.org/firefox/addon/toster-tools/#reviews';
 }
 
 const extensionHomeUrl = 'https://github.com/yarkovaleksei/toster-tools';

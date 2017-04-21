@@ -1,10 +1,14 @@
-# {{TITLE}} v{{VERSION}}
+# {{TITLE}} v{{VERSION}} <a href="https://github.com/yarkovaleksei/{{EXT_REPO}}"><img src="img/github.svg" width="25" height="25"></a>
 
 - - -
 ### Описание
 
-**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/toster-tools/kpfolongmglpleidinnhnlefeoljdecm), [Opera](https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/) и [Firefox](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)**
+**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/{{EXT_REPO}}/kpfolongmglpleidinnhnlefeoljdecm), [Opera](https://addons.opera.com/ru/extensions/details/{{EXT_REPO}}/) и [Firefox](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)**
 
+- - -
+[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/{{EXT_REPO}}/kpfolongmglpleidinnhnlefeoljdecm)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/en-US/firefox/addon/{{EXT_REPO}}/)  [![Opera addons](img/opera.png)](https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/)
+
+- - -
 **Что умеет расширение:**
 
 1. Живое обновление ответов и комментариев к вопросу
@@ -33,5 +37,4 @@
 - - -
 ### Примечание
 
-**Если расширение недоступно по приведенной ссылке, то используйте установку из zip-архива (Opera, Chrome) или из xpi (Firefox), как описано [здесь](tutorial-Установка%20из%20репозитория.html)**
-
+Если расширение недоступно по приведенной ссылке, то используйте установку из zip-архива (**Opera**, **Chrome**) или из **xpi** (**Firefox**), как описано [здесь](tutorial-Установка%20из%20репозитория.html)

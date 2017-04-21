@@ -1,6 +1,6 @@
 {
     "extension_name": {
-        "message": "Toster tools"
+        "message": "Toster Tools"
     },
 
     "extension_description": {
@@ -98,7 +98,7 @@
     },
 
     "options_feed_border_color": {
-        "message": "Цвет рамки нового вопроса"
+        "message": "Цвет рамки нового вопроса:"
     },
 
     "options_interval_ajax_checking": {

@@ -4,9 +4,9 @@
   "name": "__MSG_extension_name__",
   "short_name": "__MSG_extension_shortname__",
   "description": "__MSG_extension_description__",
-  "version": "3.34.17",
+  "version": "3.35.18",
   "author": "Ярков Алексей (Yarkov Aleksei) <contact@data-keeper.ru>",
-  "homepage_url": "https://github.com/yarkovaleksei/toster-tools",
+  "homepage_url": "https://yarkovaleksei.github.io/toster-tools/",
   "default_locale": "ru",
   "offline_enabled": false,
 
@@ -31,19 +31,28 @@
     "browsingData"
 	],
 
-  "content_scripts": [ {
-    "all_frames": false,
-    "matches": [
-      "https://toster.ru/*"
-    ],
-    "js": [
-      "js/content.js"
-    ],
-    "css": [
-      "css/content.css"
-    ],
-    "run_at": "document_end"
-	} ],
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "matches": [
+        "https://toster.ru/*"
+      ],
+      "js": [
+        "js/content.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "all_frames": false,
+      "matches": [
+        "https://toster.ru/*"
+      ],
+      "css": [
+        "css/content.css"
+      ],
+      "run_at": "document_start"
+    }
+  ],
 
   "web_accessible_resources": [
     "sound/sound1.ogg",

@@ -10,31 +10,31 @@ mixin options_checkbox_section(id, msg, attrs={})
 
 mixin options_number_section(id, msg, attrs={})
     .row
-        .col-xs-8.col-md-9.col-lg-10
+        .col-xs-9.col-sm-8.col-md-9.col-lg-10
             label(for=`${id}`, data-msg=`${msg}`)
-        .col-xs-4.col-md-3.col-lg-2.pull-right
+        .col-xs-3.col-sm-4.col-md-3.col-lg-2.pull-right
             input.form-control(id=`${id}`, type='number')&attributes(attrs)
 
 mixin options_text_section(id, msg, attrs={})
     .row
-        .col-xs-8.col-md-9.col-lg-10
+        .col-xs-8.col-sm-8.col-md-9.col-lg-10
             label(for=`${id}`, data-msg=`${msg}`)
-        .col-xs-4.col-md-3.col-lg-2.pull-right
+        .col-xs-4.col-sm-4.col-md-3.col-lg-2.pull-right
             input.form-control(id=`${id}`, type='text')&attributes(attrs)
 
 mixin options_textarea_section(id, msg, attrs={})
     .row
-        .col-xs-12.col-md-12.col-lg-12
+        .col-xs-12.col-sm-12.col-md-12.col-lg-12
             label(for=`${id}`, data-msg=`${msg}`)
     .row
-        .col-xs-12.col-md-12.col-lg-12
+        .col-xs-12.col-sm-12.col-md-12.col-lg-12
             textarea.form-control(id=`${id}`, placeholder=`${msg}`)&attributes(attrs)
 
 mixin options_select_section(id, msg, options=[])
     .row
-        .col-xs-8.col-md-9.col-lg-9
+        .col-xs-7.col-sm-8.col-md-9.col-lg-9
             label(for=`${id}`, data-msg=`${msg}`)
-        .col-xs-4.col-md-3.col-lg-3.pull-right
+        .col-xs-5.col-sm-4.col-md-3.col-lg-3.pull-right
             select.form-control(id=`${id}`)
                 - if (block) {
                     block
@@ -46,7 +46,7 @@ mixin options_select_section(id, msg, options=[])
 
 mixin options_color_section(id, msg, value='')
     .row
-        .col-xs-8.col-md-9.col-lg-10
+        .col-xs-9.col-sm-8.col-md-9.col-lg-10
             label(for=`${id}`, data-msg=`${msg}`)
-        .col-xs-4.col-md-3.col-lg-2.pull-right
+        .col-xs-3.col-sm-4.col-md-3.col-lg-2.pull-right
             input.form-control(id=`${id}`, value=`${value}`, type='color')

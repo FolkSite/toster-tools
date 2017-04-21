@@ -6,3 +6,9 @@ li.new-item {
         border-top: none;
     }
 }
+
+abbr[title] {
+    &::after {
+        content: " ("attr(title) ")";
+    }
+}
