@@ -32,14 +32,15 @@
     "web-ext": "^1.8.1"
   },
   "scripts": {
-    "preinstall": "chmod +x *.sh",
-    "postinstall": "npm run eslint && npm run jsdoc && npm run compile -- --js --less --pug",
-    "jsdoc": "./jsdoc.sh",
-    "eslint": "./eslint.sh",
     "compile": "./compile.sh",
-    "zip": "./zip.sh",
+    "dev2master": "./dev2master.sh",
+    "eslint": "./eslint.sh",
     "ffsign": "./ffsign.sh",
-    "dev2master": "./dev2master.sh"
+    "jsdoc": "./jsdoc.sh",
+    "postinstall": "npm run eslint && npm run jsdoc && npm run compile -- --all",
+    "preinstall": "chmod +x *.sh",
+    "release": "npm run eslint && npm run jsdoc && npm run compile -- --all && npm run zip",
+    "zip": "./zip.sh"
   },
   "author": "Yarkov Aleksey <contact@data-keeper.ru>",
   "license": "MIT"
