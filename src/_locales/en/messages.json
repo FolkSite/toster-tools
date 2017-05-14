@@ -97,6 +97,10 @@
         "message": "Hide right sidebar?"
     },
 
+    "options_monospace_textarea": {
+        "message": "Enable 'monospace' for code entry?"
+    },
+
     "options_feed_border_color": {
         "message": "New question border color:"
     },

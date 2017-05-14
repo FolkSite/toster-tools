@@ -104,6 +104,7 @@ class Extension {
             use_kbd: true,
             hide_top_panel: false,
             hide_right_sidebar: false,
+            monospace_textarea: false,
             feed_border_color: '#8c9480',
             use_sign: false,
             sign_string: '',
@@ -422,6 +423,16 @@ class Extension {
         }
     }
 
+    switchMonoSpaceFont() {
+        const textarea = $( selectors.textareaSelectorAll );
+
+        if ( this.Options.monospace_textarea ) {
+            textarea.css( 'font-family', 'monospace' );
+        } else {
+            textarea.css( 'font-family', '' );
+        }
+    }
+
     callbackMessage( request, sender, callback ) {
         if ( request && request.cmd ) {
             const timersKeys = Object.keys( this.timers );
@@ -442,6 +453,7 @@ class Extension {
                 this.loadSounds();
                 this.switchTopPanel();
                 this.switchRightSidebar();
+                this.switchMonoSpaceFont();
                 this.addKeyDownSendListener();
                 this.addSignToSubmitListener();
 

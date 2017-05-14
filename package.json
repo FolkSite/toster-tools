@@ -1,6 +1,6 @@
 {
   "name": "toster-tools",
-  "version": "3.35.18",
+  "version": "3.36.18",
   "description": "Расширение для сайта toster.ru",
   "dependencies": {
     "jquery": "^3.1.1",

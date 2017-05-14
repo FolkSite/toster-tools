@@ -97,6 +97,10 @@
         "message": "Скрыть правый сайдбар?"
     },
 
+    "options_monospace_textarea": {
+        "message": "Включить 'monospace' для ввода кода?"
+    },
+
     "options_feed_border_color": {
         "message": "Цвет рамки нового вопроса:"
     },
