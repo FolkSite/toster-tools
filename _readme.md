@@ -3,10 +3,10 @@
 - - -
 ### Описание
 
-**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/{{EXT_REPO}}/kpfolongmglpleidinnhnlefeoljdecm), [Opera](https://addons.opera.com/ru/extensions/details/{{EXT_REPO}}/) и [Firefox](https://addons.mozilla.org/en-US/firefox/addon/toster-wysiwyg-panel/)**
+**Расширение для браузеров [Google Chrome](https://chrome.google.com/webstore/detail/{{EXT_REPO}}/kpfolongmglpleidinnhnlefeoljdecm), [Opera](https://addons.opera.com/ru/extensions/details/{{EXT_REPO}}/) и [Firefox](https://addons.mozilla.org/addon/{{EXT_REPO}}/)**
 
 - - -
-[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/{{EXT_REPO}}/kpfolongmglpleidinnhnlefeoljdecm)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/en-US/firefox/addon/{{EXT_REPO}}/)  [![Opera addons](img/opera.png)](https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/)
+[![Chrome web store](img/chrome.png)](https://chrome.google.com/webstore/detail/{{EXT_REPO}}/kpfolongmglpleidinnhnlefeoljdecm)  [![Firefox Add-ons](img/ff.jpg)](https://addons.mozilla.org/addon/{{EXT_REPO}}/)  [![Opera addons](img/opera.png)](https://addons.opera.com/ru/extensions/details/toster-wysiwyg-panel/)
 
 - - -
 **Что умеет расширение:**
