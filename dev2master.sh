@@ -9,6 +9,8 @@ fi
 
 source vars.sh
 
+./jsdoc.sh
+
 unchanges=$(get_git_dirty)
 
 if [ "$unchanges" == "*" ]; then
