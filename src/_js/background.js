@@ -75,6 +75,7 @@ class Extension {
             hide_top_panel: false,
             hide_right_sidebar: false,
             monospace_textarea: false,
+            monospace_code: false,
             use_sign: false,
             sign_string: `- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n${Device.runtime.getManifest().name}`,
             home_url: extensionHomeUrl,

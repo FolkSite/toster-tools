@@ -26,6 +26,7 @@ const activeIDs = [];
 
 const selectors = {
     textareaSelectorAll: 'textarea.textarea',
+    preCodeSelectorAll: 'pre > code',
     highlightScriptId: '#highlightContentScript',
     QuestionCommentsRootSelector: 'ul[role="question_comments_list"]',
     SolutionsRootSelector: '#solutions > ul#solutions_list',
@@ -105,6 +106,7 @@ class Extension {
             hide_top_panel: false,
             hide_right_sidebar: false,
             monospace_textarea: false,
+            monospace_code: false,
             feed_border_color: '#8c9480',
             use_sign: false,
             sign_string: '',
@@ -425,11 +427,18 @@ class Extension {
 
     switchMonoSpaceFont() {
         const textarea = $( selectors.textareaSelectorAll );
+        const preCode = $( selectors.preCodeSelectorAll );
 
         if ( this.Options.monospace_textarea ) {
-            textarea.css( 'font-family', 'monospace' );
+            textarea.addClass( 'monospace' );
         } else {
-            textarea.css( 'font-family', '' );
+            textarea.removeClass( 'monospace' );
+        }
+
+        if ( this.Options.monospace_code ) {
+            preCode.addClass( 'monospace' );
+        } else {
+            preCode.removeClass( 'monospace' );
         }
     }
 

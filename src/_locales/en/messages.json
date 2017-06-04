@@ -101,6 +101,10 @@
         "message": "Enable 'monospace' for code entry?"
     },
 
+    "options_monospace_code": {
+        "message": "Enable 'monospace' for code view?"
+    },
+
     "options_feed_border_color": {
         "message": "New question border color:"
     },

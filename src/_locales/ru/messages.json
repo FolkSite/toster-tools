@@ -101,6 +101,10 @@
         "message": "Включить 'monospace' для ввода кода?"
     },
 
+    "options_monospace_code": {
+        "message": "Включить 'monospace' для отображения кода?"
+    },
+
     "options_feed_border_color": {
         "message": "Цвет рамки нового вопроса:"
     },
