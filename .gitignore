@@ -1,9 +1,11 @@
 node_modules/
 build/
+temp/
 src/_babel/
 src/js/
 src/css/
 src/html/
+.idea/
 
 src/js/*.js
 !src/js/*.min.js

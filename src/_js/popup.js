@@ -29,7 +29,7 @@ $( document ).ready( () => {
         window.promise.then( ( mdstring ) => {
                 $( '#changelog' ).html( marked( mdstring ) );
             } )
-            .then( () => ( window.promise = null ) );
+            .then( function() { window.promise = null } );
 
         const homeButton = $( 'button[data-action="go_to_home"]' );
 

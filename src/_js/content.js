@@ -64,7 +64,7 @@ const ctrlEnterHandler = function ( event ) {
     const button = $( 'button[type="submit"]', form );
     if ( ( event.ctrlKey || event.metaKey ) && ( event.keyCode === 13 || event.keyCode === 10 ) ) {
         button.click();
-    }
+    };
 };
 
 const mentionLinkClickHandler = function ( event ) {
@@ -297,7 +297,7 @@ class Extension {
                 body = null;
                 return Promise.resolve();
             } )
-            .then( () => ( window.promise = null ) );
+            .then( function() { window.promise = null } );
     }
 
     updateFeed() {
@@ -344,7 +344,7 @@ class Extension {
                 body = null;
                 return Promise.resolve();
             } )
-            .then( () => ( window.promise = null ) );
+            .then( function() { window.promise = null } );
     }
 
     addSignToSubmitListener() {
