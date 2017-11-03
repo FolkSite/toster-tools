@@ -1,0 +1,9 @@
+{
+	"EXT_TITLE":"Toster Tools",
+	"EXT_REPO":"toster-tools",
+	"FFSign":{
+        "use":false,
+		"USERID":"",
+		"SECRETKEY":""
+	}
+}

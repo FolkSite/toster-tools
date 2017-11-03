@@ -157,11 +157,11 @@ class Extension {
                 body = null;
                 return Promise.resolve();
             } )
-            .then( () => ( window.promise = null ) );
+            .then(function() { window.promise = null } );
     }
 
     stopTimer() {
-        this.Timer.stop( name => ( window.promise = null ) );
+        this.Timer.stop( function(name) { window.promise = null } );
     }
 
     reStartTimer() {
@@ -175,7 +175,7 @@ class Extension {
         }
 
         this.Timer.setInterval( this.Options.interval_notify );
-        this.Timer.start( name => ( window.promise = null ) );
+        this.Timer.start( function(name) { window.promise = null } );
     }
 
     allTabs() {

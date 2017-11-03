@@ -31,20 +31,6 @@
 		<ul class="nav navbar-nav">
 			
 			<li class="dropdown">
-				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="module-parser.html">parser</a></li><li><a href="module-timer.html">timer</a></li><li><a href="module-utils.html">utils</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
-				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
-				<ul class="dropdown-menu ">
-					<li><a href="module-parser-QuestionParser.html">parser~QuestionParser</a></li><li><a href="module-timer-Timer.html">timer~Timer</a></li>
-				</ul>
-			</li>
-			
-			<li class="dropdown">
 				<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b class="caret"></b></a>
 				<ul class="dropdown-menu ">
 					<li><a href="tutorial-Разработчикам.html">Разработчикам</a></li><li><a href="tutorial-Установка в Firefox.html">Установка в Firefox</a></li><li><a href="tutorial-Установка в Google Chrome.html">Установка в Google Chrome</a></li><li><a href="tutorial-Установка в Opera.html">Установка в Opera</a></li><li><a href="tutorial-Установка из репозитория.html">Установка из репозитория</a></li><li><a href="tutorial-Установка.html">Установка</a></li>
@@ -86,20 +72,41 @@
 </header>
 
 <article>
-    <h3><a name="подготовка-к-работе"></a>Подготовка к работе</h3><pre class="prettyprint source lang-bash"><code>$ git clone git@github.com:yarkovaleksei/toster-tools.git
-$ cd toster-tools
-$ npm install</code></pre><hr>
-<h3><a name="проверка-кода"></a>Проверка кода</h3><pre class="prettyprint source lang-bash"><code>$ npm run eslint</code></pre><hr>
-<h3><a name="сборка"></a>Сборка</h3><pre class="prettyprint source lang-bash"><code>$ npm run compile -- --help
-$ npm run compile -- --all</code></pre><hr>
-<h3><a name="упаковка-в-zip-перед-публикацией"></a>Упаковка в zip перед публикацией</h3><pre class="prettyprint source lang-bash"><code>$ npm run zip</code></pre><hr>
-<h3><a name="подписывание-расширения-для-Firefox"></a>Подписывание расширения для Firefox</h3><p>Чтобы иметь возможность подписать файл для Firefox надо пройти по <a href="https://addons.mozilla.org/en-US/developers/addon/api/key/">этой ссылке</a> и сохранить ваши ключи в файл <strong>.jwtsign</strong> в папке репозитория.</p>
-<p>Файл должен выглядеть так:</p>
-<pre class="prettyprint source lang-bash"><code>APIKEY=&quot;user:123456789:999&quot;
-SECRETKEY=&quot;e1373f71d00aad90183b410c2e8661265a71845fd0805bd2bdca5fe66a635cfb&quot;</code></pre><p>Команда для создания и подписи файла:</p>
-<pre class="prettyprint source lang-bash"><code>$ npm run ffsign</code></pre><hr>
-<h3><a name="сборка-релиза"></a>Сборка релиза</h3><pre class="prettyprint source lang-bash"><code>$ npm run release</code></pre><hr>
-<h3><a name="сгенерировать-документацию"></a>Сгенерировать документацию</h3><pre class="prettyprint source lang-bash"><code>$ npm run jsdoc</code></pre>
+    <h3><a name="подготовка-к-работе"></a>Подготовка к работе</h3><pre class="prettyprint source lang-bash"><code>$ git clone git@github.com:yarkovaleksei/{{EXT_REPO}}.git
+$ cd {{EXT_REPO}}
+$ npm install</code></pre><p>В проекте используется система сборки Gulp,
+по этому вместо npm run можно напрямую обращаться к сборщику gulp,
+вызывая его в терминале/коммандной строке, из корня папки проекта.</p>
+<hr>
+<h3><a name="проверка-кода"></a>Проверка кода</h3><p>Проверка исходного кода Babel-JS в папке <strong>./src/_js/</strong></p>
+<pre class="prettyprint source lang-bash"><code>$ gulp eslint</code></pre><hr>
+<h3><a name="сборка"></a>Сборка</h3><p>Производится компиляция LESS в CSS, Babel-JS в JS, копирование дополнительных файлов
+в папку <strong>temp</strong>.
+Которую так же можно использовать для загрузки распакованного расширения,
+с последующей отладкой в браузере.</p>
+<pre class="prettyprint source lang-bash"><code>$ gulp compile</code></pre><hr>
+<h3><a name="упаковка-в-zip-перед-публикацией"></a>Упаковка в zip перед публикацией</h3><p>Пакует содержимое <strong>./temp/</strong> в архив, и помещает его в папку 
+<strong>./build/</strong>.</p>
+<pre class="prettyprint source lang-bash"><code>$ gulp zip</code></pre><p>!!! Перед вызовом этой команды вызывайте </p>
+<pre class="prettyprint source lang-bash"><code>$ gulp compile</code></pre><hr>
+<h3><a name="подписывание-расширения-для-Firefox"></a>Подписывание расширения для Firefox</h3><p>Чтобы иметь возможность подписать файл для Firefox надо пройти по <a href="https://addons.mozilla.org/en-US/developers/addon/api/key/">этой ссылке</a>, 
+и сохранить ваши ключи в секцию <strong>FFSign</strong> файла <strong>vars.json</strong> в папке репозитория.
+После чего переключить <strong>FFSign.use</strong> в <strong>True</strong>, дабы команда создания релиза подхватила вызов 
+создания расширения для FireFox.</p>
+<p>Где <strong>USERID</strong> это <strong>&quot;JWT issuer&quot;</strong>, а <strong>SECRETKEY</strong> это
+<strong>&quot;JWT secret&quot;</strong>.</p>
+<p>Секция <strong>FFSign</strong> должна выглядеть так:</p>
+<pre class="prettyprint source lang-json"><code>&quot;FFSign&quot;:{
+    &quot;use&quot;:true,
+    &quot;USERID&quot;:&quot;user:123456789:999&quot;,
+    &quot;SECRETKEY&quot;:&quot;e1373f71d00aad90183b410c2e8661265a71845fd0805bd2bdca5fe66a635cfb&quot;
+}</code></pre><p>Команда для создания и подписи расширения для FireFox:</p>
+<pre class="prettyprint source lang-bash"><code>$ gulp ffsign</code></pre><hr>
+<h3><a name="сборка-релиза"></a>Сборка релиза</h3><p>Производится компиляция LESS в CSS, Babel-JS в JS, копирование дополнительных файлов,
+упаковка расширения в ZIP архив, подпись расширения для FF,
+перемещение его в папку <strong>build</strong>, генерация документации.</p>
+<pre class="prettyprint source lang-bash"><code>$ gulp release</code></pre><hr>
+<h3><a name="сгенерировать-документацию"></a>Сгенерировать документацию</h3><pre class="prettyprint source lang-bash"><code>$ gulp jsdoc</code></pre><p>Документация будет сгенерирована в папку <strong>docs</strong> в корне проекта.</p>
 </article>
 
 </section>
@@ -135,9 +142,9 @@ SECRETKEY=&quot;e1373f71d00aad90183b410c2e8661265a71845fd0805bd2bdca5fe66a635cfb
 
 
 <span class="jsdoc-message">
-	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a>
 	
-		on Su-06-17 04:12:56
+		on Sa-11-17 12:38:46
 	
 	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
